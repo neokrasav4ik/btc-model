@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Комплексная модель цены биткоина, 2010–2040 — степенной закон × раздельные затухания</title>
 <meta name="description" content="Цена биткоина как степенной закон возраста сети с логистическим насыщением и халвинг-циклами. Верх и низ цикла затухают независимо, потолок считается во владельцах, показатель Меткалфа проверяется счётчиком промахов. Четыре ползунка, пять критериев опровержения, помесячное разрешение с 2010 года.">
+<link rel="canonical" href="https://neokrasav4ik.github.io/btc-model/">
+<link rel="alternate" hreflang="ru" href="https://neokrasav4ik.github.io/btc-model/">
+<link rel="alternate" hreflang="en" href="https://neokrasav4ik.github.io/btc-model/en.html">
+<link rel="alternate" hreflang="x-default" href="https://neokrasav4ik.github.io/btc-model/">
 <style>
 /* IBM Plex (SIL OFL 1.1), локальные копии — внешних запросов нет */
 @font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-mono-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
@@ -71,6 +75,8 @@ h1{font-family:var(--serif);font-weight:500;font-size:clamp(24px,3.4vw,36px);lin
 .sub{margin:0 0 14px;color:var(--ink-2);max-width:none;font-size:14.5px;line-height:1.6}
 .nav{display:flex;flex-wrap:wrap;gap:0 18px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase}
 .nav a{color:var(--ink-3);border-bottom:none;padding:2px 0;transition:color .15s}
+.nav .lang{margin-left:auto;color:var(--mdl);border:1px solid var(--rule);border-radius:3px;padding:2px 9px;letter-spacing:.06em}
+.nav .lang:hover{border-color:var(--mdl);color:var(--mdl)}
 .nav a:hover{color:var(--mdl);border-bottom:none}
 .rail{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:flex-end;padding:11px 18px 10px;background:var(--panel);border:1px solid var(--rule);border-bottom:none}
 .guide{background:var(--panel);border:1px solid var(--rule);border-top:1px dashed var(--rule);padding:12px 18px 14px}
@@ -229,6 +235,7 @@ ul.tight li{margin-bottom:5px}
     <a href="#limits">Ограничения</a>
     <a href="#diff">Что изменилось</a>
     <a href="#repro">Воспроизведение</a>
+    <a class="lang" href="en.html" hreflang="en" lang="en">English</a>
   </nav>
 </header>
 

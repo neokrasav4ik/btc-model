@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A comprehensive Bitcoin price model, 2010–2040 — power law × separate decays</title>
+<meta name="description" content="Bitcoin price as a power law in network age with logistic saturation and halving cycles. The top and the bottom of the cycle decay independently, the ceiling is counted in owners, the Metcalfe exponent is checked by a miss counter. Four sliders, five falsification criteria, monthly resolution since 2010.">
+<link rel="canonical" href="https://neokrasav4ik.github.io/btc-model/en.html">
+<link rel="alternate" hreflang="ru" href="https://neokrasav4ik.github.io/btc-model/">
+<link rel="alternate" hreflang="en" href="https://neokrasav4ik.github.io/btc-model/en.html">
+<link rel="alternate" hreflang="x-default" href="https://neokrasav4ik.github.io/btc-model/">
+<style>
+/* IBM Plex (SIL OFL 1.1), локальные копии — внешних запросов нет */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-mono-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-mono-cyrillic-500-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-sans-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-sans-cyrillic-500-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/ibm-plex-sans-cyrillic-600-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-sans-greek-400-normal.woff2') format('woff2');unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-sans-greek-500-normal.woff2') format('woff2');unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/ibm-plex-sans-greek-600-normal.woff2') format('woff2');unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-sans-latin-400-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-sans-latin-500-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/ibm-plex-sans-latin-600-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Serif';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-serif-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Serif';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-serif-cyrillic-500-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Serif';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-serif-latin-400-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Serif';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-serif-latin-500-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+:root{
+  --paper:#F1F3F5;
+  --panel:#FBFCFD;
+  --ink:#11171E;
+  --ink-2:#4A5560;
+  --ink-3:#8A949E;
+  --rule:#D4DAE0;
+  --rule-soft:#E4E9ED;
+  --obs:#B8690C;
+  --mdl:#1E5FA8;
+  --band:rgba(30,95,168,.13);
+  --band-soft:rgba(30,95,168,.085);
+  --col:1180px;
+  --pos:#1F7A5A;
+  --neg:#A83232;
+  --epoch:rgba(17,23,30,.035);
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --serif:'IBM Plex Serif',Georgia,serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#0E1319;--panel:#141B22;--ink:#E8EDF2;--ink-2:#9FADBA;--ink-3:#6B7885;
+    --rule:#28323C;--rule-soft:#1D262E;--obs:#E0A03C;--mdl:#5E9EE0;--band:rgba(94,158,224,.16);--band-soft:rgba(94,158,224,.10);
+    --pos:#4FB08A;--neg:#D96A6A;--epoch:rgba(232,237,242,.035);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--mdl);outline-offset:2px}
+.wrap{max-width:1560px;margin:0 auto;padding:36px 28px 72px}
+header{border-bottom:1px solid var(--rule);padding-bottom:16px;margin-bottom:20px}
+.hrow{display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:0 0 10px}
+.hrow h1{margin:0}
+.hrow .dateline{margin:0;white-space:nowrap}
+.nav{margin-top:2px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+  margin:0 0 10px;white-space:nowrap;overflow-x:auto;overflow-y:hidden;padding-bottom:2px;
+  scrollbar-width:none;-ms-overflow-style:none}
+.eyebrow::-webkit-scrollbar{display:none}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(24px,3.4vw,36px);line-height:1.18;margin:0 0 10px;letter-spacing:-.01em}
+.dateline{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin:0 0 12px;letter-spacing:.01em}
+.sub{margin:0 0 14px;color:var(--ink-2);max-width:none;font-size:14.5px;line-height:1.6}
+.nav{display:flex;flex-wrap:wrap;gap:0 18px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase}
+.nav a{color:var(--ink-3);border-bottom:none;padding:2px 0;transition:color .15s}
+.nav .lang{margin-left:auto;color:var(--mdl);border:1px solid var(--rule);border-radius:3px;padding:2px 9px;letter-spacing:.06em}
+.nav .lang:hover{border-color:var(--mdl);color:var(--mdl)}
+.nav a:hover{color:var(--mdl);border-bottom:none}
+.rail{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:flex-end;padding:11px 18px 10px;background:var(--panel);border:1px solid var(--rule);border-bottom:none}
+.guide{background:var(--panel);border:1px solid var(--rule);border-top:1px dashed var(--rule);padding:12px 18px 14px}
+.guide .lead{margin:0 0 12px;font-size:13px;color:var(--ink-2);max-width:none}
+.g3 b{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink);font-weight:500;margin-bottom:4px}
+.ctl{flex:1 1 200px;min-width:196px}
+.ctl label{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-2);margin-bottom:5px;gap:12px}
+.ctl label b{font-family:var(--mono);font-weight:500;font-size:13px;color:var(--ink)}
+input[type=range]{width:100%;height:20px;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:3px;background:var(--rule);border-radius:2px}
+input[type=range]::-moz-range-track{height:3px;background:var(--rule);border-radius:2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--mdl);border:2px solid var(--panel);margin-top:-6px;box-shadow:0 0 0 1px var(--mdl);transition:transform .12s}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--mdl);border:2px solid var(--panel);box-shadow:0 0 0 1px var(--mdl)}
+input[type=range]:hover::-webkit-slider-thumb{transform:scale(1.15)}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.15)}
+.hint{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);display:flex;justify-content:space-between;margin-top:2px}
+.presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:11px 18px 10px;background:var(--band-soft);border-left:1px solid var(--rule);border-right:1px solid var(--rule);border-top:1px dashed var(--rule)}
+.presets .pl{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-right:4px;white-space:nowrap}
+.presets button{font-family:var(--sans);font-size:13.5px;color:var(--ink);background:var(--panel);border:1px solid var(--ink-3);border-radius:4px;padding:6px 14px;cursor:pointer;
+  box-shadow:0 1px 2px rgba(0,0,0,.06);transition:border-color .15s,color .15s,background .15s,box-shadow .15s,transform .08s}
+.presets button:hover{border-color:var(--mdl);color:var(--mdl);background:var(--band-soft);box-shadow:0 2px 5px rgba(0,0,0,.10)}
+.presets button:active{transform:translateY(1px);box-shadow:0 0 0 rgba(0,0,0,0)}
+.presets button[aria-pressed=true]{border-color:var(--mdl);background:var(--band);color:var(--ink);
+  font-weight:600;box-shadow:inset 0 0 0 2px var(--mdl)}
+.presets button[aria-pressed=true]::before{content:'';display:inline-block;width:6px;height:6px;
+  border-radius:50%;background:var(--mdl);margin-right:7px;vertical-align:1px}
+.presets button .bdg{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;
+  border:1px solid currentColor;border-radius:2px;padding:1px 4px;margin-left:8px;opacity:.7;vertical-align:1px}
+.presets button[aria-pressed=true] .bdg{opacity:1;color:var(--mdl)}
+.presets:has(button[aria-pressed=true]) button[aria-pressed=false]{opacity:.85}
+.presets:has(button[aria-pressed=true]) button[aria-pressed=false]:hover{opacity:1}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:12.5px;color:var(--ink-2);padding:11px 18px 0;background:var(--panel);border-left:1px solid var(--rule);border-right:1px solid var(--rule)}
+.legend span{display:flex;align-items:center;gap:7px}
+.sw{width:18px;height:0;border-top-width:2.5px;border-top-style:solid;display:inline-block}
+.sw.b{width:14px;height:11px;border:1px solid var(--mdl);background:var(--band);border-top-width:1px}
+figure{margin:0;background:var(--panel);border:1px solid var(--rule);border-top:none;padding:8px 10px 14px}
+.main-h{position:relative;height:440px}
+.res-h{position:relative;height:180px;border-top:1px solid var(--rule-soft);margin-top:6px;padding-top:8px}
+.near-h{position:relative;height:330px}
+.fcap{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);padding:0 0 10px;margin:0}
+.axis-note{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);padding:6px 8px 0;max-width:none;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule);border-top:none;margin-bottom:32px}
+.stat{background:var(--panel);padding:14px 16px}
+.stat .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}
+.stat .v{font-family:var(--mono);font-size:19px;font-weight:500;letter-spacing:-.02em}
+.stat .n{font-size:11.5px;color:var(--ink-3);margin-top:2px}
+.wrap{counter-reset:sec}
+h2{max-width:var(--col);margin:40px auto 12px;font-family:var(--serif);font-weight:500;font-size:19px;letter-spacing:-.005em;display:flex;align-items:baseline;gap:12px;scroll-margin-top:16px}
+h2::before{counter-increment:sec;content:counter(sec,decimal-leading-zero);font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;color:var(--ink-3);flex:0 0 auto}
+table{width:100%;max-width:var(--col);border-collapse:collapse;font-size:13.5px;margin:14px auto 8px}
+th,td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--rule-soft)}
+th:first-child,td:first-child{text-align:left}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:500;border-bottom:1px solid var(--rule)}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+tr.fut td:first-child{color:var(--mdl)}
+h3{max-width:var(--col);margin:26px auto 8px;font-family:var(--sans);font-weight:600;font-size:15px;color:var(--ink)}
+p{max-width:var(--col);margin-left:auto;margin-right:auto;color:var(--ink-2)}
+a{color:var(--mdl);text-decoration:none;border-bottom:1px solid currentColor}
+a:hover{border-bottom-width:2px}
+table.expl{max-width:var(--col);margin-left:auto;margin-right:auto}
+table.expl td{border-bottom:1px solid var(--rule-soft);vertical-align:top;text-align:left;padding:9px 12px 9px 0;color:var(--ink-2)}
+table.expl td.n{width:66px;font-family:var(--mono);color:var(--ink);white-space:nowrap}
+table.cmp{max-width:var(--col);margin-left:auto;margin-right:auto}
+table.cmp td{text-align:left;color:var(--ink-2)}
+table.cmp td:first-child{color:var(--ink)}
+table.cmp th{text-align:left}
+blockquote{margin:16px auto;padding:2px 0 2px 18px;border-left:2px solid var(--mdl);font-family:var(--serif);font-size:16px;line-height:1.55;color:var(--ink);max-width:var(--col)}
+b{font-weight:600}
+p strong{color:var(--ink);font-weight:500}
+code{font-family:var(--mono);font-size:.9em;background:var(--rule-soft);padding:1.5px 5px;border-radius:2px;color:var(--ink)}
+footer{margin:44px auto 0;padding-top:18px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-3);max-width:var(--col)}
+footer a{color:var(--mdl)}
+.meta{display:flex;flex-wrap:wrap;gap:0 28px;font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:14px}
+.meta b{font-weight:500;color:var(--ink-2)}
+.aside{background:var(--panel);border:1px solid var(--rule);border-left:2px solid var(--mdl);padding:14px 18px;margin:16px auto 18px;max-width:var(--col);font-size:14px}
+.aside p{margin:0;color:var(--ink-2)}
+.aside p+p{margin-top:8px}
+.aside .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.pill{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border:1px solid currentColor;border-radius:2px;white-space:nowrap;vertical-align:1px}
+.pill.ok{color:var(--pos)}
+.srcs{max-width:var(--col);margin:10px auto 0;padding:0;list-style:none}
+.srcs li{margin-bottom:7px;padding-left:16px;text-indent:-16px;line-height:1.5}
+.obj{max-width:var(--col);margin:6px auto 0}
+.obj h3{font-family:var(--serif);font-weight:500;font-size:16.5px;color:var(--ink);margin:24px 0 6px;padding-left:16px;border-left:2px solid var(--rule);text-indent:-16px}
+.obj h3::before{content:'«';font-family:var(--serif);color:var(--ink-3)}
+.obj h3::after{content:'»';font-family:var(--serif);color:var(--ink-3)}
+.obj p{margin:0 0 12px}
+.verdict{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
+.verdict.cede{color:var(--obs)}
+ul.tight{max-width:var(--col);margin:8px auto 14px;color:var(--ink-2);padding-left:20px}
+ul.tight li{margin-bottom:5px}
+@media (max-width:720px){.main-h{height:360px}.res-h{height:150px}.near-h{height:280px}.wrap{padding:24px 14px 56px}.rail{gap:20px}.tie{gap:8px 18px;padding:10px 14px 11px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+@media print{
+  body{background:#fff;color:#000;font-size:11pt}
+  .rail,.nav{display:none}
+  .wrap{max-width:none;padding:0}
+  figure,.stats,.guide,.legend,.aside{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{border-bottom:none}
+}
+
+.info{position:relative;display:inline-flex;align-items:center;color:var(--mdl);cursor:help;
+  flex:none;vertical-align:-3px;border-radius:50%}
+.info>svg{display:block;transition:transform .12s}
+.info:hover>svg,.info:focus-visible>svg{transform:scale(1.22)}
+.info:focus-visible{outline:1px solid var(--mdl);outline-offset:3px}
+.tip{position:absolute;left:-8px;top:calc(100% + 10px);z-index:40;width:min(430px,74vw);
+  background:var(--panel);border:1px solid var(--rule);border-left:2px solid var(--mdl);
+  padding:11px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;line-height:1.52;
+  letter-spacing:0;text-transform:none;color:var(--ink-2);text-align:left;white-space:normal;
+  box-shadow:0 8px 26px rgba(0,0,0,.32);opacity:0;visibility:hidden;
+  transition:opacity .13s ease;pointer-events:none}
+.tip.tr{left:auto;right:-8px}
+.tip b{color:var(--ink);font-weight:500}
+.info:hover .tip,.info:focus-visible .tip{opacity:1;visibility:visible}
+.ctl label .lb{display:inline-flex;align-items:center;gap:7px;flex-wrap:wrap}
+.tie{display:flex;flex-wrap:wrap;gap:5px 34px;align-items:baseline;padding:8px 18px 9px;background:var(--panel);
+  border-left:2px solid var(--neg);border-right:1px solid var(--rule);border-top:1px dashed var(--rule)}
+.tie.ok{border-left-color:var(--mdl)}.tie.mid{border-left-color:var(--obs)}
+.tie .ti{display:flex;align-items:baseline;gap:8px}
+.tie .k{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.tie #tiet{border-left-color:var(--neg)}
+.tie.ok #tiet{border-left-color:var(--mdl)}.tie.mid #tiet{border-left-color:var(--obs)}
+.tie .ts{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--neg);white-space:nowrap}
+.tie.ok .ts{color:var(--mdl)}.tie.mid .ts{color:var(--obs)}
+.tie .v{font-family:var(--mono);font-size:12.5px;font-weight:500;white-space:nowrap}
+.tie .v.ok{color:var(--pos)}.tie .v.mid{color:var(--obs)}.tie .v.bad{color:var(--neg)}
+.tie .tn{flex:1 0 100%;font-size:12.5px;line-height:1.45;color:var(--ink-2)}
+.ctl.off label b{color:var(--neg)}
+.ctl.off input[type=range]::-webkit-slider-thumb{background:var(--neg);box-shadow:0 0 0 1px var(--neg)}
+.ctl.off input[type=range]::-moz-range-thumb{background:var(--neg);box-shadow:0 0 0 1px var(--neg)}
+.ctl .mark{font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+.ctl.off .mark{color:var(--neg)}
+.pdesc{padding:0 18px 11px;background:var(--band-soft);border-left:1px solid var(--rule);
+  border-right:1px solid var(--rule);font-size:13px;line-height:1.5;color:var(--ink-2);max-width:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">P(t) = 10<sup>A</sup> · t<sup>3β</sup> × saturation(W, β) × [euphoria(d<sub>e</sub>) − panic(d<sub>p</sub>)]</p>
+  <div class="hrow">
+    <h1>A comprehensive Bitcoin price model, 2010–2040</h1>
+    <p class="dateline">Compiled in August 2026 · observed through early August 2026 · everything to the right is computed</p>
+  </div>
+  <p class="sub">Three layers: a power law in the age of the network, saturation by the number of owners, and halving cycles with the top and the bottom decaying separately. Each layer owns its own time scale: the first governs decades, the second governs how it all ends, the third governs the four-year waves inside.</p>
+  <nav class="nav">
+    <a href="#read">How to read</a>
+    <a href="#cycles">Cycles</a>
+    <a href="#layers">Layers</a>
+    <a href="#dials">Dials</a>
+    <a href="#objections">Objections</a>
+    <a href="#falsify">Falsification</a>
+    <a href="#limits">Limits</a>
+    <a href="#diff">What changed</a>
+    <a href="#repro">Reproduction</a>
+    <a class="lang" href="./" hreflang="ru" lang="ru">Русский</a>
+  </nav>
+</header>
+
+<div class="rail">
+  <div class="ctl">
+    <label for="de"><span class="lb">Euphoria decay<span class="info" tabindex="0" role="button" aria-label="Explanation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>How high the peak of the cycle stands above the trend.</b> Over four cycles this height fell: 1.03 → 0.81 → 0.46 → 0.06 dex. The last number means that the October 2025 peak exceeded the trend by only 15%. The first means that the 2013 peak stood ten times above the trend.<br><br>The steps, meanwhile, are unequal: ×0.79, ×0.57, ×0.13. The first two resemble each other, the third breaks off.<br><br><b>The slider answers a single question: was that break real.</b> At zero — yes, and the H5 peak will rise 0.03 dex above the trend, halving with every cycle after that. At one — no: the amplitude collapse in H4 is explained by a chance fluke rather than by a change in the market itself, and peak height returns to the H1–H3 line. The H5 peak at 0.21 dex.<br><br>Zero on this slider is the direct reading of the data. To move to the right you need evidence that H4 was a fluke, and evidence taken from something other than price itself. There is no such evidence.</span></span></span><b><span id="dev">0.00</span></b></label>
+    <input type="range" id="de" min="0" max="1" step="0.01" value="0">
+    <div class="hint"><span>permanent</span><span>H5 peak <span id="a5v">0.03</span> dex</span><span>temporary</span></div>
+  </div>
+  <div class="ctl">
+    <label for="dp"><span class="lb">Panic decay<span class="info" tabindex="0" role="button" aria-label="Explanation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>How deep the trough of the cycle sinks below the trend.</b> Over four cycles this depth did not change: <b>−0.28, −0.24, −0.38, −0.37 dex</b>, with no trend whatsoever. The direct reading of the data puts this slider at zero — the bottom has not changed and will not change.<br><br>Working against that is coherence: if euphoria disappeared for a reason rather than by chance, that reason is obliged to reach the bottom as well, merely with a lag. The top is formed by arriving participants, the bottom by the ones who stay, and the composition of the latter changes more slowly.<br><br><b>There is no data at all on this slider.</b> The first evidence will arrive in September 2030: an H5 trough shallower than −0.24 dex would mean that panic, too, has begun to fade.</span></span></span><b><span id="dpv">0.50</span></b></label>
+    <input type="range" id="dp" min="0" max="1" step="0.01" value="0.5">
+    <div class="hint"><span>does not fade</span><span>H5 trough −<span id="b5v">0.28</span> dex</span><span>fades like euphoria</span></div>
+  </div>
+  <div class="ctl">
+    <label for="k"><span class="lb">Owner ceiling<span class="info" tabindex="0" role="button" aria-label="Explanation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>The limiting number of people owning bitcoin, to which adoption converges.</b> It sets the level of the plateau, and does so almost as a square: a miss of two times in the ceiling moves the plateau by a factor of 3.7. The most sensitive parameter of the model.<br><br><b>It barely affects the nearest cycle and single-handedly runs the 2030s.</b> Within the plausible corridor of 1300–1900 M the October 2029 peak wanders only from $340k to $389k, whereas the plateau moves from $438k to $900k.<br><br>The blue band sweeps the ceiling ±40%. Today it is narrow, but it opens up noticeably by 2029, and more downwards than upwards: saturation can only slow things down, above the pure power law the ceiling does not lift price.<br><br>For reconciliation with models that count the network in addresses: at today's ratio of 0.54 addresses per owner, a ceiling of 1610 M corresponds to about 866 M non-zero addresses. Addresses take no part in the calculation itself — the ratio is falling, and it cannot be relied upon.</span></span></span><b><span id="kv">1610</span> M</b></label>
+    <input type="range" id="k" min="700" max="3200" step="10" value="1610">
+    <div class="hint"><span>700</span><span>plateau $<span id="plat">657</span>k</span><span>3200</span></div>
+  </div>
+  <div class="ctl" id="ctl-mb">
+    <label for="mb"><span class="lb">Metcalfe exponent β<span class="info" tabindex="0" role="button" aria-label="Explanation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip tr">The Metcalfe exponent: how fast the value of the network grows with the number of participants. <b>Measured, not chosen</b> — between n log n and n².<br><br>It enters the calculation twice: through the growth exponent 3β and through the level of the plateau. Move it and watch the miss counter above the chart: shifting it down by one tenth takes them from 14 to 26, and more than half of the new ones fall on 2010–2012. Early history falls off first, because it is exactly what sets the slope.</span></span></span><b><span id="mbv">1.897</span></b></label>
+    <input type="range" id="mb" min="1.60" max="2.05" step="0.001" value="1.897">
+    <div class="hint"><span>1.60 · n log n</span><span class="mark" id="mbmark">measured value</span><span>2.05 · n²</span></div>
+  </div>
+</div>
+
+<div class="presets">
+  <span class="pl">Scenarios · maturity on the left, speculation on the right</span>
+  <button type="button" data-k="1800" data-de="0" data-dp="1" data-b="1.897" data-desc="Both phases of the cycle have disappeared. By 2030 bitcoin behaves like a mature network asset: a 24% drawdown, like a large technology stock rather than like a cryptocurrency. The number of owners is the highest — a third of adults, mostly through funds and custodians. Plateau $812k. What it requires: a shared trustworthy source of information among participants, because the heterogeneity of beliefs out of which the bottom is assembled stops coming together.">Cycle faded</button>
+  <button type="button" data-k="1610" data-de="0" data-dp="0.5" data-b="1.897" data-desc="The base scenario of the model: euphoria has gone irreversibly, panic fades with a lag. The H5 trough at −0.28 dex — still inside the historical corridor, but at its shallow edge. A 40% drawdown: a bad year on the stock market rather than a crypto crash. The direct reading of the data plus the requirement of mechanical coherence: the cause that killed the top is obliged sooner or later to reach the bottom as well.">Quiet cycle<span class="bdg">base</span></button>
+  <button type="button" data-k="1350" data-de="0.5" data-dp="0.25" data-b="1.897" data-desc="H4 was partly a fluke. Euphoria comes back halfway, panic is almost untouched. The peak is higher than in the two scenarios to the left — $427k — but so is the drawdown at 58%. A cautious middle for those who want to bet neither on the irreversibility of the decay nor on a full return of the amplitude.">Cycle returns</button>
+  <button type="button" data-k="1150" data-de="1" data-dp="0" data-b="1.897" data-desc="Nothing changed in the market itself, the break in H4 was a ripple. All this time the decay proceeded at an even step of ×0.67 per cycle, and peak height returns to the H1–H3 line — not to the former values, but to the former rate of decline. The highest peak of the four ($458k) and the lowest trough ($133k), a 71% drawdown — comparable to the 78% of H3. The number of owners is the lowest: bitcoin remains a cyclical speculative asset.">Cycle never broke</button>
+</div>
+<div class="pdesc" id="pdesc">—</div>
+<div class="tie" id="tie">
+  <div class="ti">
+    <span class="k">Decay consistency check</span><span class="info" tabindex="0" role="button" aria-label="What this indicator checks"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip" id="tiet">—</span></span><span class="ts" id="ties">—</span>
+  </div>
+  <div class="ti">
+    <span class="k">Misses from the trend over history</span><span class="info" tabindex="0" role="button" aria-label="What misses from the trend are"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">How many observed months lie further than <b>±0.5 dex</b> from the trend — that is, deviate from it by more than a factor of three. At the measured β there are 14 such months out of 194, and almost all of them fall on the peaks of 2011 and 2013/14, where price itself behaved abnormally.<br><br>The counter reacts only to the β slider. A shift of one tenth downwards brings the misses to 26, and more than half of the new ones land on 2010–2012. This is precisely the check that <b>β is measured, not fitted to the chart</b>.</span></span><span class="v" id="g-fit">—</span>
+  </div>
+  <span class="tn" id="tien">—</span>
+</div>
+<div class="legend">
+  <span><i class="sw" style="border-top-color:var(--obs)"></i>Observed price, monthly close</span>
+  <span><i class="sw" style="border-top-color:var(--mdl)"></i>Model, central path</span>
+  <span><i class="sw" style="border-top-color:var(--ink-3);border-top-style:dashed"></i>Trend without cycles</span>
+  <span><i class="sw b"></i>Owner ceiling ±40%</span>
+  <span><i class="sw" style="border-top-color:var(--ink-2);border-top-style:dotted"></i>Boundary between observation and forecast</span>
+</div>
+
+<figure>
+  <div class="main-h"><canvas id="main"></canvas></div>
+  <div class="res-h"><canvas id="res"></canvas></div>
+  <p class="axis-note">Top — price, logarithmic scale. Bottom — the residual log₁₀(observed / trend), dex; the thin lines at ±0.5 dex are the regime band from falsification criterion 5. Grey stripes are the halving epochs H0–H8. The dashed vertical is the boundary between observation and forecast.</p>
+</figure>
+
+<div class="stats">
+  <div class="stat"><div class="k">Price</div><div class="v" id="s-spot">—</div><div class="n" id="s-spot-n">early August 2026</div></div>
+  <div class="stat"><div class="k">Trend now</div><div class="v" id="s-tr">—</div><div class="n">power law</div></div>
+  <div class="stat"><div class="k">Deviation</div><div class="v" id="s-dev">—</div><div class="n" id="s-dev-n">dex from trend</div></div>
+  <div class="stat"><div class="k">H4 drawdown</div><div class="v" id="s-dd">—</div><div class="n">falsification threshold 70%</div></div>
+  <div class="stat"><div class="k">H5 peak</div><div class="v" id="s-p5">—</div><div class="n" id="s-p5n">—</div></div>
+  <div class="stat"><div class="k">H5 trough</div><div class="v" id="s-t5">—</div><div class="n" id="s-t5n">—</div></div>
+  <div class="stat"><div class="k">Plateau</div><div class="v" id="s-pl">—</div><div class="n">asymptote</div></div>
+</div>
+
+<figure>
+  <p class="fcap">The next two years — detail</p>
+  <div class="near-h"><canvas id="near"></canvas></div>
+  <p class="axis-note">The same data as on the upper panel, but on a linear scale and with values labelled every three months. To the left of “now” the orange line is observation, beyond it there is only computation at the current position of the sliders. The blue band shows the uncertainty of the owner ceiling; on this horizon it is still narrow.</p>
+</figure>
+
+<h2 id="read">How to read the chart in a minute</h2>
+<p>Three lines. The grey dashed one carries the trend: a power law with saturation, cycles removed. It works as the backbone to which the asset returns, and by itself predicts nothing. The blue one multiplies that backbone by the cycle overlay. The orange one shows what happened.</p>
+<p>The lower panel carries the residual, measured in <b>dex</b>. Dex expresses “how many times” in logarithmic form: +1 dex puts price ten times above the trend, −0.3 dex lowers it roughly by half, zero falls exactly on the backbone.</p>
+<p>As of August 2026 the residual holds around <b>−0.36 dex</b>, that is, price is a little below half the trend. It looks worse than it behaves: every trough in the history of bitcoin parked between −0.24 and −0.38 dex. A trough is supposed to look like this. The alarming signal would be a residual that leaves the ±0.5 dex band and stays there: that is falsification criterion 5, which has never fired for longer than five months.</p>
+
+<h2 id="cycles">Cycles</h2>
+<table id="cyc">
+  <thead><tr><th>Epoch</th><th>Halving</th><th>Peak</th><th>Trough</th><th>a — peak, dex above trend</th><th>b — trough, dex below trend</th><th>Drawdown</th></tr></thead>
+  <tbody></tbody>
+</table>
+<p style="font-size:13px">Epochs H0–H4 are calibrated on observed data; the lower node of H4 is calibrated on the minimum of late June 2026, $57,950, so the agreement of the model with it checks nothing. H5–H8 are computed from the two sliders independently: <b>a</b> is projected by the euphoria decay, <b>b</b> by the panic decay. The drawdown follows from their combination rather than from a common swing.</p>
+<p style="font-size:13px">The peak and the trough in the table are nodes of the model, that is, the trend of the corresponding month multiplied by the calibrated amplitude. The drawdown follows directly from them, as 1 − trough / peak, and stays smaller than the swing: over the time from peak to trough the trend itself manages to grow. The series of observations on the chart runs on monthly closes, the nodes on intra-month extremes, which gives small discrepancies between the table and the orange line.</p>
+
+<h2 id="layers">What the model is assembled from</h2>
+<p>Three independent layers, multiplied by one another.</p>
+
+<h3>Layer 1. The power law — why price grows at all</h3>
+<p>At first, intuition about bitcoin often said “exponential growth”, but that would be a strong oversimplification. An exponential doubles over equal intervals: a year, another year, another year. A power law needs an ever longer stretch for the same multiple each time.</p>
+<p>The formula <code>P ∝ t<sup>3β</sup></code> reads as follows: price grows as the age of the network raised to the power 3β, the age counted in days from the genesis block of 3 January 2009. At the measured β = 1.897 the exponent equals 5.69, and it was never fitted to the chart. It is given by two separately measured quantities multiplied together, each with a physical reading:</p>
+<table class="expl">
+ <tr><td class="n"><b>3</b></td><td>The number of addresses in the network grew roughly as the cube of its age. An observed fact, not an assumption.</td></tr>
+ <tr><td class="n"><b>1.897</b></td><td>The value of the network grows faster than the number of participants — Metcalfe's law in generalised form. Every new participant adds not only himself but also connections to everyone else. The value 1.897 is obtained empirically and lies between textbook Metcalfe (n²) and Odlyzko (n log n).</td></tr>
+ <tr><td class="n"><b>= 5.69</b></td><td>Their product and the source of the exponent.</td></tr>
+</table>
+<p>Hence the logarithmic scale on the chart, where each division means a factor of ten. A power law straightens out on such a scale, and deviations from it become visible to the eye. Proportions are preserved as well: a fall from $100 to $50 looks like a fall from $100,000 to $50,000, because for the owner both mean a half.</p>
+<div class="aside">
+  <div class="t">Two free parameters and a way to check them</div>
+  <p>Layer 1 carries two fitted numbers: the exponent and the multiplier. These two have to reproduce 194 monthly observations spanning six orders of magnitude in price, and the residual leaves ±0.5 dex in only 14 of them — almost exclusively on the blow-offs of 2011 and 2013/14, where price itself behaved abnormally.</p>
+  <p>Exactly those 14 out of 194 are what the miss counter above the chart displays, so the claim “β is measured, not chosen” is not taken on faith. Move the β slider to 1.70 — the misses become 26, and more than half of the new ones will fall on 2010–2012: early history falls off first, because it is exactly what sets the slope. A near doubling from a shift of one tenth is the content of the word “measured”.</p>
+  <p>When β changes, the curve is recalibrated through a pivot point at the logarithmic centre of the observations — day 2971 from genesis, February 2017. The rotation happens around the centre of mass of the data rather than around an arbitrary end, otherwise the slider would break the fit for a reason having nothing to do with the exponent itself.</p>
+  <p>Whether all of this counts as evidence or as curve fitting is taken apart below, in the <a href="#objections">objections</a>, since it comes up first thing every time.</p>
+</div>
+
+<h3>Layer 2. Saturation — why this cannot go on forever</h3>
+<p>Cubic growth of the network runs into the obvious: there is a finite number of people on the planet. Any network — telephone, internet, payment — travels the same path: first acceleration, then slowdown, then a plateau. An S-shaped curve.</p>
+<p>In the model this is arranged as soft braking: <code>P = P<sub>trend</sub> · L / (P<sub>trend</sub>³ + L³)<sup>⅓</sup></code>, where <code>L</code> is the level of the plateau. The mechanics are simple: far below the plateau the braking is almost imperceptible, closer to the plateau it drags. The cubic exponent governs how soft the transition feels, stretching it over years instead of a step.</p>
+<div class="aside">
+  <div class="t">How the ceiling enters the plateau</div>
+  <p>The level of the plateau follows from the audience ceiling through <code>L ∝ W<sup>β</sup></code> (the same Metcalfe exponent): <code>plateau = 657,000 · (W / 1610)<sup>β</sup></code>. The consequence is unpleasant: <em>any error in the estimate of the ceiling is raised to a power of almost two</em>. Miss the ceiling by a factor of two, and the plateau moves by a factor of 3.7.</p>
+</div>
+<p>It is this link that the “owner ceiling” slider exposes. Move it around: the whole right-hand part of the chart will travel up and down, while the mechanics underneath remain untouched. The travel of the slider measures what share of the 2030s rests on a quantity nobody has counted.</p>
+<div class="aside">
+  <div class="t">Why the ceiling is not counted in addresses</div>
+  <p>Today (August 2026) roughly 106 M owners map onto 57 M non-zero addresses, and the ratio is falling as custodial services and exchange-traded funds absorb holders who never touch an address on the blockchain. The inconvenient part: <em>the very same institutionalisation by which the decay of the cycles is explained simultaneously breaks the measuring instrument</em>. One process produces both effects.</p>
+  <p>As long as the decay reads as moderate, the contradiction is tolerable. If, however, the decay is irreversible, the contradiction becomes direct: one cannot simultaneously claim that euphoria died because of a change in the composition of holders and count the ceiling as though the ratio of addresses to owners had stayed historical. That is why the plateau is computed from the number of owners. The number of addresses does not enter the calculation at all.</p>
+</div>
+
+<h3>Layer 3. Cycles — why the road is not straight</h3>
+<p>Historically, every halving was followed by the same sequence: acceleration, a euphoric peak roughly a year and a half later, a crash, a long trough.</p>
+<p>The explanation through the reduction of issuance, however, converges poorly: the market knows the date of the halving years in advance, and a fully anticipated change in issuance ought to be priced in continuously, without a delayed impulse in the eighteenth month. The model here rests on a <strong>sentiment-phase</strong> explanation:</p>
+<blockquote>Sustained growth begins when the majority of new participants finally stop believing in growth. Sustained decline begins when the majority absorb the belief that growth is infinite.</blockquote>
+<p>The logic is that at the trough the beliefs of participants are maximally heterogeneous: everyone has his own reasons for scepticism, there is no single narrative. Such a state is unstable and prone to reassembly around a new idea. At the peak everything is the opposite: everyone believes the same thing, and precisely for that reason everyone's exit thresholds coincide, so that a single push triggers simultaneous selling. Unanimity looks like robustness and works as fragility.</p>
+<p>Technically the cycle is defined by three nodes: the peak 18 months after the halving, the trough at 26–30, a return to the trend by the next halving. Between the nodes runs a smooth cosine interpolation.</p>
+<p>The timing of the nodes is taken from history. Peaks arrived in months 13, 17, 18 and 18 after the four halvings, that is, the lag lengthened and then settled, and 18 is carried forward. Maximum declines fell in months 26, 29, 30 and 26. The timing turned out to be far more stable than the amplitude, and the latter currently looks like it is collapsing.</p>
+
+<h3>How the swing is distributed between top and bottom</h3>
+<p>The proportion between the top and the bottom flipped over across those same four cycles. In the early ones almost the whole swing went upwards: in H1 the peak rose 1.03 dex above the trend while the trough sank only 0.28 — four fifths of the swing fell on euphoria. Afterwards the share of the top fell monotonically: 77% in H2, 55% in H3 and only 14% in H4, where the peak barely detached from the trend while the trough went to the usual −0.37.</p>
+<p>Here a second indicator of maturation emerges, independent of the general compression of amplitude: <b>the market loses the capacity for euphoria noticeably faster than the capacity for panic.</b></p>
+<p>It follows that the top and the bottom are two different sequences rather than one with a fixed proportion. Peaks: 1.03, 0.81, 0.46, 0.06, a monotonic decline. Troughs: −0.28, −0.24, −0.38, −0.37, no trend at all. The model therefore projects them independently, with two sliders, and does not force the decay of one phase to drag the other along.</p>
+<div class="aside">
+  <div class="t">Consistency of the decays</div>
+  <p><b>Asymmetric decay</b> — the top fades, the bottom stands — is the signature of institutionalisation: the composition of holders changed, euphoric buyers were replaced by funds and custodians, panic remained with those who still hold directly.</p>
+  <p><b>Symmetric decay</b> — both phases fade — is the signature of an epistemic shift. The sentiment-phase mechanism requires a maximum of belief heterogeneity at the trough; such a state is impossible to assemble if participants rely on a shared trustworthy source instead of their own scattered reasons for scepticism. This is the only known process that must damp panic together with euphoria.</p>
+  <p>So far only asymmetry is observed. Symmetry, however, can only be tested in September 2030.</p>
+</div>
+
+<h3>What the residual panel shows</h3>
+<p>The lower panel removes the growth itself and leaves only the deviation from the trend. The humps compress in sequence: 1.03 → 0.81 → 0.46 → 0.06 dex.</p>
+<p>The December 2013 peak stood ten times above the trend. The December 2017 peak — six times. The November 2021 peak — three times. The October 2025 peak exceeded the trend by 15% — this is the first cycle in the history of the asset in which a euphoric phase effectively did not happen.</p>
+<p>Hence the fork around which this part of the model is built. Either <b>the decay is irreversible</b> — and then bitcoin leaves the speculative category and settles into an ordinary mature network asset with moderate fluctuations. Or <b>the collapse was temporary</b> — and then the height of the peaks will return as soon as the environment around the market changes. The first slider at the top switches precisely between these two hypotheses: zero means that the decay of euphoria arrived “permanently”, one means the decay of euphoria is “temporary”. The next slider answers a separate question — whether the bottom will follow the top.</p>
+
+<h2 id="dials">Where to set the sliders</h2>
+<p>There are four sliders in all, and they are not equals. The two decays rule the next five years. The ceiling barely catches on them — at the H5 peak the plausible range gives a difference smaller than the model's own uncertainty — yet it runs the 2030s single-handedly. β is not intended for tuning at all: it stands here as a check.</p>
+<p>The decay sliders, moreover, are <b>not independent of each other</b>. Their compatibility is brought out by a separate indicator above the chart, because one combination is internally contradictory while looking perfectly normal by the numbers.</p>
+<p>The indicator must be read carefully. It checks for <b>the presence of a mechanism, not the soundness of a setting</b>. The contradictory combination is: euphoria fades irreversibly, panic does not fade at all. The indicator marks such a combination red not because the observation is wrong, but because there is no explanation for it: the cause that killed the top is obliged sooner or later to reach the bottom.</p>
+<p>The converse is true as well. A compatible setting does not mean a well-founded one. “Cycle never broke” passes the check without remarks, but it requires treating H4 as a fluke, and there is (as yet) no independent evidence of that. That is why the indicator is a neutral colour rather than green: it catches one specific inconsistency rather than passing judgement.</p>
+
+<h3>Owner ceiling: 1300–1900 M</h3>
+<p>The scale is read through market capitalisation and gold, as a distantly similar non-digital analogue. By the mid-2030s about 20.7 M coins will be in circulation, while all the gold ever mined is worth roughly $31 trillion today. At 6 billion adults the ruler looks like this:</p>
+<table class="expl">
+ <tr><td class="n"><b>1000</b></td><td>plateau $266k · capitalisation $5.5T · <b>18% of gold</b> · 17% of adults — adoption continues, bitcoin remains a niche asset</td></tr>
+ <tr><td class="n"><b>1300</b></td><td>plateau $438k · $9.1T · <b>29% of gold</b> · 22% of adults — the lower edge of the plausible</td></tr>
+ <tr><td class="n"><b>1610</b></td><td>plateau $657k · $13.6T · <b>44% of gold</b> · 27% of adults — <b>base</b>, ≡ 866 M addresses (not owners)</td></tr>
+ <tr><td class="n"><b>1800</b></td><td>plateau $812k · $16.8T · <b>54% of gold</b> · 30% of adults — the upper edge of the plausible</td></tr>
+ <tr><td class="n"><b>2600</b></td><td>plateau $1.63M · $33.8T · <b>more than gold</b> · 43% of adults — requires a change of monetary regime, which the model does not contain</td></tr>
+</table>
+<p>The familiar anchor is the share of adults owning equities, 15–25%. But this share is low for two reasons: most people have no investable surplus, and there is a barrier to entry — a broker, literacy, trust in the procedure. The second reason is removed over a decade by an advisor available to everyone (AI), the first expands with growth itself. An upper bound of 25% with the friction removed looks more like a lower one, hence 22–32% and a range of 1300–1900 M owners.</p>
+<p><b>The base stands at 1610 M</b> — this is exactly the same calculation the previous version gave at 866 M addresses: the same $657k plateau, the same $13.6T capitalisation, the same 44% of the value of all the gold ever mined. Redenominating into owners simply changed the units. The argument for a higher ceiling remains an argument and lives further to the right along the scale, not at the base of the calculation.</p>
+
+<h3>Euphoria decay: 0.00</h3>
+<p>Three reference positions:</p>
+<table class="expl">
+ <tr><td class="n"><b>0.00</b></td><td>the break in H4 continues: the H5 peak rises 0.03 dex above the trend, then half as much each cycle</td></tr>
+ <tr><td class="n"><b>0.50</b></td><td>the decay has slowed: the H5 peak around 0.12 dex, twice as high as H4</td></tr>
+ <tr><td class="n"><b>1.00</b></td><td>H4 was an anomaly, the log-linear trend of H1–H3 resumes: H5 peak = 0.21 dex</td></tr>
+</table>
+<p>Four cycles of evidence. The peaks above the trend fell monotonically: 1.03, 0.81, 0.46, 0.06. The steps are unequal — ×0.79, ×0.57 and ×0.13. The first two resemble each other, the third breaks off into a cliff. The descending trend rests on four observations and holds; the sharpness of the last step rests on one. There is nothing with which to cancel the decay entirely: to declare the collapse temporary you have to treat H4 as a fluke, and there is no independent evidence of that.</p>
+
+<div class="aside">
+  <div class="t">A possible test of the explanation</div>
+  <p>The irreversibility of the decay rests not on the fact of it but on a specific mechanism: <b>institutionalisation</b>. Euphoric buyers were replaced by funds and custodians, and the market's capacity to overheat disappeared along with them.</p>
+  <p>This mechanism has its own observable trace, in no way connected to price — <b>the ratio of the number of non-zero addresses to the number of owners</b>. A holder through a fund never touches an address, so the further the replacement has gone, the lower the ratio. It has been falling for years and now stands at about 0.54: roughly 57 M addresses per 106 M owners.</p>
+  <p>Hence a test that can be run monthly and without any model at all. If the ratio <b>stops falling while the peaks stay dead</b>, institutionalisation will stop explaining the decay — and beneath the zero position of the slider there will be no mechanism left, only four observations of a trend. A continuing fall works the other way: it is an argument for irreversibility drawn from data that has nothing to do with price.</p>
+  <p>A caveat is obligatory. The ratio is a trace of <em>this</em> mechanism, not of decay in general. The market could have matured for other reasons — deeper derivatives, less leverage — and then the ratio has every right to stand still while the decay persists. A flat ratio refutes the explanation, not the slider itself.</p>
+</div>
+
+<h3>Panic decay: there is no data</h3>
+<p>Here evidence does not exist at all. The four troughs stand level: −0.28, −0.24, −0.38, −0.37 dex, with no trend whatsoever. The direct reading is to set zero and hold that the bottom does not fade.</p>
+<p>One consideration works against that. Zero on the upper slider asserts that euphoria disappeared for a reason rather than by chance. Any reason — a change in the composition of holders, institutional custody, the availability of trustworthy information — is by mechanism obliged sooner or later to touch the bottom as well, merely with a lag: euphoria is formed among arriving participants, panic among those who stay, and the composition of the latter changes more slowly. Zero on this slider together with zero on the upper one amounts to the claim “the cause exists but acts exactly halfway”, and there is nothing to justify it with.</p>
+<table class="expl">
+ <tr><td class="n"><b>0.00</b></td><td>the H5 trough at −0.37 dex, as in H4. The premise “the bottom has not changed and will not change”</td></tr>
+ <tr><td class="n"><b>0.50</b></td><td>the H5 trough at −0.28 dex, still inside the historical corridor −0.24…−0.38</td></tr>
+ <tr><td class="n"><b>1.00</b></td><td>the H5 trough at −0.18 dex, shallower than anything ever observed. The bottom fades in step with the top</td></tr>
+</table>
+<div class="aside">
+  <div class="t">Observable marker, September 2030</div>
+  <p>The H5 trough falls in September 2030. If the residual at the trough turns out to be <b>shallower than −0.24 dex</b> — that is, outside the entire historical corridor in which the four previous troughs stood — panic has begun to fade in the wake of euphoria. This is direct evidence, and it will arrive by itself, at a known date, without any interpretation.</p>
+  <p>A trough in the familiar corridor means the opposite: only euphoria was fading, the mechanism of the cycle remained human, the panic slider must be set to zero and one must live with the red indicator as an honestly recorded anomaly.</p>
+</div>
+
+<h3>β: not for tuning</h3>
+<p>The only substantive objection to the value 1.897 is that institutional custody thins the graph of connections between participants and ought to shift the scaling towards n log n. The objection is correct by mechanism and refuted by the data: move the slider and look at the miss counter. The range within which the fit holds is very narrow, and that is the answer.</p>
+
+<h3>Four ready-made scenarios</h3>
+<p>The buttons above the chart set all four sliders at once. The values are computed at β = 1.897.</p>
+<table>
+ <thead><tr><th>Scenario</th><th>Owner ceiling</th><th>Euphoria decay</th><th>Panic decay</th><th>Plateau</th><th>H5 peak, Oct 2029</th><th>H5 trough, Sep 2030</th><th>H5 drawdown</th></tr></thead>
+ <tbody>
+  <tr><td>Cycle faded</td><td class="num">1800</td><td class="num">0.00</td><td class="num">1.00</td><td class="num">$812k</td><td class="num">$386k</td><td class="num">$292k</td><td class="num">24%</td></tr>
+  <tr><td>Quiet cycle <span class="pill ok">base</span></td><td class="num">1610</td><td class="num">0.00</td><td class="num">0.50</td><td class="num">$657k</td><td class="num">$377k</td><td class="num">$225k</td><td class="num">40%</td></tr>
+  <tr><td>Cycle returns</td><td class="num">1350</td><td class="num">0.50</td><td class="num">0.25</td><td class="num">$470k</td><td class="num">$427k</td><td class="num">$178k</td><td class="num">58%</td></tr>
+  <tr><td>Cycle never broke</td><td class="num">1150</td><td class="num">1.00</td><td class="num">0.00</td><td class="num">$347k</td><td class="num">$458k</td><td class="num">$133k</td><td class="num">71%</td></tr>
+ </tbody>
+</table>
+
+<h3>What each of them describes</h3>
+<p>The names answer a single question: <em>what does the four-year cycle look like by 2030</em>. Price here follows from the answer rather than setting it.</p>
+<table class="expl">
+ <tr><td class="n"><b>Cycle<br>faded</b></td><td>Both phases have almost disappeared. A 24% drawdown — like a large technology stock rather than like a cryptocurrency. The number of owners is the highest, a third of adults, mostly through funds. Requires a shared trustworthy source of information among participants — a publicly available AI, for instance: the heterogeneity of beliefs out of which the bottom is assembled stops coming together.</td></tr>
+ <tr><td class="n"><b>Quiet<br>cycle</b></td><td>Euphoria has gone irreversibly, panic fades with a lag. The H5 trough at −0.28 dex, at the shallow edge of the historical corridor. A 40% drawdown — a bad year on the stock market rather than a crypto crash. The direct reading of the data plus the requirement of coherence: the cause that killed the top is obliged to reach the bottom as well.</td></tr>
+ <tr><td class="n"><b>Cycle<br>returns</b></td><td>H4 was partly a fluke. Euphoria comes back halfway, panic is almost untouched. The peak is higher than in the “quiet cycle” — $427k — but so is the drawdown at 58%. A position for those who bet neither on the irreversibility of the decay nor on a full return of the amplitude.</td></tr>
+ <tr><td class="n"><b>Cycle never<br>broke</b></td><td>Nothing changed in the market itself, the break in H4 was a ripple. All this time the decay proceeded at an even step, and peak height returns to the H1–H3 line — not to the former values, but to the former rate of decline. The highest peak of the four and the lowest trough, a 71% drawdown — comparable to the 78% of H3. Bitcoin remains a cyclical speculative asset.</td></tr>
+</table>
+
+<h3>Why the base is the “Quiet cycle”</h3>
+<p>Of the four scenarios the second button from the left is chosen as the base, and the page opens on it by default. The justification comes in two parts, because the two decay sliders rest on different amounts of evidence.</p>
+<p><b>Euphoria — zero, and this is the direct reading of the data.</b> The peaks above the trend fell monotonically for four cycles in a row, and the last one collapsed into a cliff. To put the slider further right you have to declare H4 a fluke, and there is no independent evidence of that. There is nowhere further left to put it.</p>
+<p><b>Panic — a half, and this is no longer data but a requirement of coherence.</b> The direct reading of the data would put it at zero: the four troughs stand level, with no trend. But zero on this slider together with zero on the upper one amounts to the claim “the cause that killed euphoria acts exactly halfway”, and there is nothing to justify it with. Any cause — a change in the composition of holders, institutional custody, the availability of trustworthy information — is by mechanism obliged to reach the bottom as well, merely with a lag: the top is formed among arriving participants, the bottom among those who stay, and the composition of the latter changes more slowly. A half is an acknowledgement that the process is under way, combined with a refusal to guess how far it has gone.</p>
+<p>A ceiling of 1610 M owners follows from the same premise: if institutionalisation has gone far enough to kill euphoria, it has also removed the barrier to entry and moved a significant part of holding to custodians.</p>
+<p>The weak point of the base scenario is named directly: <b>the panic slider is not supported by a single observation.</b> It stands at 0.50 out of considerations of mechanical coherence rather than out of data, and the first real evidence will arrive in September 2030.</p>
+
+<h3>Why the scenarios stand in this order</h3>
+<p>The four scenarios are four points on <b>a single axis</b>. The axis answers one question: <em>how irreversibly bitcoin has stopped being a speculative asset</em>. Maturity on the left, speculation on the right.</p>
+<p>All four sliders move along this axis in concert, and beneath every coupling stands one and the same mechanism. Institutional custody damps euphoria because it changes the composition of buyers. It also raises the owner ceiling because it removes the barrier to entry: the lion's share of people do not own an asset of this class not for lack of interest, but because of the broker, literacy and trust in the procedure. One process — both consequences.</p>
+<p>Hence monotonicity down both columns at once:</p>
+<table class="expl">
+ <tr><td class="n"><b>Plateau</b></td><td>$812k → $657k → $470k → $347k. The more mature the asset, the wider the terminal ownership and the higher the level of saturation.</td></tr>
+ <tr><td class="n"><b>Drawdown</b></td><td>24% → 40% → 58% → 71%. An obvious increase in speculativeness.</td></tr>
+</table>
+<p>The column of peaks does not obey monotonicity, and this is not a bug. The H5 peak runs $386k → $377k → $427k → $458k, that is, <b>it is higher in the scenarios that are more optimistic by mechanism and more pessimistic in substance</b>. The reason is that the peak is the product of two quantities moving towards each other: the plateau falls to the right, the amplitude of euphoria grows to the right, and on the 2029 horizon the second outweighs, because saturation has barely engaged. This should be read as follows: <em>a high peak in 2029 is not good news but a sign that the cycle is alive and that the peak will be followed by the customary crash</em>. In the “Cycle never broke” scenario the peak is a fifth higher and the trough twice as low.</p>
+<p>And hence, too, the way to use the buttons. They are not “optimistic — base — pessimistic”: by the price in 2035 the left edge is optimistic, by the price in October 2029 the right edge is. The choice between them is a choice of hypothesis about what happened to the market, not a choice of a desired number.</p>
+
+<h2 id="objections">Objections I expect, and what I concede</h2>
+<div class="obj">
+
+<h3>A power law fits anything on log-log axes.</h3>
+<p class="verdict">Partially answered</p>
+<p>Fair as a general warning, and for that reason the exponent was never fitted to price. It is derived from two separately measured quantities: the number of addresses against time (3) and value against the number of addresses (1.897). Layer 1 carries two free numbers in total, set against 194 monthly points across six orders of magnitude. The useful check looks at the structure of the residual; goodness of fit decides little here. The residual does have structure: humps tied to the halvings, decreasing monotonically. Fitting artefacts do not produce those.</p>
+<p>The question would be closed by falsification criterion 5: the residual leaves ±0.5 dex and does not return for two years. The criterion is set for use — if it fires the model is thrown out, and recalibration would be cheating.</p>
+
+<h3>You are modelling the single asset that happened to survive.</h3>
+<p class="verdict cede">Conceded, there is no answer inside the model</p>
+<p>The strongest objection on the list, and I have nothing to set against it. Every network that died also had an early growth phase resembling a power law, and curves are fitted only to the survivor. The model is <em>conditional</em> by construction: it describes bitcoin under the persistence of the current regime and assigns no probability to that regime ending. Read as an unconditional expectation, it misleads. Read as “if the adoption mechanism holds, the shape looks like this”, it works, with the probability of the premise supplied from outside.</p>
+
+<h3>The four-year cycle is dead, everyone knows this already.</h3>
+<p class="verdict">Half agreed, and with a number</p>
+<p>The model agrees more than it argues, and puts a number under the agreement: H4 rose 0.06 dex above the trend against 1.03 for H1. The euphoric top died. The other two parts of the cycle outlived it. The timing held — 18 months to the peak, the same as H3. And the bottom did not fade at all: the troughs of the four cycles stand at −0.28, −0.24, −0.38, −0.37 dex, with no trend whatsoever. The formula “the cycle is dead” lumps three different things into one. One of them is gone, the other two remain.</p>
+
+<h3>You calibrated the H4 trough on June 2026 and then declared that the model converges.</h3>
+<p class="verdict">Conceded, flagged on the spot</p>
+<p>Yes. The lower node of H4 is taken from the observed minimum of $57,950, so the agreement there is tautological and checks nothing. The table of cycles states this directly on the spot, without burying it in notes. Falsification criterion 1 exists for the same reason: if price settles below $58,000, the node was not a trough, and the amplitude calibration on which everything further depends falls apart. Put plainly: the amplitude of H4 is a measurement, and all the predictive content of the model begins with H5.</p>
+
+<h3>Addresses are not users. Your ceiling measures the wrong thing.</h3>
+<p class="verdict cede">Conceded — the weakest link</p>
+<p>The objection was correct for the first version of the model (see below), and it took the form of a rebuild. The plateau is no longer counted in addresses: it is taken directly from the number of owners, <code>657,000 · (W / 1610)<sup>β</sup></code>, and the number of addresses has been removed from the calculation altogether.</p>
+<p>The inconvenient part, which has not gone anywhere: <em>the very same institutionalisation by which the decay of the cycles is explained simultaneously breaks the measuring instrument</em>. One process produces both effects. The difference is that the model no longer leans on a shrinking instrument: the decay of the cycles and the level of the plateau have stopped depending on one and the same breaking quantity.</p>
+<p class="verdict">Still open: the estimate of the number of owners is itself poorly measured. 106 M is a digest of industry estimates, not a census.</p>
+
+<h3>Where does Metcalfe's 1.897 come from? Looks fitted after the fact.</h3>
+<p class="verdict">Answered, with a caveat about sensitivity</p>
+<p>The value comes from Santostasi &amp; Perrenod (2026), where it is derived from tests of scale invariance and not chosen for the beauty of the chart. It is neither the textbook Metcalfe n² nor Odlyzko's n log n. The exponent enters the calculation twice — through the growth exponent 3β and through the level of saturation — and in the first version this sensitivity was nowhere displayed. Now it is: β is brought out into a slider, and the miss counter above the chart counts the months outside the ±0.5 dex band. The check works both ways. It confirms that 1.897 is computed sensibly, and it also shows how narrow the admissible corridor is.</p>
+
+<h3>There are no confidence intervals here. This is a line, not a forecast.</h3>
+<p class="verdict">Partially conceded</p>
+<p>The blue band sweeps the ceiling ±40%, carries no statistical content, and the page labels it exactly that way. The historical monthly scatter around the central path is about 0.30 dex (1σ), so an honest 1σ envelope for any individual month would be roughly four times as wide and by the 2030s would completely swallow the ceiling band. Showing the scatter from a parameter rather than from variance was a deliberate choice: with an estimate of the ceiling the reader can argue, with variance he can do almost nothing.</p>
+
+<h3>$380k in 2029 is absurdly little / absurdly much.</h3>
+<p class="verdict">Depends on which half you dispute</p>
+<p>These two claims are worth separating, because the model answers them differently. The 2029 peak falls in the confident half: from $377k to $458k across all four scenarios, since saturation has barely engaged on such a term, and the whole spread comes from the euphoria slider rather than from the owner ceiling; to dispute the figure means to dispute the power law itself. The 2030s make up the fragile half: the same four scenarios give a plateau from $347k to $812k, and the ceiling can reasonably be disputed beyond that range in either direction. Disagreement about 2035 is cheap and expected. Disagreement about 2029 requires an argument about the exponent.</p>
+
+<h3>The sentiment-phase story is unfalsifiable hand-waving.</h3>
+<p class="verdict">Partially conceded</p>
+<p>The mechanism justifies the shape of the cycle, but the shape itself is calibrated on observed timings and amplitudes and would look exactly the same had the original explanation been purely mechanical. The narrative layer thus does interpretive work; take it out and the model will compute exactly the same numbers. What the story buys is a ground for expecting decay at all: as the heterogeneity of beliefs at the trough declines together with the growth of institutional participation, reassembly around a single narrative weakens. This is a directional prediction specifically about euphoria, and euphoria is what collapsed. No more than a suggestive consideration, carried down into the limits below.</p>
+
+</div>
+
+<h2 id="falsify">What could falsify this</h2>
+<p>Five conditions, from the nearest to the most distant:</p>
+<table class="expl">
+ <tr><td class="n"><b>1</b></td><td>Price settles below $58,000. Then late June 2026 was not the trough of the cycle, and with it the lower node of H4 falls apart — the very node by which the amplitude of the decay is set. Testable in the coming months. <span class="pill ok">now $64k</span></td></tr>
+ <tr><td class="n"><b>2</b></td><td>The drawdown of the current cycle deeper than 70% from the October 2025 peak, that is, a move below ≈$37,900. The shallowest collapse of previous cycles is 78% in H3, so at 70% H4 stops differing from them qualitatively and the whole extrapolation of the decay loses its footing: it is held up in essence by a single observation. <span class="pill ok">now 54%</span></td></tr>
+ <tr><td class="n"><b>3</b></td><td>The residual at the H5 trough shallower than −0.24 dex, that is, outside the entire historical corridor of the four previous troughs. Not a falsification but a switch: panic has faded in the wake of euphoria, the panic slider goes to the right, the mechanism of the cycle has ceased to be purely human. September 2030.</td></tr>
+ <tr><td class="n"><b>4</b></td><td>The drawdown of cycle H5 deeper than 60% at zero euphoria decay. Rejects irreversible decay in favour of a temporary collapse. At the base ceiling, euphoria decay 0 and panic decay 1 the model gives 26%; at the reverse arrangement — 68%.</td></tr>
+ <tr><td class="n"><b>5</b></td><td>The residual log₁₀(observed / trend) leaves ±0.5 dex and does not return for more than two years in a row. It would mean that the power-law regime is broken and the model cannot be applied at all. In the whole history the longest excursion beyond this band lasted five months — the winter of 2013/14. <span class="pill ok">never fired</span></td></tr>
+</table>
+<div class="aside">
+  <div class="t">Where the threshold in the second condition comes from</div>
+  <p>The threshold is set by the history of drawdowns, without any love for round numbers. H1, H2 and H3 fell by 85, 84 and 78 per cent; H4 stands today at 54. Twenty-four points separate it from the shallowest of the earlier cycles, and it is exactly this margin that fills the claim “H4 is built differently” with content. A threshold of 70% leaves a small gap: below it a formal difference still remains, but there is no longer anything with which to explain it.</p>
+</div>
+
+<h2 id="limits">What the model does not do</h2>
+<p>It does not predict the price of a particular month. The scatter around the central line within a year is comparable to the line itself, and an attempt to read it as “in March it will be such-and-such” is an abuse.</p>
+<p>It does not account for discontinuities: regulatory bans in major jurisdictions, cryptographic threats, macro shocks. All three layers describe the behaviour of a system remaining in the current regime.</p>
+<p>It does not distinguish cause from effect in the sentiment-phase mechanism. The observed link between the heterogeneity of beliefs and reversals is real, but it remains an empirical regularity with no proven mechanism beneath it.</p>
+<p>It does not model the supply side at all — lost coins, the behaviour of long-term holders, exchange balances, mining economics. Everything connected with supply is implicitly folded into the two fitted constants of the first layer.</p>
+<div class="aside">
+  <div class="t">And the main thing it does not do</div>
+  <p>The plateau is tied to a structure of world wealth recognisably similar to today's: the scale of the ceiling is read through a share of the value of all the gold ever mined. The cycles assume a market of human participants with heterogeneous beliefs, operating up to 2040. Both premises are a bet that <b>no transformative technological discontinuities occur within the horizon of the model</b>.</p>
+  <p>The premise is nowhere set as a parameter, but it is stronger than the exponent β and stronger than the estimate of the ceiling: an error in those moves the numbers, while an error in this one cancels applicability itself. The panic decay slider is the only place on this page where it becomes observable, because a shared trustworthy source of information for all participants at once — a strong publicly available AI, for instance — is exactly the discontinuity that would give itself away through a decay of the bottom.</p>
+</div>
+
+<h2 id="diff">What changed relative to the first version</h2>
+<p>The <a href="https://vrooms.to/btc_old.html">original model</a> was published in April 2026 and gave a single number: a plateau of about $565,000 by the mid-2030s. Its calibration started from a spot price of $74,500, already out of date by August. Here the model has been rebuilt in three places.</p>
+<table class="cmp">
+ <thead><tr><th>What</th><th>Was</th><th>Now</th></tr></thead>
+ <tbody>
+  <tr><td>Plateau</td><td>A single number, $565k</td><td>A range set by the audience ceiling</td></tr>
+  <tr><td>Ceiling</td><td>A fixed 800 M addresses</td><td>The number of owners, 700–3200 M</td></tr>
+  <tr><td>Addresses</td><td>The basis of the plateau calculation</td><td>Removed from the calculation</td></tr>
+  <tr><td>Cycles H5–H8</td><td>A single decay trajectory</td><td>Two independent decays: euphoria and panic</td></tr>
+  <tr><td>Metcalfe β</td><td>A hidden constant</td><td>A slider with a live miss counter</td></tr>
+  <tr><td>Resolution</td><td>Phases of several months</td><td>Monthly, 372 points</td></tr>
+  <tr><td>Diagnostics</td><td>None</td><td>Two indicators checking the reader's settings</td></tr>
+  <tr><td>Falsification criteria</td><td>None</td><td>Five, including the panic decay marker</td></tr>
+  <tr><td>Testability</td><td>A forecast to 2035</td><td>An explicit boundary between observation and forecast, history overlaid from 2010</td></tr>
+ </tbody>
+</table>
+<p>The rebuild aimed at the <strong>form of the result</strong>. The central path barely moved: the geometric centre of the ceiling range gives a plateau of $657k against the original $565k, a difference of 16%. In place of a point forecast there is now a claim with its uncertainty marked out and with an indication of exactly which measurement would narrow that uncertainty.</p>
+<p>Two conceptual problems were fixed along the way. The first: addresses served as a measure of the size of the network, whereas the link between addresses and living people is breaking down — 106 M owners correspond to about 57 M non-zero addresses, and the ratio is falling as custodial services and exchange-traded funds grow. Now the plateau is computed from owners, and addresses have been removed from the calculation.</p>
+<p>The second: the cycle was described by a single number with a fixed distribution between top and bottom. In the data these are two different sequences — the peaks fall monotonically, the troughs stand level — and reducing them to one parameter erased the only substantive signal. Now they are separated, and their compatibility is brought out by a separate indicator, because one of the combinations is internally contradictory while looking normal by the numbers.</p>
+
+<h2 id="repro">How to reproduce this</h2>
+<p>The model takes about forty lines of JavaScript in the source of the page, with no dependencies apart from Chart.js for drawing. The page is static: everything is computed in the browser, not a single request goes outside. To check or extend it:</p>
+<ul class="tight">
+  <li><code>pure(t, β)</code> — the power law with recalibration through a pivot point at day 2971 from genesis</li>
+  <li><code>sat(p, L)</code> — the saturation envelope, <code>p·L / (p³ + L³)^⅓</code></li>
+  <li><code>plateau(W, β)</code> — <code>657000 · (W/1610)^β</code>, the level of the plateau from the number of owners</li>
+  <li><code>amps(de, dp)</code> — the separate projection of peak and trough amplitudes onto H5–H8; euphoria is interpolated between 0.030 and 0.207 dex, panic is divided by <code>1 − 0.5·dp</code> each cycle</li>
+  <li><code>tieState(de, dp)</code> — the compatibility state of the two decays</li>
+  <li><code>EPOCHS</code> — the table of halvings with per-epoch amplitudes <code>a</code> (peak, dex above trend) and <code>b</code> (trough, dex below trend)</li>
+  <li><code>modAt(i, A)</code> — the cycle overlay, cosine interpolation between the halving, the peak, the trough and the next halving</li>
+  <li><code>OBS</code> — the observed monthly series since July 2010</li>
+</ul>
+<p>The <code>OBS</code> array contains approximate monthly closes compiled from public sources. For the shape of the residual this is enough; for anything requiring precision it is not — before any serious use replace it with a verified series from a single consistent source.</p>
+
+<footer>
+  <p><strong>Data.</strong> Observed values are approximate monthly closes compiled from public sources; the last value of the series is early August 2026. The page is static: the model part is computed entirely in the browser, there are no external requests, the only dependency is Chart.js.</p>
+  <p><strong>Sources.</strong></p>
+  <ul class="srcs">
+    <li>Santostasi, G. &amp; Perrenod, S. (2026). <em>A Mechanistic Derivation of the Bitcoin Price Power Law: Network Adoption Dynamics and Generalised Metcalfe Scaling.</em> Zenodo. DOI: <a href="https://doi.org/10.5281/zenodo.19387099">10.5281/zenodo.19387099</a> — the power law, the exponents 3 and 1.897, tests of scale invariance.</li>
+    <li>Brause, D. (2026). <em>The Information Coherence Hypothesis: A Unified Informational Framework for Reality, Consciousness, and Meaning.</em> Zenodo. DOI: <a href="https://doi.org/10.5281/zenodo.18812955">10.5281/zenodo.18812955</a> — the framework within which the sentiment-phase mechanism is interpreted: the trough as a maximum of belief differentiation, the peak as fragile pseudo-integration.</li>
+    <li>The first version of the model, April 2026: <a href="https://vrooms.to/btc_old.html">vrooms.to/btc_old.html</a>.</li>
+  </ul>
+  <p style="margin-top:14px"><strong>Disclaimer.</strong> An analytical model, not investment advice. The forecast assumes the persistence of the power-law regime and the absence of structural breaks in the adoption mechanism.</p>
+</footer>
+
+</div>
+
+<script src="chart.umd.js"></script>
+<script>
+const OBS_START=[2010,7];
+const OBS=[0.06,0.06,0.06,0.20,0.28,0.30,
+0.30,0.95,0.79,3.30,8.60,16.90,13.30,8.20,5.10,3.20,3.00,4.70,
+5.60,4.90,4.90,5.10,5.20,6.70,9.50,10.30,12.40,11.20,12.40,13.50,
+20.40,33.50,93.00,139.00,128.00,97.50,106.00,129.00,137.00,205.00,1120.00,754.00,
+830,555,465,456,622,641,587,505,386,338,378,320,
+217,254,244,236,230,263,285,230,236,314,377,430,
+369,437,416,448,531,673,625,575,609,700,745,963,
+970,1190,1080,1350,2300,2480,2875,4735,4340,6470,9950,14156,
+10240,10400,6930,9240,7490,6400,7730,7040,6620,6350,4020,3742,
+3450,3820,4100,5320,8560,10800,10080,9600,8290,9200,7550,7193,
+9380,8560,6440,8630,9460,9140,11330,11650,10780,13800,19700,28990,
+33100,45200,58800,57800,37300,35000,41500,47100,43800,61300,57000,46300,
+38500,43200,45500,37700,31800,19900,23300,20050,19400,20500,17150,16540,
+23100,23150,28450,29250,27200,30480,29230,25930,26970,34670,37720,42280,
+42580,61150,71330,60640,67500,62680,64620,58970,63330,70200,96450,93430,
+102400,84400,82500,94200,104600,107200,115800,108500,114000,110500,91000,88000,
+82000,76500,79000,74500,75000,60000,63600,63500];
+
+const GEN=Date.UTC(2009,0,3), DAY=864e5;
+const EPOCHS=[
+ {n:'H0',h:[2009,1],pk:[2011,6],tr:[2011,11],a:0.96,b:-0.19,obs:1},
+ {n:'H1',h:[2012,11],pk:[2013,12],tr:[2015,1],a:1.03,b:-0.28,obs:1},
+ {n:'H2',h:[2016,7],pk:[2017,12],tr:[2018,12],a:0.81,b:-0.24,obs:1},
+ {n:'H3',h:[2020,5],pk:[2021,11],tr:[2022,11],a:0.46,b:-0.38,obs:1},
+ {n:'H4',h:[2024,4],pk:[2025,10],tr:[2026,6],a:0.06,b:-0.37,obs:1},
+ {n:'H5',h:[2028,4],pk:[2029,10],tr:[2030,9],obs:0,i:0},
+ {n:'H6',h:[2032,4],pk:[2033,10],tr:[2034,9],obs:0,i:1},
+ {n:'H7',h:[2036,4],pk:[2037,10],tr:[2038,9],obs:0,i:2},
+ {n:'H8',h:[2040,4],pk:[2041,10],tr:[2042,9],obs:0,i:3}];
+const ATH=126198, H4LOW=57950, DD_LIMIT=70, RES_BAND=0.5;
+
+const months=[];
+for(let y=2010;y<=2040;y++)for(let m=1;m<=12;m++)months.push([y,m]);
+const labels=months.map(([y,m])=>y+'-'+String(m).padStart(2,'0'));
+const ms=months.map(([y,m])=>Date.UTC(y,m-1,15));
+const idx=(a)=>months.findIndex(([y,m])=>y===a[0]&&m===a[1]);
+const mnum=(a)=>a[0]*12+a[1];
+
+const T_PIV=2971, LOGP_PIV=-16.509+5.69*Math.log10(T_PIV);
+function pure(t,b){const q=3*b,A=LOGP_PIV-q*Math.log10(T_PIV);return Math.pow(10,A+q*Math.log10((t-GEN)/DAY));}
+function sat(p,L){return p*L/Math.cbrt(p*p*p+L*L*L);}
+function plateau(W,b){return 657000*Math.pow(W/1610,b);}
+function ss(x){return .5-.5*Math.cos(Math.PI*Math.min(Math.max(x,0),1));}
+
+const A_STR=0.030, A_MAC=0.207, B4=0.37;
+function amps(de,dp){
+  const rA=0.50+0.17*de, rB=1-0.5*dp;
+  const f=[];
+  for(let i=0;i<4;i++)f.push(i? {a:f[i-1].a*rA, b:f[i-1].b*rB}
+                             : {a:A_STR+de*(A_MAC-A_STR), b:B4*rB});
+  return EPOCHS.map(e=> e.obs? {a:e.a,b:e.b} : {a:f[e.i].a, b:-f[e.i].b});
+}
+function modAt(mi,A){
+  const cur=mnum(months[mi]);
+  let k=-1;
+  for(let i=0;i<EPOCHS.length;i++)if(cur>=mnum(EPOCHS[i].h))k=i;
+  if(k<0)return 0;
+  const e=EPOCHS[k],{a,b}=A[k];
+  const h=mnum(e.h),p=mnum(e.pk),t=mnum(e.tr);
+  const nx=k+1<EPOCHS.length?mnum(EPOCHS[k+1].h):h+48;
+  if(cur<=p)return a*ss((cur-h)/(p-h));
+  if(cur<=t)return a+(b-a)*ss((cur-p)/(t-p));
+  return b+(0-b)*ss((cur-t)/Math.max(nx-t,1));
+}
+
+const el=id=>document.getElementById(id);
+const fmt=v=>v>=1000?'$'+Math.round(v/1000).toLocaleString('en-US')+'k':'$'+(v>=1?v.toFixed(0):v.toFixed(2));
+const sig=(v,n)=>{const e=Math.pow(10,Math.floor(Math.log10(Math.abs(v)))-n+1);return Math.round(v/e)*e;};
+const fmtP=v=>v==null?'—':(v<100?'$'+v.toFixed(2):'$'+sig(v,3).toLocaleString('en-US'));
+const SIGMA=0.30;
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const mlab=a=>MON[a[1]-1]+' '+a[0];
+
+const epochPlugin={id:'ep',beforeDatasetsDraw(c){
+  const{ctx,chartArea:ca,scales:{x}}=c;if(!ca)return;ctx.save();
+  const st=getComputedStyle(document.documentElement);
+  ctx.fillStyle=st.getPropertyValue('--epoch');
+  EPOCHS.forEach((e,i)=>{
+    if(i%2)return;
+    const s=idx(e.h),n=i+1<EPOCHS.length?idx(EPOCHS[i+1].h):months.length-1;
+    if(s<0)return;const x0=x.getPixelForValue(s),x1=x.getPixelForValue(n<0?months.length-1:n);
+    ctx.fillRect(x0,ca.top,x1-x0,ca.bottom-ca.top);
+  });
+  if(c.canvas.id==='main'){
+    ctx.fillStyle=st.getPropertyValue('--ink-3');ctx.font='500 10px IBM Plex Mono, monospace';ctx.textAlign='center';
+    EPOCHS.forEach((e,i)=>{const s=idx(e.h),n=i+1<EPOCHS.length?idx(EPOCHS[i+1].h):months.length-1;
+      if(s<0)return;const x0=x.getPixelForValue(s),x1=x.getPixelForValue(n<0?months.length-1:n);
+      if(x1-x0>26)ctx.fillText(e.n,(x0+x1)/2,ca.top+12);});
+  }
+  ctx.restore();
+}};
+
+let FC=0;
+const forecastPlugin={id:'fc',afterDatasetsDraw(c){
+  const{ctx,chartArea:ca,scales:{x}}=c;if(!ca)return;ctx.save();
+  const st=getComputedStyle(document.documentElement);
+  const px=x.getPixelForValue(FC);
+  ctx.strokeStyle=st.getPropertyValue('--ink-2');ctx.lineWidth=1;ctx.setLineDash([2,3]);
+  ctx.beginPath();ctx.moveTo(px,ca.top);ctx.lineTo(px,ca.bottom);ctx.stroke();ctx.setLineDash([]);
+  if(c.canvas.id==='main'){
+    ctx.font='500 10px IBM Plex Mono, monospace';
+    ctx.fillStyle=st.getPropertyValue('--ink-2');ctx.textAlign='left';
+    ctx.fillText('forecast →',px+6,ca.bottom-8);
+    ctx.textAlign='right';ctx.fillText('observed ←',px-6,ca.bottom-8);
+  }
+  ctx.restore();
+}};
+
+const bandPlugin={id:'bd',beforeDatasetsDraw(c){
+  const{ctx,chartArea:ca,scales:{y}}=c;if(!ca)return;ctx.save();
+  const st=getComputedStyle(document.documentElement);
+  ctx.strokeStyle=st.getPropertyValue('--ink-3');ctx.lineWidth=1;ctx.globalAlpha=.55;ctx.setLineDash([1,4]);
+  [RES_BAND,-RES_BAND].forEach(v=>{const py=y.getPixelForValue(v);
+    ctx.beginPath();ctx.moveTo(ca.left,py);ctx.lineTo(ca.right,py);ctx.stroke();});
+  ctx.setLineDash([]);ctx.globalAlpha=1;
+  ctx.strokeStyle=st.getPropertyValue('--rule');
+  const p0=y.getPixelForValue(0);
+  ctx.beginPath();ctx.moveTo(ca.left,p0);ctx.lineTo(ca.right,p0);ctx.stroke();
+  ctx.restore();
+}};
+
+const cs=()=>{const s=getComputedStyle(document.documentElement);return{
+ rule:s.getPropertyValue('--rule-soft').trim(),ax:s.getPropertyValue('--rule').trim(),
+ m3:s.getPropertyValue('--ink-3').trim(),obs:s.getPropertyValue('--obs').trim(),
+ mdl:s.getPropertyValue('--mdl').trim(),band:s.getPropertyValue('--band').trim(),
+ pos:s.getPropertyValue('--pos').trim(),neg:s.getPropertyValue('--neg').trim()};};
+const C=cs();
+
+const obsSeries=months.map((mm,i)=>{
+  const j=(mm[0]*12+mm[1])-(OBS_START[0]*12+OBS_START[1]);
+  return j>=0&&j<OBS.length?OBS[j]:null;});
+
+let NFC=0,NLAB=[];
+const nearPlugin={id:'nr',afterDatasetsDraw(c){
+  const{ctx,chartArea:ca,scales:{x,y}}=c;if(!ca)return;
+  const st=getComputedStyle(document.documentElement);ctx.save();
+  const px=x.getPixelForValue(NFC);
+  ctx.strokeStyle=st.getPropertyValue('--ink-2');ctx.lineWidth=1;ctx.setLineDash([2,3]);
+  ctx.beginPath();ctx.moveTo(px,ca.top);ctx.lineTo(px,ca.bottom);ctx.stroke();ctx.setLineDash([]);
+  ctx.font="500 10px 'IBM Plex Mono',monospace";ctx.fillStyle=st.getPropertyValue('--ink-2');
+  ctx.textAlign='right';ctx.fillText('now',px-6,ca.bottom-8);
+  const ds=c.data.datasets[2].data;
+  ctx.font="500 11.5px 'IBM Plex Mono',monospace";ctx.textAlign='center';
+  NLAB.forEach(i=>{
+    const v=ds[i];if(v==null)return;
+    const gx=x.getPixelForValue(i),gy=y.getPixelForValue(v);
+    const t=fmt(v),w=ctx.measureText(t).width+13;
+    const bx=Math.max(ca.left+1,Math.min(gx-w/2,ca.right-w-1));
+    const by=Math.max(ca.top+1,gy-28);
+    ctx.fillStyle=st.getPropertyValue('--panel');ctx.strokeStyle=st.getPropertyValue('--rule');
+    ctx.lineWidth=1;ctx.beginPath();ctx.rect(bx,by,w,19);ctx.fill();ctx.stroke();
+    ctx.fillStyle=st.getPropertyValue('--ink');ctx.fillText(t,bx+w/2,by+13.5);
+    ctx.fillStyle=st.getPropertyValue('--mdl');
+    ctx.beginPath();ctx.arc(gx,gy,3.2,0,Math.PI*2);ctx.fill();
+  });
+  ctx.restore();
+}};
+
+function tieState(de,dp){
+  const b5=(B4*(1-0.5*dp)).toFixed(2);
+  if(de<0.25&&dp<0.25) return {cls:'',s:'Inconsistent',
+    n:'The top fades irreversibly, the bottom does not fade at all — there is no mechanism under such a pair.',
+    t:'Euphoria fades irreversibly, panic does not fade at all. The irreversible disappearance of the top requires an explanation, and any explanation — a change in the composition of holders, institutional custody — is obliged to touch the bottom as well. The combination is admissible as an honestly recorded anomaly, but there is no story of its own beneath it.'};
+  if(de<0.35&&dp<0.75) return {cls:'ok',s:'Consistent · the shift has begun',
+    n:'The bottom follows the top with a lag. The H5 trough at −'+b5+' dex, still inside the historical corridor.',
+    t:'The top fades irreversibly, the bottom follows it with a lag. It reads as follows: euphoria is formed among arriving participants, panic among those who stay, and the composition of the latter changes more slowly. The H5 trough comes out at −'+b5+' dex, still inside the historical corridor −0.24…−0.38.'};
+  if(de<0.35) return {cls:'ok',s:'Consistent · full shift',
+    n:'Both phases fade in step. The H5 trough at −'+b5+' dex — shallower than anything ever observed.',
+    t:'Both phases fade in step. The heterogeneity of beliefs at the trough declines, because participants rely on a shared trustworthy source rather than on their own scattered reasons for scepticism. The H5 trough goes to −'+b5+' dex — shallower than anything ever observed.'};
+  if(de>0.85&&dp<0.3) return {cls:'ok',s:'Consistent · the amplitude will return',
+    n:'H4 was a fluke, peak height returns to the H1–H3 line.',
+    t:'Euphoria returns to the H1–H3 line, panic has not changed. H4 was a fluke, the mechanism of the cycle remained human, and peak height will return along with a change in the environment around the market.'};
+  if(dp<0.3) return {cls:'mid',s:'Mixed · the decay has slowed',
+    n:'Euphoria fades more slowly than the H4 cliff, panic stands still. A story is needed about why the decay stopped here.',
+    t:'Euphoria fades, but more slowly than the H4 cliff; panic stands still. A cautious middle: the H5 swing is close to the H4 swing rather than half of it. Requires a story about why the decay stopped exactly here.'};
+  return {cls:'mid',s:'Mixed',
+    n:'The top and the bottom fade at different rates — neither of the two ready-made stories explains this.',
+    t:'The top and the bottom fade at different rates, and neither of the two ready-made stories — institutionalisation or an epistemic shift — explains this combination fully. Admissible, but it needs a separate justification.'};
+}
+
+let main,res,near;
+function build(){
+  const W=+el('k').value,de=+el('de').value,dp=+el('dp').value,B=+el('mb').value;
+  const L=plateau(W,B),Llo=plateau(W*0.6,B),Lhi=plateau(W*1.4,B),A=amps(de,dp);
+  const trend=[],mid=[],lo=[],hi=[],resid=[],residM=[];
+  for(let i=0;i<months.length;i++){
+    const p=pure(ms[i],B),tr=sat(p,L),f=Math.pow(10,modAt(i,A));
+    trend.push(tr);mid.push(tr*f);lo.push(sat(p,Llo)*f);hi.push(sat(p,Lhi)*f);
+    residM.push(Math.log10(f));
+    resid.push(obsSeries[i]!=null?Math.log10(obsSeries[i]/tr):null);
+  }
+  el('kv').textContent=W;el('dev').textContent=de.toFixed(2);el('dpv').textContent=dp.toFixed(2);
+  el('mbv').textContent=B.toFixed(3);
+  const offB=Math.abs(B-1.897)>5e-4;
+  el('ctl-mb').className='ctl'+(offB?' off':'');
+  el('mbmark').textContent=offB
+    ?'shifted by '+(B>1.897?'+':'\u2212')+Math.abs(B-1.897).toFixed(3)
+    :'measured value';
+  el('a5v').textContent=A[5].a.toFixed(2);el('b5v').textContent=Math.abs(A[5].b).toFixed(2);
+  el('plat').textContent=Math.round(L/1000).toLocaleString('en-US');
+  el('s-pl').textContent=fmt(L);
+
+  const bad=resid.filter(v=>v!=null&&Math.abs(v)>RES_BAND).length;
+  const nobsv=resid.filter(v=>v!=null).length;
+  el('g-fit').textContent=bad+' of '+nobsv+' outside \u00b10.5 dex';
+  el('g-fit').className='v '+(bad<=15?'ok':bad<=20?'mid':'bad');
+
+
+  const T=tieState(de,dp);
+  el('tie').className='tie'+(T.cls?' '+T.cls:'');
+  el('ties').textContent=T.s;el('tiet').textContent=T.t;el('tien').textContent=T.n;
+
+  const now=obsSeries.map((v,i)=>v!=null?i:-1).filter(i=>i>=0).pop();
+  FC=now;
+  el('s-spot').textContent=fmt(OBS[OBS.length-1]);
+  el('s-tr').textContent=fmt(sat(pure(ms[now],B),L));
+  el('s-dev').textContent=(resid[now]>=0?'+':'')+resid[now].toFixed(2);
+  el('s-dev').style.color=resid[now]>=0?C.pos:C.neg;
+  el('s-dev-n').textContent='dex from trend · '+(resid[now]/SIGMA).toFixed(1)+'σ';
+
+  const dd=(1-H4LOW/ATH)*100;
+  el('s-dd').textContent=dd.toFixed(0)+'%';
+  el('s-dd').style.color=dd>=DD_LIMIT?C.neg:C.obs;
+
+  const i5p=idx(EPOCHS[5].pk),i5t=idx(EPOCHS[5].tr);
+  el('s-p5').textContent=mid[i5p]?fmt(mid[i5p]):'—';el('s-p5n').textContent=mlab(EPOCHS[5].pk);
+  el('s-t5').textContent=mid[i5t]?fmt(mid[i5t]):'—';el('s-t5n').textContent=mlab(EPOCHS[5].tr);
+
+  const tb=el('cyc').querySelector('tbody');tb.innerHTML='';
+  EPOCHS.slice(0,8).forEach((e,i)=>{
+    const{a,b}=A[i];
+    const pi=idx(e.pk),ti=idx(e.tr);
+    const pv=pi>=0?mid[pi]:null,tv=ti>=0?mid[ti]:null;
+    const dd=(pv&&tv)?(1-tv/pv)*100:null;
+    tb.insertAdjacentHTML('beforeend',`<tr class="${e.obs?'':'fut'}"><td>${e.n}</td>
+      <td class="num">${e.h[0]}-${String(e.h[1]).padStart(2,'0')}</td>
+      <td class="num">${fmtP(pv)}</td><td class="num">${fmtP(tv)}</td>
+      <td class="num">${a.toFixed(2)}</td><td class="num">${b.toFixed(2)}</td>
+      <td class="num">${dd!=null?dd.toFixed(0)+'%':'—'}</td></tr>`);
+  });
+
+
+  const xopt={grid:{display:false},border:{color:C.ax},
+    ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxRotation:0,autoSkip:false,
+      callback:function(v){const s=this.getLabelForValue(v);return s.endsWith('-01')&&+s.slice(0,4)%5===0?s.slice(0,4):''}}};
+
+  if(main){main.destroy();res.destroy();near.destroy();}
+  main=new Chart(el('main'),{type:'line',plugins:[epochPlugin,forecastPlugin],
+    data:{labels,datasets:[
+      {data:hi,borderColor:'transparent',pointRadius:0,fill:'+1',backgroundColor:C.band},
+      {data:lo,borderColor:'transparent',pointRadius:0,fill:false},
+      {label:'Trend',data:trend,borderColor:C.m3,borderWidth:1.4,borderDash:[6,4],pointRadius:0,fill:false,tension:.2},
+      {label:'Model',data:mid,borderColor:C.mdl,borderWidth:2.2,pointRadius:0,fill:false,tension:.2},
+      {label:'Observed',data:obsSeries,borderColor:C.obs,borderWidth:1.8,pointRadius:0,fill:false,tension:.1}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{filter:c=>c.dataset.label&&c.parsed.y!=null,
+        callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}}},
+      scales:{y:{type:'logarithmic',min:.04,max:4e6,grid:{color:C.rule},border:{color:C.ax},
+        ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},
+          callback:v=>[.1,1,10,100,1e3,1e4,1e5,1e6].includes(v)?fmt(v):''}},x:xopt}}});
+
+  res=new Chart(el('res'),{type:'line',plugins:[epochPlugin,bandPlugin,forecastPlugin],
+    data:{labels,datasets:[
+      {label:'Model',data:residM,borderColor:C.mdl,borderWidth:1.6,pointRadius:0,fill:false,tension:.2},
+      {label:'Observed',data:resid,borderColor:C.obs,borderWidth:1.6,pointRadius:0,fill:false,tension:.1}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{filter:c=>c.parsed.y!=null,
+        callbacks:{label:c=>c.dataset.label+': '+(c.parsed.y>=0?'+':'')+c.parsed.y.toFixed(2)+' dex'}}},
+      scales:{y:{min:-.75,max:1.35,grid:{color:C.rule},border:{color:C.ax},
+        ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},stepSize:.5,
+          callback:v=>(v>0?'+':'')+v.toFixed(1)}},x:xopt}}});
+
+  const na=Math.max(0,now-6),nb=Math.min(months.length-1,now+18);
+  NFC=now-na;
+  const nlab=months.slice(na,nb+1).map(m=>MON[m[1]-1]+' '+String(m[0]).slice(2));
+  const cut=a=>a.slice(na,nb+1);
+  const nmid=cut(mid),nlo=cut(lo),nhi=cut(hi),nobs=cut(obsSeries);
+  NLAB=nmid.map((_,i)=>i).filter(i=>i>=NFC&&(i-NFC)%3===0);
+  const NTICK=nmid.map((_,i)=>i).filter(i=>(i-NFC)%3===0);
+  const nvals=[].concat(nmid,nlo,nhi,nobs).filter(v=>v!=null);
+  const nmx=Math.max.apply(null,nvals),nmn=Math.min.apply(null,nvals);
+  const npad=(nmx-nmn)*.09;
+  near=new Chart(el('near'),{type:'line',plugins:[nearPlugin],
+    data:{labels:nlab,datasets:[
+      {data:nhi,borderColor:'transparent',pointRadius:0,fill:'+1',backgroundColor:C.band},
+      {data:nlo,borderColor:'transparent',pointRadius:0,fill:false},
+      {label:'Model',data:nmid,borderColor:C.mdl,borderWidth:2.4,pointRadius:0,fill:false,tension:.25,
+        segment:{borderDash:x=>x.p1DataIndex<=NFC?[5,4]:undefined}},
+      {label:'Observed',data:nobs,borderColor:C.obs,borderWidth:2.2,pointRadius:0,fill:false,tension:.15}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,
+      layout:{padding:{top:16}},
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{filter:c=>c.dataset.label&&c.parsed.y!=null,
+        callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}}},
+      scales:{
+        y:{min:Math.max(0,nmn-npad),max:nmx+npad*1.4,
+          grid:{color:C.rule},border:{color:C.ax},
+          ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxTicksLimit:8,callback:v=>fmt(v)}},
+        x:{grid:{display:false},border:{color:C.ax},
+          ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxRotation:0,autoSkip:false,
+            callback:(v,i)=>NTICK.indexOf(i)>=0?nlab[i]:''}}}}});
+
+  let act=null;
+  PB.forEach(btn=>{
+    const eq=(a,b,tol)=>Math.abs(a-b)<tol;
+    const on=eq(+btn.dataset.k,W,0.5)&&eq(+btn.dataset.de,de,5e-3)&&eq(+btn.dataset.dp,dp,5e-3)
+      &&eq(+btn.dataset.b,B,5e-4);
+    btn.setAttribute('aria-pressed',on?'true':'false'); if(on)act=btn;});
+  el('pdesc').textContent=act?act.dataset.desc
+    :'Custom settings — none of the ready-made scenarios matches. The buttons above set all four sliders at once and form a single axis: from a cycle that has faded irreversibly to a cycle that has returned in its former shape. The base calculation of the model is the “Quiet cycle”.';
+}
+const PB=[].slice.call(document.querySelectorAll('.presets button'));
+PB.forEach(btn=>btn.addEventListener('click',()=>{
+  el('k').value=btn.dataset.k;el('de').value=btn.dataset.de;el('dp').value=btn.dataset.dp;
+  el('mb').value=btn.dataset.b;build();}));
+['k','de','dp','mb'].forEach(i=>el(i).addEventListener('input',build));
+build();
+
+</script>
+</body>
+</html>
