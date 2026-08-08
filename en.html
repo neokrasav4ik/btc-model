@@ -297,7 +297,7 @@ ul.tight li{margin-bottom:5px}
 <div class="wrap">
 
 <header>
-  <p class="eyebrow">P(t) = 10<sup>A</sup> · t<sup>3β</sup> × saturation(W, β) × [euphoria(d<sub>e</sub>) − panic(d<sub>p</sub>)]</p>
+  <p class="eyebrow">P(t) = 10<sup>A</sup> · t<sup>3β</sup> × saturation(W, β) × ζ·[euphoria(d<sub>e</sub>) − panic(d<sub>p</sub>)]</p>
   <div class="hrow">
     <h1>A comprehensive Bitcoin price model, 2010–2040</h1>
     <p class="dateline">Compiled in August 2026 · observed through early August 2026 · everything to the right is computed</p>
@@ -322,8 +322,8 @@ ul.tight li{margin-bottom:5px}
   <div class="dash-top">
     <div class="presets">
       <span class="pl">Scenarios · maturity on the left, speculation on the right</span>
-      <button type="button" data-k="1800" data-de="0" data-dp="1" data-b="1.897" data-desc="Both phases of the cycle have disappeared. By 2030 bitcoin behaves like a mature network asset: a 24% drawdown, like a large technology stock rather than like a cryptocurrency. The number of owners is the highest — a third of adults, mostly through funds and custodians. Plateau $812k, an H5 drawdown of just 21%. What it requires: a shared trustworthy source of information among participants, because the heterogeneity of beliefs out of which the bottom is assembled stops coming together.">Cycle faded</button>
-      <button type="button" data-k="1610" data-de="0" data-dp="0.5" data-b="1.897" data-desc="The base scenario of the model: euphoria has gone irreversibly, panic fades with a lag. The H5 trough at −0.23 dex, shallower than the whole historical corridor: by 2029 saturation already takes a sixth of the amplitude away from the cycle. A 33% drawdown: a bad year on the stock market rather than a crypto crash. The direct reading of the data plus the requirement of mechanical coherence: the cause that killed the top is obliged sooner or later to reach the bottom as well.">Quiet cycle<span class="bdg">base</span></button>
+      <button type="button" data-k="1800" data-de="0" data-dp="1" data-b="1.897" data-desc="Both phases of the cycle have disappeared. Euphoria decay stands at exactly zero, and this is the one scenario where zero belongs: once the inflow runs out, nothing periodic remains. By 2030 bitcoin behaves like a mature network asset — an H5 drawdown of just 21%, like a large technology stock rather than like a cryptocurrency. The number of owners is the highest, a third of adults, mostly through funds and custodians; plateau $812k. What it requires: a shared trustworthy source of information among participants, because the heterogeneity of beliefs out of which the bottom is assembled stops coming together.">Cycle faded</button>
+      <button type="button" data-k="1610" data-de="0.15" data-dp="0.5" data-b="1.897" data-desc="The base scenario of the model. Euphoria has gone almost irreversibly: the decay stands at 0.15 rather than zero, because zero would mean the cycle vanishing entirely along with the inflow — and there is a separate scenario to the left for that reading. Panic fades with a lag, by the requirement of coherence: the cause that killed the top is obliged sooner or later to reach the bottom as well. Hence the H5 trough at −0.24 dex, at the very shallow edge of the historical corridor, and a 38% drawdown: a bad year on the stock market rather than a crypto crash.">Quiet cycle<span class="bdg">base</span></button>
       <button type="button" data-k="1350" data-de="0.5" data-dp="0.25" data-b="1.897" data-desc="H4 was partly a fluke. Euphoria comes back halfway, panic is almost untouched. The peak is higher than in the two scenarios to the left — $408k — but so is the drawdown at 51%. A cautious middle for those who want to bet neither on the irreversibility of the decay nor on a full return of the amplitude.">Cycle returns</button>
       <button type="button" data-k="1300" data-de="1" data-dp="0" data-b="1.897" data-desc="Nothing changed in the market itself, the break in H4 was a ripple. All this time the decay proceeded at an even step of ×0.67 per cycle, and peak height returns to the H1–H3 line — not to the former values, but to the former rate of decline. The highest peak of the four ($510k) and the lowest trough ($154k), a 70% drawdown — comparable to the 78% of H3. The ceiling sits at the lower edge of the plausible corridor, 1300. The cycle here does not fade in the 2030s either: with euphoria fully returned it rests on its own speculative character rather than on the inflow of new participants.">Cycle never broke</button>
       <div class="pdesc" id="pdesc">—</div>
@@ -342,24 +342,26 @@ ul.tight li{margin-bottom:5px}
 
       <div class="grp">Cycle · amplitude</div>
       <div class="ctl">
-        <label for="de"><span class="lb">Euphoria decay<span class="info" tabindex="0" role="button" aria-label="Explanation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>How high the peak of the cycle stands above the trend.</b> Over four cycles this height fell: 1.03 → 0.81 → 0.46 → 0.06 dex. The last number means that the October 2025 peak exceeded the trend by only 15%. The first means that the 2013 peak stood ten times above the trend.<br><br>The steps, meanwhile, are unequal: ×0.79, ×0.57, ×0.13. The first two resemble each other, the third breaks off.<br><br><b>The slider answers a single question: was that break real.</b> At zero — yes, and the H5 peak will rise 0.03 dex above the trend, and beyond that the peaks all but vanish: by 2033 saturation takes away eight ninths of what is left of the cycle. At one — no, and peak height returns to the H1–H3 line: the H5 peak at 0.21 dex.<br><br>The slider has a second, less obvious reading. It also sets what share of the cycle holds up without an inflow of new participants: swings among those who already own require no newcomers. At zero the 2030s cycle fades along with the inflow; at one it outlives it entirely. The diagnostic below the ceiling slider shows the resulting proportion.<br><br>Where to set it and what that rests on — <a href="#dials">in the section on the dials</a>.</span></span></span><b><span id="dev">0.00</span></b></label>
-        <input type="range" id="de" min="0" max="1" step="0.01" value="0">
-        <div class="hint"><span>permanent</span><span>H5 peak <span id="a5v">0.03</span> dex</span><span>temporary</span></div>
+        <label for="de"><span class="lb">Euphoria decay<span class="info" tabindex="0" role="button" aria-label="Explanation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>How high the peak of the cycle stands above the trend.</b> Over four cycles this height fell: 1.03 → 0.81 → 0.46 → 0.06 dex. The last number means that the October 2025 peak exceeded the trend by only 15%. The first means that the 2013 peak stood ten times above the trend.<br><br>The steps, meanwhile, are unequal: ×0.79, ×0.57, ×0.13. The first two resemble each other, the third breaks off.<br><br><b>The slider answers a single question: was that break real.</b> At zero — yes, and the H5 peak will rise 0.03 dex above the trend, and beyond that the peaks all but vanish: by 2033 saturation takes away eight ninths of what is left of the cycle. At one — no, and peak height returns to the H1–H3 line: the H5 peak at 0.21 dex.<br><br>The slider has a second, less obvious reading. It also sets what share of the cycle holds up without an inflow of new participants: swings among those who already own require no newcomers. At zero the 2030s cycle fades along with the inflow; at one it outlives it entirely. The diagnostic below the ceiling slider shows the resulting proportion.<br><br>Where to set it and what that rests on — <a href="#dials">in the section on the dials</a>.</span></span></span><b><span id="dev">0.15</span></b></label>
+        <input type="range" id="de" min="0" max="1" step="0.01" value="0.15">
+        <div class="hint"><span>permanent</span><span>H5 peak <span id="a5v">0.05</span> dex</span><span>temporary</span></div>
       </div>
       <div class="ctl">
-        <label for="dp"><span class="lb">Panic decay<span class="info" tabindex="0" role="button" aria-label="Explanation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>How deep the trough of the cycle sinks below the trend.</b> Over four cycles this depth did not change: <b>−0.28, −0.24, −0.38, −0.37 dex</b> — all four troughs fit into a corridor 0.14 dex wide.<br><br><b>The slider sets whether the bottom follows the top.</b> At zero it does not: the H5 trough stands at −0.31 dex. At one it follows euphoria in step: the H5 trough at −0.16 dex.<br><br>Both figures are shallower than their historical counterparts, because by 2029 saturation already takes a sixth of the amplitude away from the cycle — the multiplier ζ. At the base ceiling; move the ceiling and they will move too.<br><br><b>There is not a single observation beneath this slider.</b> The first will arrive in September 2030, when the H5 trough forms.</span></span></span><b><span id="dpv">0.50</span></b></label>
+        <label for="dp"><span class="lb">Panic decay<span class="info" tabindex="0" role="button" aria-label="Explanation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>How deep the trough of the cycle sinks below the trend.</b> Over four cycles this depth did not change: <b>−0.28, −0.24, −0.38, −0.37 dex</b> — all four troughs fit into a corridor 0.14 dex wide.<br><br><b>The slider sets whether the bottom follows the top.</b> At zero it does not: the H5 trough stands at −0.32 dex. At one it follows euphoria in step: the H5 trough at −0.16 dex.<br><br>Both figures are shallower than their historical counterparts, because by 2029 saturation already takes a sixth of the amplitude away from the cycle — the multiplier ζ. At the base ceiling; move the ceiling and they will move too.<br><br><b>There is not a single observation beneath this slider.</b> The first will arrive in September 2030, when the H5 trough forms.</span></span></span><b><span id="dpv">0.50</span></b></label>
         <input type="range" id="dp" min="0" max="1" step="0.01" value="0.5">
-        <div class="hint"><span>does not fade</span><span>H5 trough −<span id="b5v">0.28</span> dex</span><span>fades like euphoria</span></div>
+        <div class="hint"><span>does not fade</span><span>H5 trough −<span id="b5v">0.24</span> dex</span><span>fades like euphoria</span></div>
       </div>
 
       <div class="grp">Network · saturation</div>
       <div class="ctl">
-        <label for="k"><span class="lb">Owner ceiling<span class="info" tabindex="0" role="button" aria-label="Explanation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>The limiting number of people owning bitcoin, to which adoption converges.</b> It sets the level of the plateau, and very sharply: miss the ceiling by a factor of two and the plateau moves by a factor of 3.7. The most sensitive parameter of the model.<br><br><b>It barely affects the nearest cycle and single-handedly runs the 2030s.</b> Within the plausible corridor of 1300–1900 M the October 2029 peak wanders from $331k to $387k, whereas the plateau moves from $438k to $900k. The spread of the peak has grown since the previous version: through the multiplier ζ the ceiling now affects the amplitude of the cycle as well, not only the level of the plateau.<br><br>The blue band sweeps the ceiling ±40%. Today it is narrow, but it opens up noticeably by 2029, and more downwards than upwards: saturation can only slow things down, above the pure power law the ceiling does not lift price.<br><br>For reconciliation with models that count the network in addresses: at today's ratio of 0.54 addresses per owner, a ceiling of 1610 M corresponds to about 866 M non-zero addresses. Addresses take no part in the calculation itself — the ratio is falling, and it cannot be relied upon.</span></span></span><b><span id="kv">1610</span> M</b></label>
+        <label for="k"><span class="lb">Owner ceiling<span class="info" tabindex="0" role="button" aria-label="Explanation"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>The limiting number of people owning bitcoin, to which adoption converges.</b> It sets the level of the plateau, and very sharply: miss the ceiling by a factor of two and the plateau moves by a factor of 3.7. The most sensitive parameter of the model.<br><br><b>It barely affects the nearest cycle and single-handedly runs the 2030s.</b> Within the plausible corridor of 1300–1900 M the October 2029 peak wanders from $346k to $411k, whereas the plateau moves from $438k to $900k. The spread of the peak has grown since the previous version: through the multiplier ζ the ceiling now affects the amplitude of the cycle as well, not only the level of the plateau.<br><br>The blue band sweeps the ceiling ±40%. Today it is narrow, but it opens up noticeably by 2029, and more downwards than upwards: saturation can only slow things down, above the pure power law the ceiling does not lift price.<br><br>For reconciliation with models that count the network in addresses: at today's ratio of 0.54 addresses per owner, a ceiling of 1610 M corresponds to about 866 M non-zero addresses. Addresses take no part in the calculation itself — the ratio is falling, and it cannot be relied upon.</span></span></span><b><span id="kv">1610</span> M</b></label>
         <input type="range" id="k" min="700" max="3200" step="10" value="1610">
         <div class="hint"><span>700</span><span>plateau $<span id="plat">657</span>k</span><span>3200</span></div>
       </div>
+
+      <div class="grp">Cycle · support</div>
       <div class="fuel" id="fuel">
-        <div class="k">What the cycle rests on<span class="info" tabindex="0" role="button" aria-label="What this diagnostic shows"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>The peak of the cycle is made by arriving participants, but swings among those who already own require no newcomers:</b> mature assets have drawdowns with zero growth in the number of holders. The amplitude therefore has two sources.<br><br><b>φ — the share of inflow surviving saturation:</b> φ = g(with saturation) / g(pure power law). The quantity is dimensionless and independent of the level anchoring, so the contested estimate of how many owners exist today does not enter. Over history φ = 1.00 at all four epochs, and the calibration is untouched.<br><br><b>ζ = d<sub>e</sub> + (1 − d<sub>e</sub>)·φ</b> — the share of the cycle that remains. How much of the cycle outlives the disappearance of inflow is set by the euphoria slider; there are no new constants here. The overlay is multiplied by ζ as a whole, top and bottom together, so the proportion between them is preserved.<br><br>The diagnostic shows <b>what the 2030s cycle rests on</b> — the inflow, or the assumption that the speculative character survived. It advises nothing: a coherent setting is not a well-founded one.</span></span></div>
+        <div class="k">Share of amplitude by epoch<span class="info" tabindex="0" role="button" aria-label="What this diagnostic shows"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>The peak of the cycle is made by arriving participants, but swings among those who already own require no newcomers:</b> mature assets have drawdowns with zero growth in the number of holders. The amplitude therefore has two sources.<br><br><b>φ — the share of inflow surviving saturation:</b> φ = g(with saturation) / g(pure power law). The quantity is dimensionless and independent of the level anchoring, so the contested estimate of how many owners exist today does not enter. Over history φ = 1.00 at all four epochs, and the calibration is untouched.<br><br><b>ζ = d<sub>e</sub> + (1 − d<sub>e</sub>)·φ</b> — the share of the cycle that remains. How much of the cycle outlives the disappearance of inflow is set by the euphoria slider; there are no new constants here. The overlay is multiplied by ζ as a whole, top and bottom together, so the proportion between them is preserved.<br><br>The heading gives ζ for the three projected epochs: what share of full amplitude remains at the peak of each. A hundred per cent means saturation does not touch the cycle at all.<br><br>The diagnostic shows <b>what the 2030s cycle rests on</b> — the inflow, or the assumption that the speculative character survived. It advises nothing: a coherent setting is not a well-founded one.</span></span></div>
         <span class="v" id="fu-v">—</span>
         <div class="n" id="fu-n">—</div>
       </div>
@@ -422,9 +424,9 @@ ul.tight li{margin-bottom:5px}
 
 
 <figure>
-  <p class="fcap">The whole H5 cycle — detail</p>
+  <p class="fcap">From the H4 peak to the H6 halving — detail</p>
   <div class="near-h"><canvas id="near"></canvas></div>
-  <p class="axis-note">The same data as on the upper panel, but on a linear scale and across one full cycle: from today through the April 2028 halving, the peak and the trough, to the H6 halving. The labels sit on the nodes of the model rather than on a regular grid: now, the halving, the peak, the trough and the end of the window. To the left of “now” the orange line is observation, beyond it there is only computation at the current position of the sliders. The blue band sweeps the owner ceiling ±40% and opens up noticeably by the end of the window. The early months are pressed to the bottom on a linear scale: the window spans about a factor of twelve, and at that range there is no way around it — history is easier to read on the upper panel.</p>
+  <p class="axis-note">The same data as on the upper panel, but on a linear scale and across one full cycle: from the October 2025 peak through the trough, the April 2028 halving, and the H5 peak and trough, to the H6 halving. The grey bands are the halving epochs, the same as above. The labels sit on the nodes of the model rather than on a regular grid: now, the halving, the peak, the trough and the end of the window. To the left of “now” the orange line is observation, beyond it there is only computation at the current position of the sliders. The blue band sweeps the owner ceiling ±40% and opens up noticeably by the end of the window. The early months are pressed to the bottom on a linear scale: the window spans about a factor of twelve, and at that range there is no way around it — history is easier to read on the upper panel.</p>
 </figure>
 
 <h2 id="read">How to read the chart in a minute</h2>
@@ -486,7 +488,7 @@ ul.tight li{margin-bottom:5px}
 <h3>How the swing is distributed between top and bottom</h3>
 <p>The proportion between the top and the bottom flipped over across those same four cycles. In the early ones almost the whole swing went upwards: in H1 the peak rose 1.03 dex above the trend while the trough sank only 0.28 — four fifths of the swing fell on euphoria. Afterwards the share of the top fell monotonically: 77% in H2, 55% in H3 and only 14% in H4, where the peak barely detached from the trend while the trough went to the usual −0.37.</p>
 <p>Here a second indicator of maturation emerges, independent of the general compression of amplitude: <b>the market loses the capacity for euphoria noticeably faster than the capacity for panic.</b></p>
-<p>It follows that the top and the bottom are two different sequences rather than one with a fixed proportion. Peaks: 1.03, 0.81, 0.46, 0.06, a monotonic decline. Troughs: −0.28, −0.24, −0.38, −0.37, no trend at all. The model therefore projects them independently, with two sliders, and does not force the decay of one phase to drag the other along.</p>
+<p>It follows that the top and the bottom are two different sequences rather than one with a fixed proportion. Peaks: 1.03, 0.81, 0.46, 0.06, a monotonic decline. Troughs: −0.28, −0.24, −0.38, −0.37, no trend at all. The model therefore projects them with two sliders, and neither one sets the other. They do share the common multiplier ζ: it says how much of the cycle is left at all, and so scales the top and the bottom together, leaving the proportion between them untouched. In practice this means the euphoria slider moves the H5 trough as well — from −0.24 to −0.28 dex across its whole range — without changing what the lower slider asserts about the trough.</p>
 <div class="aside">
   <div class="t">Consistency of the decays</div>
   <p><b>Asymmetric decay</b> — the top fades, the bottom stands — is the signature of institutionalisation: the composition of holders changed, euphoric buyers were replaced by funds and custodians, panic remained with those who still hold directly.</p>
@@ -497,10 +499,10 @@ ul.tight li{margin-bottom:5px}
 <h3>What the residual panel shows</h3>
 <p>The lower panel removes the growth itself and leaves only the deviation from the trend. The humps compress in sequence: 1.03 → 0.81 → 0.46 → 0.06 dex.</p>
 <p>The December 2013 peak stood ten times above the trend. The December 2017 peak — six times. The November 2021 peak — three times. The October 2025 peak exceeded the trend by 15% — this is the first cycle in the history of the asset in which a euphoric phase effectively did not happen.</p>
-<p>Hence the fork around which this part of the model is built. Either <b>the decay is irreversible</b> — and then bitcoin leaves the speculative category and settles into an ordinary mature network asset with moderate fluctuations. Or <b>the collapse was temporary</b> — and then the height of the peaks will return as soon as the environment around the market changes. The first slider at the top switches precisely between these two hypotheses: zero means that the decay of euphoria arrived “permanently”, one means the decay of euphoria is “temporary”. The bottom lives by its own rules, and the second slider is set aside for it.</p>
+<p>Hence the fork around which this part of the model is built. Either <b>the decay is irreversible</b> — and then bitcoin leaves the speculative category and settles into an ordinary mature network asset with moderate fluctuations. Or <b>the collapse was temporary</b> — and then the height of the peaks will return as soon as the environment around the market changes. The first slider at the top switches precisely between these two hypotheses: zero means that the decay of euphoria arrived “permanently”, one means the decay of euphoria is “temporary”. The base stands near zero but not at it, and the reason why is in the section on the sliders. The bottom lives by its own rules, and the second slider is set aside for it.</p>
 
 <h2 id="dials">Where to set the sliders</h2>
-<p>There are four sliders in all, and they are not equals. The two decays rule the next five years. The ceiling affects the height of the H5 peak moderately — the plausible range moves it from $331k to $387k — while it single-handedly runs the 2030s and decides how much of the cycle is left by the later epochs.</p>
+<p>There are four sliders in all, and they are not equals. The two decays rule the next five years. The ceiling affects the height of the H5 peak moderately — the plausible range moves it from $346k to $411k — while it single-handedly runs the 2030s and decides how much of the cycle is left by the later epochs.</p>
 <p>The decay sliders, moreover, are <b>not independent of each other</b>. Their compatibility is brought out by a separate indicator above the chart, because one combination is internally contradictory while looking perfectly normal by the numbers.</p>
 <p>The indicator must be read carefully. It checks for <b>the presence of a mechanism, not the soundness of a setting</b>. The contradictory combination is: euphoria fades irreversibly, panic does not fade at all. The indicator marks such a combination red not because the observation is wrong, but because there is no explanation for it: the cause that killed the top is obliged sooner or later to reach the bottom.</p>
 <p>The converse is true as well. A compatible setting does not mean a well-founded one. “Cycle never broke” passes the check without remarks, but it requires treating H4 as a fluke, and there is (as yet) no independent evidence of that. That is why the indicator is a neutral colour rather than green: it catches one specific inconsistency rather than passing judgement.</p>
@@ -518,7 +520,7 @@ ul.tight li{margin-bottom:5px}
 <p>These figures are recalculated live under the chart, in the <b>“What this asks of money”</b> block. There the same capitalisation is shown not only at the plateau but along the way to it: how much has to be added per year on average, and how much over the next twelve months. It also makes visible that <b>issuance is under one percent of the required growth and falling</b>: by 2028 the halving stops meaning anything quantitatively as a supply mechanism, and the cycle is left entirely to demand.</p>
 <p><b>The base stands at 1610 M</b> — this is exactly the same calculation the previous version gave at 866 M addresses: the same $657k plateau, the same $13.6T capitalisation, the same 44% of the value of all the gold ever mined. Redenominating into owners simply changed the units. The argument for a higher ceiling remains an argument and lives further to the right along the scale, not at the base of the calculation.</p>
 
-<h3>Euphoria decay: 0.00</h3>
+<h3>Euphoria decay: 0.15</h3>
 <p>Three reference positions:</p>
 <table class="expl">
  <tr><td class="n"><b>0.00</b></td><td>the break in H4 continues: the H5 peak rises 0.03 dex above the trend, and beyond that the peaks fade away almost entirely along with the inflow</td></tr>
@@ -527,6 +529,8 @@ ul.tight li{margin-bottom:5px}
 </table>
 <p>Four cycles of evidence. The fact of the decline rests on all four observations at once and holds firmly. The sharpness of the last step rests on one observation — on H4, and nothing more is known about it.</p>
 <p>Hence the position of the slider. There is nowhere further left to go: zero simply continues what has already happened. Moving right is possible, but it has to be paid for with an assumption — <b>H4 must be declared a fluke</b>. There is no evidence for that, and nowhere to get it: price alone cannot yield it, an outside source is needed. Further down the page this assumption is called <b>the H4 caveat</b>.</p>
+<p>The slider, however, has a <b>second reading</b>, which appeared together with the multiplier ζ: it also sets what share of the cycle lives on once the inflow has run out. And here zero is not a direct reading of the data but the strongest possible claim: nothing periodic remains at all, ever. That does not happen even to mature assets whose number of holders no longer grows. There is not a single observation beneath this reading, nor can there be: φ = 1.00 at all four historical epochs, saturation having never switched on.</p>
+<p>The base therefore stands at <b>0.15</b> — the smallest meaningful step away from the extreme. The upper bound on that step is not a matter of taste: at <b>d<sub>e</sub> ≈ 0.22</b> the effective amplitude of the H5 peak catches up with the observed amplitude of H4 (0.061 against 0.060), and the model starts claiming not a slowdown in the decline of peaks but its reversal. That is a statement about data, and its price is the full H4 caveat. Anything in 0.05–0.20 is equivalent in substance; 0.15 is chosen as the middle.</p>
 
 <div class="aside">
   <div class="t">A possible test of the explanation</div>
@@ -542,13 +546,14 @@ ul.tight li{margin-bottom:5px}
 <p>The lag, meanwhile, is explicable. The top of the cycle is made by arriving participants, the bottom by those who stay, and the composition of the latter changes far more slowly. Panic decay should therefore run behind euphoria decay, but run it should.</p>
 <p>This makes the combination “zero above, zero below” internally contradictory. It means that the cause which killed euphoria acts on exactly half of the cycle and never touches the bottom, and there is nothing to explain such selectivity with.</p>
 <table class="expl">
- <tr><td class="n"><b>0.00</b></td><td>the H5 trough at −0.31 dex. The premise “the bottom has not changed and will not change”, minus the share saturation takes away</td></tr>
- <tr><td class="n"><b>0.50</b></td><td>the H5 trough at −0.23 dex, at the very shallow edge of the historical corridor −0.24…−0.38</td></tr>
+ <tr><td class="n"><b>0.00</b></td><td>the H5 trough at −0.32 dex. The premise “the bottom has not changed and will not change”, minus the share saturation takes away</td></tr>
+ <tr><td class="n"><b>0.50</b></td><td>the H5 trough at −0.24 dex, at the very shallow edge of the historical corridor −0.24…−0.38</td></tr>
  <tr><td class="n"><b>1.00</b></td><td>the H5 trough at −0.16 dex, shallower than anything ever observed. The bottom fades in step with the top</td></tr>
+ <tr><td class="n"><b>ζ</b></td><td>all three figures are given at the base ceiling and base euphoria decay. Through the shared multiplier ζ they drift slightly with those too: at d<sub>e</sub> = 0 the trough at 0.50 goes to −0.24, at d<sub>e</sub> = 1 to −0.28</td></tr>
 </table>
 <div class="aside">
   <div class="t">Observable marker, September 2030</div>
-  <p>The H5 trough falls in September 2030. The four previous troughs stood in the corridor −0.24…−0.38, but the observation can no longer be compared with that corridor directly: by 2029 saturation lifts the trough by itself, and with panic undimmed the model expects −0.31 dex. Evidence that panic has faded would be a trough <b>shallower than −0.16 dex</b> — what the right edge of the slider gives at the base ceiling. The gap between −0.31 and −0.16 reads as partial fading and is handled by the slider.</p>
+  <p>The H5 trough falls in September 2030. The four previous troughs stood in the corridor −0.24…−0.38, but the observation can no longer be compared with that corridor directly: by 2029 saturation lifts the trough by itself, and with panic undimmed the model expects −0.32 dex. Evidence that panic has faded would be a trough <b>shallower than −0.16 dex</b> — what the right edge of the slider gives at the base ceiling and base euphoria decay. The gap between −0.32 and −0.16 reads as partial fading and is handled by the slider.</p>
   <p>A trough in the familiar corridor means the opposite: only euphoria was fading, the mechanism of the cycle remained human, the panic slider must be set to zero and one must live with the red indicator as an honestly recorded anomaly.</p>
 </div>
 
@@ -561,7 +566,7 @@ ul.tight li{margin-bottom:5px}
  <thead><tr><th>Scenario</th><th>Owner ceiling</th><th>Euphoria decay</th><th>Panic decay</th><th>Plateau</th><th>H5 peak, Oct 2029</th><th>H5 trough, Sep 2030</th><th>H5 drawdown</th></tr></thead>
  <tbody>
   <tr><td>Cycle faded</td><td class="num">1800</td><td class="num">0.00</td><td class="num">1.00</td><td class="num">$812k</td><td class="num">$384k</td><td class="num">$303k</td><td class="num">21%</td></tr>
-  <tr><td>Quiet cycle <span class="pill ok">base</span></td><td class="num">1610</td><td class="num">0.00</td><td class="num">0.50</td><td class="num">$657k</td><td class="num">$373k</td><td class="num">$248k</td><td class="num">33%</td></tr>
+  <tr><td>Quiet cycle <span class="pill ok">base</span></td><td class="num">1610</td><td class="num">0.15</td><td class="num">0.50</td><td class="num">$657k</td><td class="num">$394k</td><td class="num">$245k</td><td class="num">38%</td></tr>
   <tr><td>Cycle returns</td><td class="num">1350</td><td class="num">0.50</td><td class="num">0.25</td><td class="num">$470k</td><td class="num">$408k</td><td class="num">$201k</td><td class="num">51%</td></tr>
   <tr><td>Cycle never broke</td><td class="num">1300</td><td class="num">1.00</td><td class="num">0.00</td><td class="num">$438k</td><td class="num">$510k</td><td class="num">$154k</td><td class="num">70%</td></tr>
  </tbody>
@@ -571,17 +576,17 @@ ul.tight li{margin-bottom:5px}
 <p>The names answer a single question: <em>what does the four-year cycle look like by 2030</em>. Price here follows from the answer rather than setting it.</p>
 <table class="expl">
  <tr><td class="n"><b>Cycle<br>faded</b></td><td>Both phases have almost disappeared. An H5 drawdown of 21% — like a large technology stock rather than like a cryptocurrency. The number of owners is the highest, a third of adults, mostly through funds. Requires a shared trustworthy source of information among participants — a publicly available AI, for instance: the heterogeneity of beliefs out of which the bottom is assembled stops coming together.</td></tr>
- <tr><td class="n"><b>Quiet<br>cycle</b></td><td>Euphoria has gone irreversibly, panic fades with a lag. The H5 trough at −0.23 dex, shallower than the whole historical corridor: by 2029 saturation already takes a sixth away from the cycle. A 33% drawdown — a bad year on the stock market rather than a crypto crash. The setting is drawn from data at the top and from the coherence requirement at the bottom.</td></tr>
+ <tr><td class="n"><b>Quiet<br>cycle</b></td><td>Euphoria has gone almost irreversibly, panic fades with a lag. The H5 trough at −0.24 dex, at the very shallow edge of the historical corridor, and a 38% drawdown — a bad year on the stock market rather than a crypto crash. The upper setting is drawn from data and moved off zero: zero is the neighbouring scenario to the left. The lower one stands on the coherence requirement.</td></tr>
  <tr><td class="n"><b>Cycle<br>returns</b></td><td>H4 was partly a fluke. Euphoria comes back halfway, panic is almost untouched. The peak is higher than in the “quiet cycle” — $408k — but so is the drawdown at 51%. A position for those who bet neither on the irreversibility of the decay nor on a full return of the amplitude.</td></tr>
  <tr><td class="n"><b>Cycle never<br>broke</b></td><td>Nothing changed in the market itself, the break in H4 was a ripple. All this time the decay proceeded at an even step, and peak height returns to the H1–H3 line — not to the former values, but to the former rate of decline. The highest peak of the four and the lowest trough, a 70% drawdown — comparable to the 78% of H3. Bitcoin remains a cyclical speculative asset. This is the one scenario where the cycle does not weaken in the 2030s either: with euphoria fully returned it stops depending on inflow at all.</td></tr>
 </table>
 
 <h3>Why the base is the “Quiet cycle”</h3>
 <p>Of the four scenarios the second button from the left is chosen as the base, and the page opens on it by default. Below are the choice itself and its price; the justifications are worked through above, each in its own section.</p>
-<p><b>Euphoria — zero.</b> The setting is derived entirely from the data. There is nowhere further left to move, and further right only by accepting the H4 caveat.</p>
+<p><b>Euphoria — 0.15.</b> The slider has two readings, and they call for different things. On the first — was the H4 break real — the data say zero, there is nowhere further left to go, and moving right requires the H4 caveat. On the second — how much of the cycle lives once the inflow has run out — there is no data at all, and zero would mean that nothing periodic remains ever again. That happens to no mature asset. 0.15 is the smallest step away from that extreme, and it stays well clear of the 0.22 boundary beyond which the model starts claiming a reversal in the decline of peaks.</p>
 <p><b>Panic — a half.</b> There is no data beneath this setting; it stands on the requirement of coherence, that the cause which put out the top is obliged in time to reach the bottom. A half means the process is granted to be under way, while the question of how far it has gone is left open.</p>
 <p><b>Ceiling — 1610 M.</b> Follows from the same premise as the two settings above: if institutionalisation has gone far enough to kill euphoria, it has also removed the barrier to entry and moved a sizeable part of holding to custodians.</p>
-<p><b>The price of the choice.</b> The panic slider is not supported by a single observation. It stands at 0.50 out of considerations of coherence, and the first real evidence will appear only in September 2030. Until then half of the base scenario rests on reasoning.</p>
+<p><b>The price of the choice.</b> Two sliders out of three now stand on reasoning rather than observation. Panic entirely: there is not a single piece of evidence, and the first will arrive in September 2030. Euphoria halfway: its position is derived from data on the first reading and chosen on the second, where there is no data and none can appear until saturation starts to bite. This is an accumulation, and it is worth keeping in mind when reading any figure beyond 2030.</p>
 
 <h3>Why the scenarios stand in this order</h3>
 <p>The four scenarios are four points on <b>a single axis</b>. The axis answers one question: <em>how irreversibly bitcoin has stopped being a speculative asset</em>. Maturity on the left, speculation on the right.</p>
@@ -591,9 +596,9 @@ ul.tight li{margin-bottom:5px}
 <p>Hence monotonicity down both columns at once:</p>
 <table class="expl">
  <tr><td class="n"><b>Plateau</b></td><td>$812k → $657k → $470k → $438k. The more mature the asset, the wider the terminal ownership and the higher the level of saturation. The step narrows on the right: the column runs into the lower edge of the plausible corridor of 1300–1900 M.</td></tr>
- <tr><td class="n"><b>Drawdown</b></td><td>21% → 33% → 51% → 70%. An obvious increase in speculativeness, and the gap between the edges is now wider — saturation takes more away from the scenarios on the left than from those on the right.</td></tr>
+ <tr><td class="n"><b>Drawdown</b></td><td>21% → 38% → 51% → 70%. An obvious increase in speculativeness.</td></tr>
 </table>
-<p>The column of peaks does not obey monotonicity, and the reason is what was just said. The H5 peak runs $384k → $373k → $408k → $510k, that is, <b>it is higher in the scenarios that are more optimistic by mechanism and more pessimistic in substance</b>. The peak here is the product of two factors moving towards each other: the fuel remaining falls to the right, the share that ignites grows to the right, and on the 2029 horizon the second factor outweighs, because saturation has barely engaged by that date. This should be read as follows: <em>a high peak in 2029 points to a live cycle, which will be followed by the customary crash</em>. In the “Cycle never broke” scenario the peak is a third higher and the trough twice as low.</p>
+<p>The column of peaks rises to the right along with the drawdown: $384k → $394k → $408k → $510k. The peak here is the product of two factors moving towards each other: the fuel remaining falls to the right, the share that ignites grows to the right, and on the 2029 horizon the second factor outweighs, because saturation has barely engaged by that date. Hence an awkward property to read: <b>the 2029 peak is higher in the scenarios that are more optimistic by mechanism and more pessimistic in substance</b>. This should be read as follows: <em>a high peak in 2029 points to a live cycle, which will be followed by the customary crash</em>. In the “Cycle never broke” scenario the peak is a third higher and the trough twice as low.</p>
 <p>Moving right along the axis changes not only the height of the cycle but what it rests on. On the left the 2030s cycle follows the inflow: the inflow fades, the cycle fades, and the claim is checked by the address count of criterion 6. On the right a tenth of the inflow survives to 2033 while the cycle keeps its full amplitude, and the difference is carried by the euphoria slider — that is, by the premise that the speculative character of the asset survived on its own. There is not a single observation beneath that premise. The diagnostic below the ceiling slider shows this proportion for epoch H6.</p>
 <p>And hence, too, the way to use the buttons. They are not “optimistic — base — pessimistic”: by the price in 2035 the left edge is optimistic, by the price in October 2029 the right edge is. The choice between them is a choice of hypothesis about what happened to the market, not a choice of a desired number.</p>
 
@@ -633,7 +638,7 @@ ul.tight li{margin-bottom:5px}
 
 <h3>$380k in 2029 is absurdly little / absurdly much.</h3>
 <p class="verdict">Depends on which half you dispute</p>
-<p>These two claims are worth separating, because the model answers them differently. The 2029 peak falls in the confident half: from $373k to $510k across all four scenarios, a spread of 1.4×, since saturation has barely engaged on such a term. That whole spread comes from the euphoria slider; the owner ceiling affects the height of the H5 peak only moderately, deciding something else instead — how much of the cycle is left by the later epochs. To dispute the figure means to dispute the power law itself. The 2030s make up the fragile half: the same four scenarios give a plateau from $438k to $812k, a wider spread, and the ceiling can reasonably be disputed beyond that range in either direction. Disagreement about 2035 is cheap and expected. Disagreement about 2029 requires an argument about the exponent.</p>
+<p>These two claims are worth separating, because the model answers them differently. The 2029 peak falls in the confident half: from $384k to $510k across all four scenarios, a spread of 1.3×, since saturation has barely engaged on such a term. That whole spread comes from the euphoria slider; the owner ceiling affects the height of the H5 peak only moderately, deciding something else instead — how much of the cycle is left by the later epochs. To dispute the figure means to dispute the power law itself. The 2030s make up the fragile half: the same four scenarios give a plateau from $438k to $812k, a wider spread, and the ceiling can reasonably be disputed beyond that range in either direction. Disagreement about 2035 is cheap and expected. Disagreement about 2029 requires an argument about the exponent.</p>
 
 <h3>The sentiment-phase story is unfalsifiable hand-waving.</h3>
 <p class="verdict">Partially conceded</p>
@@ -887,7 +892,27 @@ const obsSeries=months.map((mm,i)=>{
   const j=(mm[0]*12+mm[1])-(OBS_START[0]*12+OBS_START[1]);
   return j>=0&&j<OBS.length?OBS[j]:null;});
 
-let NFC=0,NLAB=[];
+let NFC=0,NLAB=[],NA=0;
+/* Halving epochs on the detail panel. Same trick as on the upper one,
+   but the indices are shifted: the panel draws a slice of months starting at NA. */
+const nearEpochPlugin={id:'nep',beforeDatasetsDraw(c){
+  const{ctx,chartArea:ca,scales:{x}}=c;if(!ca)return;ctx.save();
+  const st=getComputedStyle(document.documentElement);
+  const last=c.data.labels.length-1, cl=v=>Math.max(0,Math.min(last,v));
+  EPOCHS.forEach((e,i)=>{
+    const s0=idx(e.h)-NA, s1=i+1<EPOCHS.length?idx(EPOCHS[i+1].h)-NA:last;
+    if(s1<0||s0>last)return;
+    const x0=x.getPixelForValue(cl(s0)),x1=x.getPixelForValue(cl(s1));
+    if(x1-x0<1)return;
+    if(i%2===0){ctx.fillStyle=st.getPropertyValue('--epoch');
+      ctx.fillRect(x0,ca.top,x1-x0,ca.bottom-ca.top);}
+    if(x1-x0>26){ctx.fillStyle=st.getPropertyValue('--ink-3');
+      ctx.font='500 10px IBM Plex Mono, monospace';ctx.textAlign='center';
+      ctx.fillText(e.n,(x0+x1)/2,ca.top+12);}
+  });
+  ctx.restore();
+}};
+
 const nearPlugin={id:'nr',afterDatasetsDraw(c){
   const{ctx,chartArea:ca,scales:{x,y}}=c;if(!ca)return;
   const st=getComputedStyle(document.documentElement);ctx.save();
@@ -962,17 +987,18 @@ function phiAt(t,W,B){
 function zetaAt(t,W,de,B){const p=phiAt(t,W,B);return de+(1-de)*p;}
 const pkMs=e=>Date.UTC(e.pk[0],e.pk[1]-1,15);
 function fuelState(W,de,B){
-  const p5=phiAt(pkMs(EPOCHS[5]),W,B), p6=phiAt(pkMs(EPOCHS[6]),W,B);
-  const z5=de+(1-de)*p5, z6=de+(1-de)*p6;
+  const z=[5,6,7].map(i=>{const p=phiAt(pkMs(EPOCHS[i]),W,B);return de+(1-de)*p;});
+  const p6=phiAt(pkMs(EPOCHS[6]),W,B);
   const pc=v=>Math.round(100*v)+'%';
-  const share=de/z6;
-  const head='H5 runs at '+pc(z5)+' of full amplitude, H6 at '+pc(z6)+'. ';
-  if(share>0.7&&z6>0.2)return{cls:'mid',s:'The 2030s cycle rests on an assumption',
-    n:head+'By the H6 peak '+pc(p6)+' of the inflow survives, and almost all of the remaining amplitude comes from the euphoria decay — that is, from the premise that the speculative character of the asset survived on its own. There is not a single observation beneath that premise.'};
-  if(z6<=0.2)return{cls:'ok',s:'The cycle fades along with the inflow',
-    n:head+'By the H6 peak '+pc(p6)+' of the inflow survives, and the cycle has no support of its own: euphoria decay stands close to zero. The claim is checked by the address count, criterion 6.'};
-  return{cls:'ok',s:'The cycle is supported by inflow',
-    n:head+'By the H6 peak '+pc(p6)+' of the inflow survives. Amplitude follows it, and no separate assumption about speculativeness is needed.'};
+  const s=EPOCHS.slice(5,8).map((e,i)=>e.n+' '+pc(z[i])).join(' · ');
+  const head='The share of full amplitude that remains. ';
+  const own=Math.round(100*de), inf=Math.round(100*(1-de)*p6);
+  if(de/z[1]>0.7&&z[1]>0.25)return{cls:'mid',s:s,
+    n:head+'Of the '+pc(z[1])+' at the H6 peak, surviving inflow supplies '+inf+' points and the other '+own+' are held by the euphoria decay — the premise that the speculative character of the asset survived on its own. There is not a single observation beneath it.'};
+  if(z[1]<=0.25)return{cls:'ok',s:s,
+    n:head+'The cycle follows the inflow: '+pc(p6)+' of it survives to the H6 peak, and the cycle has no support of its own — euphoria decay stands close to zero. The claim is checked by the address count, criterion 6.'};
+  return{cls:'ok',s:s,
+    n:head+pc(p6)+' of the inflow survives to the H6 peak, and the cycle follows it. No separate assumption about speculativeness is required.'};
 }
 
 let main,res,near;
@@ -1123,7 +1149,7 @@ function build(){
 
   /* detail window: a year back — the whole H5 cycle — the H6 halving */
   const na=Math.max(0,now-12),nb=Math.min(months.length-1,idx(EPOCHS[6].h));
-  NFC=now-na;
+  NFC=now-na;NA=na;
   const nlab=months.slice(na,nb+1).map(m=>MON[m[1]-1]+' '+String(m[0]).slice(2));
   const cut=a=>a.slice(na,nb+1);
   const nmid=cut(mid),nlo=cut(lo),nhi=cut(hi),nobs=cut(obsSeries);
@@ -1136,7 +1162,7 @@ function build(){
   const nvals=[].concat(nmid,nlo,nhi,nobs).filter(v=>v!=null);
   const nmx=Math.max.apply(null,nvals),nmn=Math.min.apply(null,nvals);
   const npad=(nmx-nmn)*.09;
-  near=new Chart(el('near'),{type:'line',plugins:[nearPlugin],
+  near=new Chart(el('near'),{type:'line',plugins:[nearEpochPlugin,nearPlugin],
     data:{labels:nlab,datasets:[
       {data:nhi,borderColor:'transparent',pointRadius:0,fill:'+1',backgroundColor:C.band},
       {data:nlo,borderColor:'transparent',pointRadius:0,fill:false},
