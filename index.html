@@ -157,6 +157,16 @@ figure.chartbox{background:var(--panel);border:1px solid var(--rule-soft);border
 .stat .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}
 .stat .v{font-family:var(--mono);font-size:19px;font-weight:500;letter-spacing:-.02em}
 .stat .n{font-size:11.5px;color:var(--ink-3);margin-top:2px}
+.flowbox{background:var(--panel);border:1px solid var(--rule-soft);border-radius:4px;padding:12px 14px 13px}
+.flowbox .fh{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.flowbox .fh .k{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.flowbox .fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:11px}
+.flowbox .fc{background:var(--band-soft);border:1px solid var(--rule-soft);border-radius:4px;padding:10px 12px 11px}
+.flowbox .fc .k{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}
+.flowbox .fc .v{font-family:var(--mono);font-size:17px;font-weight:500;letter-spacing:-.02em}
+.flowbox .fc .n{font-size:11.5px;color:var(--ink-3);margin-top:3px;line-height:1.4}
+.flowbox .fc.mute .v{color:var(--ink-2)}
+.flowbox .fn{font-size:12px;line-height:1.5;color:var(--ink-2);margin-top:11px;padding-top:10px;border-top:1px solid var(--rule-soft)}
 .wrap{counter-reset:sec}
 h2{max-width:var(--col);margin:40px auto 12px;font-family:var(--serif);font-weight:500;font-size:19px;letter-spacing:-.005em;display:flex;align-items:baseline;gap:12px;scroll-margin-top:16px}
 h2::before{counter-increment:sec;content:counter(sec,decimal-leading-zero);font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;color:var(--ink-3);flex:0 0 auto}
@@ -218,7 +228,7 @@ ul.tight li{margin-bottom:5px}
   .rail,.nav{display:none}
   .dash,.dash-top,.dash-main,.stats{display:block;border:none;padding:0;background:none}
   .wrap{max-width:none;padding:0}
-  figure,.stats,.guide,.legend,.aside{break-inside:avoid}
+  figure,.stats,.flowbox,.guide,.legend,.aside{break-inside:avoid}
   h2,h3{break-after:avoid}
   a{border-bottom:none}
 }
@@ -263,7 +273,7 @@ ul.tight li{margin-bottom:5px}
 /* На узком экране подсказка привязывается к блоку, а не к иконке, и не уезжает за край. */
 @media (max-width:1080px){
   .info{position:static}
-  .ctl,.fit,.tie{position:relative}
+  .ctl,.fit,.tie,.flowbox{position:relative}
   .tip,.tip.tr{left:0;right:0;width:auto;top:calc(100% + 6px);display:none}
   .info:hover .tip,.info:focus-visible .tip{display:block}
   .presets .pl{white-space:normal}
@@ -364,6 +374,21 @@ ul.tight li{margin-bottom:5px}
       <div class="res-h"><canvas id="res"></canvas></div>
       <p class="axis-note">Верх — цена, логарифмическая шкала. Низ — остаток log₁₀(факт / тренд), dex; тонкие линии на ±0.5 dex — полоса режима из критерия опровержения 5. Серые полосы — халвинг-эпохи H0–H8. Пунктирная вертикаль — граница факта и прогноза.</p>
     </figure>
+  </div>
+
+  <div class="flowbox">
+    <div class="fh">
+      <span class="k">Чего это требует от денег</span>
+      <span class="info" tabindex="0" role="button" aria-label="Как считается блок потока"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>Та же траектория, пересчитанная в капитализацию.</b> Цена умножается на число монет в обращении по графику эмиссии; новых параметров здесь нет ни одного, только цена модели и протокол.<br><br>Смысл блока — поставить рядом с ценой её денежный масштаб. Плато $657k звучит скромно, пока не переведено в $13.7 трлн, которые должны откуда-то прийти.<br><br><b>Прирост не равномерен.</b> Средняя цифра сглаживает то, что в годы дна капитализация падает на триллионы, а в годы разгона растёт быстрее среднего. Столбец «ближайшие 12 месяцев» показывает текущую фазу, столбец «в среднем» — весь путь.<br><br><b>Прирост капитализации — не приток денег.</b> Перевод одного в другое требует множителя капитализации, которого модель не знает; см. примечание под блоком.</span></span>
+    </div>
+    <div class="fg">
+      <div class="fc"><div class="k">Капитализация сейчас</div><div class="v" id="f-now">—</div><div class="n" id="f-nown">—</div></div>
+      <div class="fc"><div class="k">Капитализация на плато</div><div class="v" id="f-pl">—</div><div class="n" id="f-pln">—</div></div>
+      <div class="fc"><div class="k">Прирост · 12 месяцев</div><div class="v" id="f-d12">—</div><div class="n" id="f-d12n">—</div></div>
+      <div class="fc"><div class="k">Прирост · в среднем</div><div class="v" id="f-avg">—</div><div class="n" id="f-avgn">—</div></div>
+      <div class="fc mute"><div class="k">Давление эмиссии</div><div class="v" id="f-iss">—</div><div class="n" id="f-issn">—</div></div>
+    </div>
+    <div class="fn" id="f-note">—</div>
   </div>
 
   <div class="stats">
@@ -471,6 +496,7 @@ ul.tight li{margin-bottom:5px}
  <tr><td class="n"><b>2600</b></td><td>плато $1.63M · $33.8 трлн · <b>больше золота</b> · 43% взрослых — требует смены денежного режима, которой в модели нет</td></tr>
 </table>
 <p>Привычная опора — доля взрослых, владеющих акциями, 15–25%. Но эта доля низка по двум причинам: у большинства нет инвестируемого излишка и есть барьер входа — брокер, грамотность, доверие к процедуре. Вторая причина за десятилетие снимается доступным каждому советником (ИИ), первая расширяется самим ростом. Верхняя граница в 25% при снятом трении выглядит скорее нижней, отсюда 22–32% и диапазон 1300–1900 млн владельцев.</p>
+<p>Эти цифры пересчитываются живьём под графиком, в блоке <b>«Чего это требует от денег»</b>. Там та же капитализация показана не только на плато, но и по дороге к нему: сколько должно прибавляться в среднем за год и сколько — за ближайшие двенадцать месяцев. Заодно видно, что <b>эмиссия составляет меньше процента требуемого прироста и дальше падает</b>: халвинг как механизм предложения к 2028 году перестаёт значить что-либо количественно, и цикл целиком остаётся за спросом.</p>
 <p><b>База стоит на 1610 млн</b> — это ровно тот же расчёт, что давала прежняя версия при 866 млн адресов: те же $657k плато, та же капитализация $13.6 трлн, те же 44% от стоимости всего добытого золота. Переденоминация во владельцев просто сменила единицы. Довод в пользу более высокого потолка остаётся доводом и живёт правее по шкале, а не в основании расчёта.</p>
 
 <h3>Затухание эйфории: 0.00</h3>
@@ -712,6 +738,32 @@ function sat(p,L){return p*L/Math.cbrt(p*p*p+L*L*L);}
 function plateau(W,b){return 657000*Math.pow(W/1610,b);}
 function ss(x){return .5-.5*Math.cos(Math.PI*Math.min(Math.max(x,0),1));}
 
+/* Эмиссия. Узлы — халвинги: на каждом запас известен точно, 210 000 блоков на эпоху.
+   Между узлами линейно по времени. Даты после 2024 — оценочные, ±2 месяца погоды не делают. */
+const YR=365.25*864e5, GOLD=31e12;
+const HALV=[[Date.UTC(2012,10,28),10500000],[Date.UTC(2016,6,9),15750000],
+            [Date.UTC(2020,4,11),18375000],[Date.UTC(2024,3,20),19687500],
+            [Date.UTC(2028,3,15),20343750],[Date.UTC(2032,3,15),20671875],
+            [Date.UTC(2036,3,15),20835937.5],[Date.UTC(2040,3,15),20917968.75],
+            [Date.UTC(2044,3,15),20958984.375]];
+function supplyAt(t){
+  if(t<=HALV[0][0])return HALV[0][1]*Math.max(t-GEN,0)/(HALV[0][0]-GEN);
+  for(let i=0;i<HALV.length-1;i++)if(t<=HALV[i+1][0])
+    return HALV[i][1]+(HALV[i+1][1]-HALV[i][1])*(t-HALV[i][0])/(HALV[i+1][0]-HALV[i][0]);
+  return HALV[HALV.length-1][1];
+}
+function issueRate(t){            /* BTC в год */
+  for(let i=0;i<HALV.length-1;i++)if(t<=HALV[i+1][0])
+    return (HALV[i+1][1]-HALV[i][1])/(HALV[i+1][0]-HALV[i][0])*YR;
+  return 0;
+}
+const fmtBig=v=>{
+  const a=Math.abs(v),s=v<0?'\u2212':'';
+  if(a>=1e12)return s+'$'+(a/1e12).toFixed(a>=1e13?1:2)+' \u0442\u0440\u043b\u043d';
+  if(a>=1e9)return s+'$'+(a/1e9).toFixed(a>=1e11?0:a>=1e10?0:1)+' \u043c\u043b\u0440\u0434';
+  return s+'$'+Math.round(a/1e6)+' \u043c\u043b\u043d';
+};
+
 const A_STR=0.030, A_MAC=0.207, B4=0.37;
 function amps(de,dp){
   const rA=0.50+0.17*de, rB=1-0.5*dp;
@@ -895,6 +947,51 @@ function build(){
   const i5p=idx(EPOCHS[5].pk),i5t=idx(EPOCHS[5].tr);
   el('s-p5').textContent=mid[i5p]?fmt(mid[i5p]):'—';el('s-p5n').textContent=mlab(EPOCHS[5].pk);
   el('s-t5').textContent=mid[i5t]?fmt(mid[i5t]):'—';el('s-t5n').textContent=mlab(EPOCHS[5].tr);
+
+  /* ---- поток капитала: та же траектория в деньгах ---- */
+  const spot=OBS[OBS.length-1];
+  const capAt=i=>mid[i]*supplyAt(ms[i]);
+  const capNow=spot*supplyAt(ms[now]);
+  let hz=trend.findIndex((v,i)=>i>now&&v>=0.9*L);
+  const reached=hz>=0; if(!reached)hz=months.length-1;
+  /* горизонт короче трёх лет превращает средний прирост в шум одного месяца */
+  hz=Math.max(hz,Math.min(now+36,months.length-1));
+  const yrs=(ms[hz]-ms[now])/YR;
+  /* 20.7 млн — тот же запас, по которому считает таблица потолка, чтобы блок ей не противоречил */
+  const capPl=L*20.7e6;
+  const i12=Math.min(now+12,months.length-1);
+  const d12=capAt(i12)-capNow;
+  /* конец берётся по тренду, а не по средней траектории: иначе горизонт,
+     попавший на дно цикла, занижает требуемый прирост вдвое */
+  const avg=(trend[hz]*supplyAt(ms[hz])-capNow)/yrs;
+  let peak=0,prevC=capNow;
+  for(let j=now+12;j<months.length;j+=12){const c=capAt(j);if(c-prevC>peak)peak=c-prevC;prevC=c;}
+  const issBtc=issueRate(ms[now]), issUsd=issBtc*spot;
+
+  el('f-now').textContent=fmtBig(capNow);
+  el('f-nown').textContent=(supplyAt(ms[now])/1e6).toFixed(2)+' млн монет · '
+    +(capNow/GOLD*100).toFixed(0)+'% золота';
+  el('f-pl').textContent=fmtBig(capPl);
+  el('f-pln').textContent='×'+(capPl/capNow).toFixed(1)+' от сегодняшней · '
+    +(capPl/GOLD*100).toFixed(0)+'% золота';
+  el('f-d12').textContent=(d12>=0?'+':'')+fmtBig(d12);
+  el('f-d12').style.color=d12>=0?C.obs:C.neg;
+  el('f-d12n').textContent='к '+mlab(months[i12])+' · ×'+(capAt(i12)/capNow).toFixed(1)
+    +' от сегодняшней';
+  el('f-avg').textContent=fmtBig(avg)+'/год';
+  el('f-avgn').textContent=(reached
+      ? 'по тренду до 90% плато, '+mlab(months[hz])+' · '+yrs.toFixed(1)+' года'
+      : 'по тренду до конца горизонта · плато к 2040 не достигается')
+    +' · пиковые 12 мес +'+fmtBig(peak);
+  el('f-iss').textContent=fmtBig(issUsd)+'/год';
+  el('f-issn').textContent=Math.round(issBtc/1000)+' тыс BTC в год · '
+    +(avg>0?(issUsd/avg*100).toFixed(1)+'% требуемого прироста':'—');
+
+  el('f-note').innerHTML='<b>Прирост капитализации — не приток денег.</b> Чтобы получить второе, первое нужно поделить '
+    +'на множитель капитализации: сколько долларов рыночной стоимости добавляет доллар чистой покупки. '
+    +'Эмпирические оценки расходятся от 2 до 25, поэтому число здесь не выводится — модель этого множителя не знает '
+    +'и нигде не использует. Для масштаба: всё добытое золото — $31 трлн, мировой рынок акций — порядка $130 трлн. '
+    +'Эмиссия считается по протоколу: 210 000 блоков на эпоху, запас на халвинге известен точно, между халвингами линейно.';
 
   const tb=el('cyc').querySelector('tbody');tb.innerHTML='';
   EPOCHS.slice(0,8).forEach((e,i)=>{

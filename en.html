@@ -157,6 +157,16 @@ figure.chartbox{background:var(--panel);border:1px solid var(--rule-soft);border
 .stat .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}
 .stat .v{font-family:var(--mono);font-size:19px;font-weight:500;letter-spacing:-.02em}
 .stat .n{font-size:11.5px;color:var(--ink-3);margin-top:2px}
+.flowbox{background:var(--panel);border:1px solid var(--rule-soft);border-radius:4px;padding:12px 14px 13px}
+.flowbox .fh{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.flowbox .fh .k{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.flowbox .fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:11px}
+.flowbox .fc{background:var(--band-soft);border:1px solid var(--rule-soft);border-radius:4px;padding:10px 12px 11px}
+.flowbox .fc .k{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}
+.flowbox .fc .v{font-family:var(--mono);font-size:17px;font-weight:500;letter-spacing:-.02em}
+.flowbox .fc .n{font-size:11.5px;color:var(--ink-3);margin-top:3px;line-height:1.4}
+.flowbox .fc.mute .v{color:var(--ink-2)}
+.flowbox .fn{font-size:12px;line-height:1.5;color:var(--ink-2);margin-top:11px;padding-top:10px;border-top:1px solid var(--rule-soft)}
 .wrap{counter-reset:sec}
 h2{max-width:var(--col);margin:40px auto 12px;font-family:var(--serif);font-weight:500;font-size:19px;letter-spacing:-.005em;display:flex;align-items:baseline;gap:12px;scroll-margin-top:16px}
 h2::before{counter-increment:sec;content:counter(sec,decimal-leading-zero);font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;color:var(--ink-3);flex:0 0 auto}
@@ -218,7 +228,7 @@ ul.tight li{margin-bottom:5px}
   .rail,.nav{display:none}
   .dash,.dash-top,.dash-main,.stats{display:block;border:none;padding:0;background:none}
   .wrap{max-width:none;padding:0}
-  figure,.stats,.guide,.legend,.aside{break-inside:avoid}
+  figure,.stats,.flowbox,.guide,.legend,.aside{break-inside:avoid}
   h2,h3{break-after:avoid}
   a{border-bottom:none}
 }
@@ -263,7 +273,7 @@ ul.tight li{margin-bottom:5px}
 /* На узком экране подсказка привязывается к блоку, а не к иконке, и не уезжает за край. */
 @media (max-width:1080px){
   .info{position:static}
-  .ctl,.fit,.tie{position:relative}
+  .ctl,.fit,.tie,.flowbox{position:relative}
   .tip,.tip.tr{left:0;right:0;width:auto;top:calc(100% + 6px);display:none}
   .info:hover .tip,.info:focus-visible .tip{display:block}
   .presets .pl{white-space:normal}
@@ -364,6 +374,21 @@ ul.tight li{margin-bottom:5px}
       <div class="res-h"><canvas id="res"></canvas></div>
       <p class="axis-note">Top — price, logarithmic scale. Bottom — the residual log₁₀(observed / trend), dex; the thin lines at ±0.5 dex are the regime band from falsification criterion 5. Grey stripes are the halving epochs H0–H8. The dashed vertical is the boundary between observation and forecast.</p>
     </figure>
+  </div>
+
+  <div class="flowbox">
+    <div class="fh">
+      <span class="k">What this asks of money</span>
+      <span class="info" tabindex="0" role="button" aria-label="How the flow block is calculated"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>The same trajectory, converted into capitalisation.</b> Price is multiplied by the number of coins in circulation from the issuance schedule; there is not a single new parameter here, only the model price and the protocol.<br><br>The point of the block is to put the monetary scale next to the price. A $657k plateau sounds modest until it is translated into the $13.6T that has to come from somewhere.<br><br><b>Growth is not uniform.</b> The average figure smooths over the fact that in trough years capitalisation falls by trillions, while in acceleration years it grows faster than the average. The 12-month cell shows the current phase, the average cell shows the whole path.<br><br><b>Capitalisation growth is not money inflow.</b> Converting one into the other requires a capitalisation multiplier that the model does not know; see the note below the block.</span></span>
+    </div>
+    <div class="fg">
+      <div class="fc"><div class="k">Capitalisation now</div><div class="v" id="f-now">—</div><div class="n" id="f-nown">—</div></div>
+      <div class="fc"><div class="k">Capitalisation at plateau</div><div class="v" id="f-pl">—</div><div class="n" id="f-pln">—</div></div>
+      <div class="fc"><div class="k">Growth · 12 months</div><div class="v" id="f-d12">—</div><div class="n" id="f-d12n">—</div></div>
+      <div class="fc"><div class="k">Growth · average</div><div class="v" id="f-avg">—</div><div class="n" id="f-avgn">—</div></div>
+      <div class="fc mute"><div class="k">Issuance pressure</div><div class="v" id="f-iss">—</div><div class="n" id="f-issn">—</div></div>
+    </div>
+    <div class="fn" id="f-note">—</div>
   </div>
 
   <div class="stats">
@@ -471,6 +496,7 @@ ul.tight li{margin-bottom:5px}
  <tr><td class="n"><b>2600</b></td><td>plateau $1.63M · $33.8T · <b>more than gold</b> · 43% of adults — requires a change of monetary regime, which the model does not contain</td></tr>
 </table>
 <p>The familiar anchor is the share of adults owning equities, 15–25%. But this share is low for two reasons: most people have no investable surplus, and there is a barrier to entry — a broker, literacy, trust in the procedure. The second reason is removed over a decade by an advisor available to everyone (AI), the first expands with growth itself. An upper bound of 25% with the friction removed looks more like a lower one, hence 22–32% and a range of 1300–1900 M owners.</p>
+<p>These figures are recalculated live under the chart, in the <b>“What this asks of money”</b> block. There the same capitalisation is shown not only at the plateau but along the way to it: how much has to be added per year on average, and how much over the next twelve months. It also makes visible that <b>issuance is under one percent of the required growth and falling</b>: by 2028 the halving stops meaning anything quantitatively as a supply mechanism, and the cycle is left entirely to demand.</p>
 <p><b>The base stands at 1610 M</b> — this is exactly the same calculation the previous version gave at 866 M addresses: the same $657k plateau, the same $13.6T capitalisation, the same 44% of the value of all the gold ever mined. Redenominating into owners simply changed the units. The argument for a higher ceiling remains an argument and lives further to the right along the scale, not at the base of the calculation.</p>
 
 <h3>Euphoria decay: 0.00</h3>
@@ -712,6 +738,33 @@ function sat(p,L){return p*L/Math.cbrt(p*p*p+L*L*L);}
 function plateau(W,b){return 657000*Math.pow(W/1610,b);}
 function ss(x){return .5-.5*Math.cos(Math.PI*Math.min(Math.max(x,0),1));}
 
+/* Issuance. The nodes are the halvings: at each one the stock is known exactly,
+   210 000 blocks per epoch. Linear in time between nodes. Dates after 2024 are
+   estimates; a couple of months either way changes nothing. */
+const YR=365.25*864e5, GOLD=31e12;
+const HALV=[[Date.UTC(2012,10,28),10500000],[Date.UTC(2016,6,9),15750000],
+            [Date.UTC(2020,4,11),18375000],[Date.UTC(2024,3,20),19687500],
+            [Date.UTC(2028,3,15),20343750],[Date.UTC(2032,3,15),20671875],
+            [Date.UTC(2036,3,15),20835937.5],[Date.UTC(2040,3,15),20917968.75],
+            [Date.UTC(2044,3,15),20958984.375]];
+function supplyAt(t){
+  if(t<=HALV[0][0])return HALV[0][1]*Math.max(t-GEN,0)/(HALV[0][0]-GEN);
+  for(let i=0;i<HALV.length-1;i++)if(t<=HALV[i+1][0])
+    return HALV[i][1]+(HALV[i+1][1]-HALV[i][1])*(t-HALV[i][0])/(HALV[i+1][0]-HALV[i][0]);
+  return HALV[HALV.length-1][1];
+}
+function issueRate(t){            /* BTC per year */
+  for(let i=0;i<HALV.length-1;i++)if(t<=HALV[i+1][0])
+    return (HALV[i+1][1]-HALV[i][1])/(HALV[i+1][0]-HALV[i][0])*YR;
+  return 0;
+}
+const fmtBig=v=>{
+  const a=Math.abs(v),s=v<0?'\u2212':'';
+  if(a>=1e12)return s+'$'+(a/1e12).toFixed(a>=1e13?1:2)+'T';
+  if(a>=1e9)return s+'$'+(a/1e9).toFixed(a>=1e10?0:1)+'B';
+  return s+'$'+Math.round(a/1e6)+'M';
+};
+
 const A_STR=0.030, A_MAC=0.207, B4=0.37;
 function amps(de,dp){
   const rA=0.50+0.17*de, rB=1-0.5*dp;
@@ -895,6 +948,52 @@ function build(){
   const i5p=idx(EPOCHS[5].pk),i5t=idx(EPOCHS[5].tr);
   el('s-p5').textContent=mid[i5p]?fmt(mid[i5p]):'—';el('s-p5n').textContent=mlab(EPOCHS[5].pk);
   el('s-t5').textContent=mid[i5t]?fmt(mid[i5t]):'—';el('s-t5n').textContent=mlab(EPOCHS[5].tr);
+
+  /* ---- capital flow: the same trajectory in money ---- */
+  const spot=OBS[OBS.length-1];
+  const capAt=i=>mid[i]*supplyAt(ms[i]);
+  const capNow=spot*supplyAt(ms[now]);
+  let hz=trend.findIndex((v,i)=>i>now&&v>=0.9*L);
+  const reached=hz>=0; if(!reached)hz=months.length-1;
+  /* a horizon shorter than three years turns the average into the noise of one month */
+  hz=Math.max(hz,Math.min(now+36,months.length-1));
+  const yrs=(ms[hz]-ms[now])/YR;
+  /* 20.7 M is the same stock the ceiling table uses, so the block never contradicts it */
+  const capPl=L*20.7e6;
+  const i12=Math.min(now+12,months.length-1);
+  const d12=capAt(i12)-capNow;
+  /* the endpoint is taken on the trend rather than the mean trajectory: otherwise a horizon
+     landing on a cycle trough halves the growth the model actually requires */
+  const avg=(trend[hz]*supplyAt(ms[hz])-capNow)/yrs;
+  let peak=0,prevC=capNow;
+  for(let j=now+12;j<months.length;j+=12){const c=capAt(j);if(c-prevC>peak)peak=c-prevC;prevC=c;}
+  const issBtc=issueRate(ms[now]), issUsd=issBtc*spot;
+
+  el('f-now').textContent=fmtBig(capNow);
+  el('f-nown').textContent=(supplyAt(ms[now])/1e6).toFixed(2)+'M coins · '
+    +(capNow/GOLD*100).toFixed(0)+'% of gold';
+  el('f-pl').textContent=fmtBig(capPl);
+  el('f-pln').textContent='×'+(capPl/capNow).toFixed(1)+" today's · "
+    +(capPl/GOLD*100).toFixed(0)+'% of gold';
+  el('f-d12').textContent=(d12>=0?'+':'')+fmtBig(d12);
+  el('f-d12').style.color=d12>=0?C.obs:C.neg;
+  el('f-d12n').textContent='to '+mlab(months[i12])+' · ×'+(capAt(i12)/capNow).toFixed(1)
+    +" today's";
+  el('f-avg').textContent=fmtBig(avg)+'/yr';
+  el('f-avgn').textContent=(reached
+      ? 'on trend to 90% of plateau, '+mlab(months[hz])+' · '+yrs.toFixed(1)+' years'
+      : 'on trend to the end of the horizon · plateau not reached by 2040')
+    +' · peak 12 months +'+fmtBig(peak);
+  el('f-iss').textContent=fmtBig(issUsd)+'/yr';
+  el('f-issn').textContent=Math.round(issBtc/1000)+'k BTC per year · '
+    +(avg>0?(issUsd/avg*100).toFixed(1)+'% of required growth':'—');
+
+  el('f-note').innerHTML='<b>Capitalisation growth is not money inflow.</b> To get the second from the first, '
+    +'divide by the capitalisation multiplier: how many dollars of market value a dollar of net buying adds. '
+    +'Empirical estimates range from 2 to 25, so no figure is given here — the model does not know this multiplier '
+    +'and does not use it anywhere. For scale: all the gold ever mined is $31T, the world equity market is on the '
+    +'order of $130T. Issuance follows the protocol: 210 000 blocks per epoch, the stock at each halving is known '
+    +'exactly, linear in between.';
 
   const tb=el('cyc').querySelector('tbody');tb.innerHTML='';
   EPOCHS.slice(0,8).forEach((e,i)=>{
