@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сквозная модель цены биткоина, 2010–2040: степенной закон × потолок насыщения × халвинг-циклы</title>
+<meta name="description" content="Цена биткоина как степенной закон возраста сети с логистическим насыщением и халвинг-циклами. Сквозная модель, в которой три слоя цены сшиты насквозь: показатель Меткалфа задаёт наклон степенного роста; денежный потолок задаёт высоту, в которую этот рост упирается; и этот же денежный потолок, выпрямляя тренд, превращает один и тот же цикл в более глубокие просадки и более слабые ралли. Четыре ползунка, пять критериев опровержения, помесячное разрешение с 2010 года.">
+<link rel="canonical" href="https://neokrasav4ik.github.io/btc-model/ru.html">
+<link rel="alternate" hreflang="ru" href="https://neokrasav4ik.github.io/btc-model/ru.html">
+<link rel="alternate" hreflang="en" href="https://neokrasav4ik.github.io/btc-model/">
+<link rel="alternate" hreflang="x-default" href="https://neokrasav4ik.github.io/btc-model/">
+<style>
+/* IBM Plex (SIL OFL 1.1), локальные копии — внешних запросов нет */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-mono-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-mono-cyrillic-500-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-mono-latin-400-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-mono-latin-500-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-sans-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-sans-cyrillic-500-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/ibm-plex-sans-cyrillic-600-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-sans-greek-400-normal.woff2') format('woff2');unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-sans-greek-500-normal.woff2') format('woff2');unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/ibm-plex-sans-greek-600-normal.woff2') format('woff2');unicode-range:U+0370-0377,U+037A-037F,U+0384-038A,U+038C,U+038E-03A1,U+03A3-03FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-sans-latin-400-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-sans-latin-500-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/ibm-plex-sans-latin-600-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Serif';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-serif-cyrillic-400-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Serif';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-serif-cyrillic-500-normal.woff2') format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'IBM Plex Serif';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-serif-latin-400-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Serif';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-serif-latin-500-normal.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+:root{
+  --paper:#F1F3F5;
+  --panel:#FBFCFD;
+  --ink:#11171E;
+  --ink-2:#4A5560;
+  --ink-3:#8A949E;
+  --rule:#D4DAE0;
+  --rule-soft:#E4E9ED;
+  --obs:#B8690C;
+  --mdl:#1E5FA8;
+  --band:rgba(30,95,168,.13);
+  --band-soft:rgba(30,95,168,.085);
+  --col:1180px;
+  --pos:#1F7A5A;
+  --neg:#A83232;
+  --epoch:rgba(17,23,30,.035);
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --serif:'IBM Plex Serif',Georgia,serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#0E1319;--panel:#141B22;--ink:#E8EDF2;--ink-2:#9FADBA;--ink-3:#6B7885;
+    --rule:#28323C;--rule-soft:#1D262E;--obs:#E0A03C;--mdl:#5E9EE0;--band:rgba(94,158,224,.16);--band-soft:rgba(94,158,224,.10);
+    --pos:#4FB08A;--neg:#D96A6A;--epoch:rgba(232,237,242,.035);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--mdl);outline-offset:2px}
+.wrap{max-width:1560px;margin:0 auto;padding:36px 28px 72px}
+header{border-bottom:1px solid var(--rule);padding-bottom:16px;margin-bottom:20px}
+.hrow{display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:0 0 10px}
+.hrow h1{margin:0}
+.hrow .dateline{margin:0;white-space:nowrap}
+.nav{margin-top:2px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);
+  margin:0 0 10px;white-space:nowrap;overflow-x:auto;overflow-y:hidden;padding-bottom:2px;
+  scrollbar-width:none;-ms-overflow-style:none}
+.eyebrow::-webkit-scrollbar{display:none}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(24px,3.4vw,36px);line-height:1.18;margin:0 0 10px;letter-spacing:-.01em}
+.dateline{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);margin:0 0 12px;letter-spacing:.01em}
+.sub{margin:0 0 14px;color:var(--ink-2);max-width:none;font-size:14.5px;line-height:1.6}
+.nav{display:flex;flex-wrap:wrap;gap:0 18px;font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase}
+.nav a{color:var(--ink-3);border-bottom:none;padding:2px 0;transition:color .15s}
+.nav .lang{margin-left:auto;color:var(--mdl);border:1px solid var(--rule);border-radius:3px;padding:2px 9px;letter-spacing:.06em}
+.nav .lang:hover{border-color:var(--mdl);color:var(--mdl)}
+.nav a:hover{color:var(--mdl);border-bottom:none}
+/* ── Панель управления ────────────────────────────────────────────────
+   .dash
+     .dash-top   → .presets (+ .pdesc)  |  .tie
+     .dash-main  → .rail (ползунки)     |  figure.chartbox (графики)
+   Новый ползунок = ещё один блок .ctl внутри .rail, под нужным заголовком группы.
+   Ширина колонки задаётся первым значением .dash-main.
+   .dash — поднос на фоне --paper; всё внутри (сценарии, проверка, ползунки,
+   график, плашки итогов) — карточки --panel с рамкой --rule-soft и радиусом 4px. */
+.dash{display:flex;flex-direction:column;gap:11px;padding:12px;
+  border:1px solid var(--rule);background:var(--paper);margin-bottom:32px}
+.dash-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(252px,390px);gap:11px}
+.dash-main{display:grid;grid-template-columns:minmax(252px,306px) minmax(0,1fr);gap:11px}
+.rail{display:flex;flex-direction:column;gap:7px}
+.rail .grp{font-family:var(--mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3);
+  display:flex;align-items:center;gap:9px;margin:4px 0 1px}
+.rail .grp::after{content:'';flex:1 1 auto;height:1px;background:var(--rule)}
+.rail .grp:first-child{margin-top:0}
+/* Каждый ползунок — отдельная карточка на подложке колонки: имя тёмное,
+   концы шкалы бледные, вычисляемый итог со стрелкой и в рамке блока. */
+.rail .ctl{background:var(--panel);border:1px solid var(--rule-soft);border-radius:4px;padding:5px 10px 6px}
+.rail .ctl label{font-size:12.5px;line-height:1.3;color:var(--ink);font-weight:500;margin-bottom:3px;gap:8px}
+.rail .ctl label .lb{flex-wrap:nowrap}
+.rail .ctl>label>b{flex:none;white-space:nowrap}
+.rail .hint>span:nth-child(1),.rail .hint>span:nth-child(3){opacity:.75}
+.rail .hint>span:nth-child(2){color:var(--ink);margin-top:3px;padding-top:3px;border-top:1px dashed var(--rule-soft)}
+.rail .hint>span:nth-child(2)::before{content:'→ ';color:var(--ink-3)}
+.rail #ctl-mb .hint>span:nth-child(2){color:var(--ink-3)}
+.rail #ctl-mb .hint>span:nth-child(2)::before{content:none}
+.ctl{min-width:0}
+.ctl label{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--ink-2);margin-bottom:4px;gap:12px}
+.ctl>label>b{font-family:var(--mono);font-weight:500;font-size:13px;color:var(--ink)}
+input[type=range]{width:100%;height:13px;-webkit-appearance:none;appearance:none;background:transparent;cursor:pointer;margin:0}
+input[type=range]::-webkit-slider-runnable-track{height:3px;background:var(--rule);border-radius:2px}
+input[type=range]::-moz-range-track{height:3px;background:var(--rule);border-radius:2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--mdl);border:2px solid var(--panel);margin-top:-4.5px;box-shadow:0 0 0 1px var(--mdl);transition:transform .12s}
+input[type=range]::-moz-range-thumb{width:11px;height:11px;border-radius:50%;background:var(--mdl);border:2px solid var(--panel);box-shadow:0 0 0 1px var(--mdl)}
+input[type=range]:hover::-webkit-slider-thumb{transform:scale(1.15)}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.15)}
+.hint{font-family:var(--mono);font-size:10.5px;line-height:1.4;color:var(--ink-3);display:grid;
+  grid-template-columns:auto auto;justify-content:space-between;column-gap:10px;margin-top:1px}
+.hint>span:nth-child(1){grid-area:1/1}
+.hint>span:nth-child(3){grid-area:1/2;text-align:right}
+.hint>span:nth-child(2){grid-column:1/-1;grid-row:2;color:var(--ink-2);margin-top:2px}
+.presets{display:flex;flex-wrap:wrap;align-items:center;align-content:flex-start;gap:6px;padding:8px 12px 10px;
+  background:var(--band-soft);border:1px solid var(--rule-soft);border-radius:4px}
+.presets .pl{flex:1 0 100%;font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:0 0 1px;white-space:nowrap}
+.presets button{font-family:var(--sans);font-size:12.5px;color:var(--ink);background:var(--panel);border:1px solid var(--ink-3);border-radius:4px;padding:4px 11px;cursor:pointer;
+  box-shadow:0 1px 2px rgba(0,0,0,.06);transition:border-color .15s,color .15s,background .15s,box-shadow .15s,transform .08s}
+.presets button:hover{border-color:var(--mdl);color:var(--mdl);background:var(--band-soft);box-shadow:0 2px 5px rgba(0,0,0,.10)}
+.presets button:active{transform:translateY(1px);box-shadow:0 0 0 rgba(0,0,0,0)}
+.presets button[aria-pressed=true]{border-color:var(--mdl);background:var(--band);color:var(--ink);
+  font-weight:600;box-shadow:inset 0 0 0 2px var(--mdl)}
+.presets button[aria-pressed=true]::before{content:'';display:inline-block;width:6px;height:6px;
+  border-radius:50%;background:var(--mdl);margin-right:7px;vertical-align:1px}
+.presets button .bdg{font-family:var(--mono);font-size:9px;letter-spacing:.09em;text-transform:uppercase;
+  border:1px solid currentColor;border-radius:2px;padding:1px 4px;margin-left:8px;opacity:.7;vertical-align:1px}
+.presets button[aria-pressed=true] .bdg{opacity:1;color:var(--mdl)}
+.presets:has(button[aria-pressed=true]) button[aria-pressed=false]{opacity:.85}
+.presets:has(button[aria-pressed=true]) button[aria-pressed=false]:hover{opacity:1}
+.legend{display:flex;flex-wrap:wrap;gap:5px 20px;font-size:12.5px;color:var(--ink-2);padding:2px 2px 8px}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend .sw{flex:none}
+.sw{width:18px;height:0;border-top-width:2.5px;border-top-style:solid;display:inline-block}
+.sw.b{width:14px;height:11px;border:1px solid var(--mdl);background:var(--band);border-top-width:1px}
+figure{margin:0;background:var(--panel);border:1px solid var(--rule-soft);border-radius:4px;padding:10px 12px 14px}
+figure.chartbox{background:var(--panel);border:1px solid var(--rule-soft);border-radius:4px;padding:10px 12px 12px;min-width:0;
+  display:flex;flex-direction:column}
+figure.chartbox>.legend,figure.chartbox>.axis-note{flex:none}
+.main-h{position:relative;flex:1 1 auto;min-height:320px}
+.res-h{position:relative;flex:none;height:170px;border-top:1px solid var(--rule-soft);margin-top:6px;padding-top:8px}
+.near-h{position:relative;height:330px}
+.fcap{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);padding:0 0 10px;margin:0}
+.axis-note{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);padding:6px 8px 0;max-width:none;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(142px,1fr));gap:8px}
+.stat{background:var(--panel);border:1px solid var(--rule-soft);border-radius:4px;padding:8px 11px 9px}
+.stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px;line-height:1.25}
+.stat .v{font-family:var(--mono);font-size:17px;font-weight:500;letter-spacing:-.02em;line-height:1.25}
+.stat .n{font-size:11px;color:var(--ink-3);margin-top:1px;line-height:1.35}
+.flowbox{background:var(--panel);border:1px solid var(--rule-soft);border-radius:4px;padding:8px 12px 9px}
+.flowbox .fh{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.flowbox .fh .k{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.flowbox .fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.flowbox .fc{background:var(--band-soft);border:1px solid var(--rule-soft);border-radius:4px;padding:5px 10px 6px}
+.flowbox .fc .k{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1px;line-height:1.2}
+.flowbox .fc .v{font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:-.02em;line-height:1.2}
+.flowbox .fc .n{font-size:10.5px;color:var(--ink-3);margin-top:1px;line-height:1.3}
+.flowbox .fc.mute .v{color:var(--ink-2)}
+.wrap{counter-reset:sec}
+h2{max-width:var(--col);margin:40px auto 12px;font-family:var(--serif);font-weight:500;font-size:19px;letter-spacing:-.005em;display:flex;align-items:baseline;gap:12px;scroll-margin-top:16px}
+h2::before{counter-increment:sec;content:counter(sec,decimal-leading-zero);font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.1em;color:var(--ink-3);flex:0 0 auto}
+table{width:100%;max-width:var(--col);border-collapse:collapse;font-size:13.5px;margin:14px auto 8px}
+th,td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--rule-soft)}
+th:first-child,td:first-child{text-align:left}
+th{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:500;border-bottom:1px solid var(--rule)}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+tr.fut td:first-child{color:var(--mdl)}
+h3{max-width:var(--col);margin:26px auto 8px;font-family:var(--sans);font-weight:600;font-size:15px;color:var(--ink)}
+p{max-width:var(--col);margin-left:auto;margin-right:auto;color:var(--ink-2)}
+a{color:var(--mdl);text-decoration:none;border-bottom:1px solid currentColor}
+a:hover{border-bottom-width:2px}
+table.expl{max-width:var(--col);margin-left:auto;margin-right:auto}
+table.expl td{border-bottom:1px solid var(--rule-soft);vertical-align:top;text-align:left;padding:9px 12px 9px 0;color:var(--ink-2)}
+table.expl td.n{width:66px;font-family:var(--mono);color:var(--ink);white-space:nowrap}
+table.cmp{max-width:var(--col);margin-left:auto;margin-right:auto}
+table.cmp td{text-align:left;color:var(--ink-2)}
+table.cmp td:first-child{color:var(--ink)}
+table.cmp th{text-align:left}
+blockquote{margin:16px auto;padding:2px 0 2px 18px;border-left:2px solid var(--mdl);font-family:var(--serif);font-size:16px;line-height:1.55;color:var(--ink);max-width:var(--col)}
+b{font-weight:600}
+p strong{color:var(--ink);font-weight:500}
+code{font-family:var(--mono);font-size:.9em;background:var(--rule-soft);padding:1.5px 5px;border-radius:2px;color:var(--ink)}
+footer{margin:44px auto 0;padding-top:18px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-3);max-width:var(--col)}
+footer a{color:var(--mdl)}
+.aside{background:var(--panel);border:1px solid var(--rule);border-left:2px solid var(--mdl);padding:14px 18px;margin:16px auto 18px;max-width:var(--col);font-size:14px}
+.aside p{margin:0;color:var(--ink-2)}
+.aside p+p{margin-top:8px}
+.aside .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin-bottom:6px}
+.pill{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border:1px solid currentColor;border-radius:2px;white-space:nowrap;vertical-align:1px}
+.pill.ok{color:var(--pos)}
+.srcs{max-width:var(--col);margin:10px auto 0;padding:0;list-style:none}
+.srcs li{margin-bottom:7px;padding-left:16px;text-indent:-16px;line-height:1.5}
+.obj{max-width:var(--col);margin:6px auto 0}
+.obj h3{font-family:var(--serif);font-weight:500;font-size:16.5px;color:var(--ink);margin:24px 0 6px;padding-left:16px;border-left:2px solid var(--rule);text-indent:-16px}
+.obj h3::before{content:'«';font-family:var(--serif);color:var(--ink-3)}
+.obj h3::after{content:'»';font-family:var(--serif);color:var(--ink-3)}
+.obj p{margin:0 0 12px}
+.verdict{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px}
+.verdict.part{color:var(--obs)}
+.verdict.cede{color:var(--neg)}
+/* «Остаётся открытым» — не вердикт, а висящий хвост: обычный регистр, своя врезка */
+.verdict.open{font-family:var(--sans);font-size:12px;line-height:1.42;letter-spacing:0;text-transform:none;
+  color:var(--ink-2);border-left:2px solid var(--rule);padding-left:10px;margin:-2px 0 12px}
+.objkey{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink-3);margin:0 0 2px}
+.objkey i{font-style:normal}
+.objkey .p{color:var(--obs)}.objkey .c{color:var(--neg)}
+ul.tight{max-width:var(--col);margin:8px auto 14px;color:var(--ink-2);padding-left:20px}
+ul.tight li{margin-bottom:5px}
+@media (max-width:1080px){
+  .dash-top{grid-template-columns:1fr}
+  .main-h{flex:none;height:420px}
+  .tie{border-left-width:3px}
+  .dash-main{grid-template-columns:1fr}
+  .rail{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:10px 12px;align-content:start}
+  .rail .grp{grid-column:1/-1}
+  .rail .fit{align-self:start}
+}
+@media (max-width:720px){.main-h{height:360px}.res-h{height:150px}.near-h{height:280px}.wrap{padding:24px 14px 56px}
+  .hrow .dateline{white-space:normal}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+@media print{
+  body{background:#fff;color:#000;font-size:11pt}
+  .rail,.nav{display:none}
+  .dash,.dash-top,.dash-main,.stats,figure.chartbox{display:block;border:none;padding:0;background:none}
+  .main-h{flex:none;height:340px}
+  .wrap{max-width:none;padding:0}
+  figure,.stats,.flowbox,.legend,.aside{break-inside:avoid}
+  h2,h3{break-after:avoid}
+  a{border-bottom:none}
+}
+
+/* Непрерывная шкала напряжения индикаторов. JS выставляет --sev от 0 до 1,
+   цвет тянется от --sev-c0 через --sev-c1 к --sev-c2 без ступенек. Классы
+   mid/bad остаются запасным вариантом для браузеров без color-mix. */
+.sev{--sev:0;--sev-c0:var(--mdl);--sev-c1:var(--obs);--sev-c2:var(--neg);--sev-col:var(--sev-c0)}
+.sev.mid{--sev-col:var(--sev-c1)}
+.sev.bad{--sev-col:var(--sev-c2)}
+@supports (color:color-mix(in oklab,red,blue)){
+  .sev,.sev.mid,.sev.bad{--sev-col:color-mix(in oklab,
+    color-mix(in oklab,var(--sev-c0),var(--sev-c1) calc(min(var(--sev),.5)*200%)),
+    var(--sev-c2) calc(max(var(--sev) - .5,0)*200%))}
+}
+.tie,.fuel{transition:border-color .2s ease}
+.tie .ts,.tie .tw .tk,.fuel .v,.fit .v{transition:color .2s ease}
+
+.info{position:relative;display:inline-flex;align-items:center;color:var(--mdl);cursor:help;
+  flex:none;vertical-align:-3px;border-radius:50%}
+.info>svg{display:block;transition:transform .12s}
+.info:hover>svg,.info:focus-visible>svg{transform:scale(1.22)}
+.info:focus-visible{outline:1px solid var(--mdl);outline-offset:3px}
+.tip{position:absolute;left:-8px;top:calc(100% + 10px);z-index:40;width:min(430px,74vw);
+  background:var(--panel);border:1px solid var(--rule);border-left:2px solid var(--mdl);
+  padding:11px 14px;font-family:var(--sans);font-size:12.5px;font-weight:400;line-height:1.52;
+  letter-spacing:0;text-transform:none;color:var(--ink-2);text-align:left;white-space:normal;
+  box-shadow:0 8px 26px rgba(0,0,0,.32);opacity:0;visibility:hidden;
+  transition:opacity .13s ease;pointer-events:none;overflow-wrap:break-word}
+.tip.tr{left:auto;right:-8px}
+/* Подсказка живёт внутри label ползунка и раньше цепляла оттуда моношрифт
+   и white-space:nowrap — длинные жирные фразы вылезали за рамку. */
+.tip b,.tip strong{font-family:inherit;font-size:inherit;letter-spacing:inherit;
+  font-weight:500;white-space:normal;color:var(--ink)}
+.info:hover .tip,.info:focus-visible .tip{opacity:1;visibility:visible}
+.ctl label .lb{display:inline-flex;align-items:center;gap:7px;flex-wrap:wrap}
+.tie{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:8px 11px 9px;background:var(--panel);
+  border:1px solid var(--rule-soft);border-left:3px solid var(--sev-col);border-radius:4px}
+.tie .ti{display:flex;align-items:center;gap:7px}
+.tie .k{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
+.tie .ts{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--sev-col);white-space:normal;line-height:1.28}
+.tie .tn{font-size:11.5px;line-height:1.38;color:var(--ink-2)}
+/* Сработавшие проверки — одной строкой; разбор висит на своём тултипе,
+   поэтому блок не растёт вниз, сколько бы замечаний ни набралось. */
+.tie .tw{display:flex;align-items:baseline;flex-wrap:nowrap;gap:6px;margin-top:4px;width:100%;
+  font-size:11px;line-height:1.35;color:var(--ink-2)}
+.tie .tw .tv{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tie .tw[hidden]{display:none}
+.tie .tw .tk{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--sev-col);flex:none}
+/* Счётчик промахов — под ползунком β, реагирует только на него */
+.fit{padding:7px 10px 8px;margin-top:2px;background:var(--band-soft);border:1px solid var(--rule);border-radius:4px}
+.fit .k{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:3px;line-height:1.25}
+.fit .v{font-family:var(--mono);font-size:12.5px;font-weight:500;white-space:nowrap;color:var(--sev-col)}
+.fit .v.sev{--sev-c0:var(--pos)}
+/* Проверка запаса хода — под ползунком потолка; реагирует на потолок и на затухание эйфории */
+.fuel{padding:7px 10px 8px;margin-top:2px;background:var(--band-soft);
+  border:1px solid var(--rule);border-left:3px solid var(--sev-col);border-radius:4px}
+.fuel .k{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:3px;line-height:1.25}
+.fuel .v{font-family:var(--mono);font-size:12.5px;font-weight:500;line-height:1.28;display:block;color:var(--sev-col)}
+.fuel .n{font-size:11px;line-height:1.38;color:var(--ink-2);margin-top:4px}
+.ctl.off>label>b{color:var(--neg)}
+.ctl.off input[type=range]::-webkit-slider-thumb{background:var(--neg);box-shadow:0 0 0 1px var(--neg)}
+.ctl.off input[type=range]::-moz-range-thumb{background:var(--neg);box-shadow:0 0 0 1px var(--neg)}
+.ctl .mark{font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+.ctl.off .mark{color:var(--neg)}
+.pdesc{flex:1 0 100%;margin:3px 0 0;font-size:12.5px;line-height:1.45;color:var(--ink-2);max-width:none}
+/* На узком экране подсказка привязывается к блоку, а не к иконке, и не уезжает за край. */
+@media (max-width:1080px){
+  .info{position:static}
+  .ctl,.fit,.tie,.flowbox{position:relative}
+  .tip,.tip.tr{left:0;right:0;width:auto;top:calc(100% + 6px);display:none}
+  .info:hover .tip,.info:focus-visible .tip{display:block}
+  .presets .pl{white-space:normal}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">P(t) = 10<sup>A</sup> · t<sup>3β</sup> × насыщение(W) × ζ·[эйфория(d<sub>э</sub>) − паника(d<sub>п</sub>)]</p>
+  <div class="hrow">
+    <h1>Сквозная модель цены биткоина, 2010–2040</h1>
+    <p class="dateline">Составлено в августе 2026 · факт по начало августа 2026 · всё правее — расчёт</p>
+  </div>
+  <p class="sub">Три сшитых слоя: показатель Меткалфа задаёт наклон степенного роста; высоту для которого определяет денежный потолок; и последний же, выпрямляя тренд, превращает один и тот же цикл в более глубокие просадки и более слабые ралли. Каждый слой владеет своим масштабом времени: один управляет десятилетиями, второй — тем, чем всё закончится, третий — четырёхлетними волнами внутри.</p>
+  <nav class="nav">
+    <a href="#read">Как читать</a>
+    <a href="#cycles">Циклы</a>
+    <a href="#layers">Слои</a>
+    <a href="#dials">Ползунки</a>
+    <a href="#objections">Возражения</a>
+    <a href="#falsify">Опровержение</a>
+    <a href="#limits">Ограничения</a>
+    <a href="#diff">Что изменилось</a>
+    <a href="#repro">Воспроизведение</a>
+    <a class="lang" href="./" hreflang="en" lang="en">English</a>
+  </nav>
+</header>
+
+<div class="dash">
+
+  <div class="dash-top">
+    <div class="presets">
+      <span class="pl">Сценарии · слева зрелость, справа спекуляция</span>
+      <button type="button" data-k="1800" data-de="0" data-dp="1" data-b="1.897" data-desc="Обе фазы цикла исчезли: эйфория затухла навсегда, паника ушла вслед за ней. К 2030 году биткоин ведёт себя как зрелый сетевой актив — просадка H5 всего 21%, как у крупной технологической акции, а не как у криптовалюты. Владельцев больше всего, треть взрослых, в основном через фонды; плато $735k.">Цикл угас</button>
+      <button type="button" data-k="1610" data-de="0.15" data-dp="0.5" data-b="1.897" data-desc="Базовый сценарий модели. Эйфория ушла почти необратимо, паника гаснет с отставанием — по требованию связности: причина, убившая верх, обязана дойти и до низа. Дно H5 на −0.24 dex, у самого мелкого края коридора H1–H4, просадка 38% — плохой год на фондовом рынке, а не крипто-обвал.">Тихий цикл<span class="bdg">базовый</span></button>
+      <button type="button" data-k="1350" data-de="0.5" data-dp="0.25" data-b="1.897" data-desc="H4 был отчасти стечением обстоятельств. Эйфория возвращается наполовину, паника почти не тронута. Пик выше, чем в двух левых сценариях — $432k, — но и просадка 52%. Срединная позиция для тех, кто не хочет ставить ни на необратимость затухания, ни на полный возврат амплитуды.">Цикл возвращается</button>
+      <button type="button" data-k="1300" data-de="1" data-dp="0" data-b="1.897" data-desc="В самом рынке не изменилось ничего, обрыв H4 был рябью. Высота пиков возвращается к прежнему темпу спада, ×0.67 за цикл — не к прежним значениям. Самый высокий пик из четырёх ($542k) и самое низкое дно ($169k), просадка 69% — сопоставимо с 78% у H3.">Цикл не ломался</button>
+      <div class="pdesc" id="pdesc">—</div>
+    </div>
+    <div class="tie" id="tie">
+      <div class="ti">
+        <span class="k">Индикатор согласованности</span><span class="info" tabindex="0" role="button" aria-label="Что проверяет этот индикатор"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip tr"><b>Рассказывают ли четыре ползунка одну историю.</b> Каждая проверка спрашивает не «хорошее ли это число», а есть ли под парой настроек один механизм.<br><br><b>Верх и низ.</b> Причина, погасившая эйфорию, обязана рано или поздно достать и панику. Пара «гаснет только верх, низ не гаснет вовсе» механизма под собой не имеет.<br><br><b>Затухание и потолок.</b> Институциональное хранение делает две вещи разом: убивает эйфорию и убирает барьер входа. Низкое затухание эйфории при низком потолке разводит одно следствие с другим.<br><br><b>Опора цикла.</b> Держится ли цикл 2030-х на запасе хода до потолка или на допущении, что спекулятивность уцелела сама по себе. Числа по эпохам — в блоке «Цикл · опора».<br><br><b>Масштаб и режим.</b> Высокий потолок выводит капитализацию на плато в долю от мирового богатства, которая требует смены денежного режима, а её в модели нет.<br><br>Сработавшие проверки перечислены под состоянием, разбор каждой — в тултипе рядом с ними.<br><br><b>Порогов у цвета нет.</b> Каждая проверка возвращает напряжение от нуля до единицы, они складываются как независимые, и цвет тянется от синего через оранжевый к красному непрерывно вместе с ползунками. Две проверки из четырёх — прямое противоречие и доводят до красного; остальные три остаются оговорками при любом положении ползунков и дальше оранжевого не идут.<br><br>Индикатор ловит несостыковку и ничего не советует: согласованная настройка не значит обоснованная, а несогласованная допустима как аномалия. Нейтральный цвет на нуле — по этой же причине.</span></span>
+      </div>
+      <span class="ts" id="ties">—</span>
+      <span class="tn" id="tien">—</span>
+      <div class="tw" id="tiew" hidden>
+        <span class="tk" id="tiew-k">Оговорки</span><span class="tv" id="tiew-v">—</span>
+        <span class="info" tabindex="0" role="button" aria-label="Что именно не сходится"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip tr" id="tiew-t">—</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dash-main">
+    <div class="rail">
+
+      <div class="grp">Цикл · амплитуда</div>
+      <div class="ctl">
+        <label for="de"><span class="lb">Затухание эйфории<span class="info" tabindex="0" role="button" aria-label="Пояснение"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>Насколько высоко пик цикла встаёт над трендом.</b> За четыре цикла эта высота падала: 1.03 → 0.81 → 0.46 → 0.06 dex. Последнее число значит, что пик октября 2025 года перекрыл тренд всего на 15%. Первое — что пик 2013 года стоял выше тренда вдесятеро.<br><br>Шаги при этом неравные: ×0.79, ×0.57, ×0.13. Первые два похожи друг на друга, третий срывается.<br><br><b>Ползунок отвечает на один вопрос: был ли этот срыв настоящим.</b> На единице — нет, и высота пиков возвращается к темпу H1–H3: шаг ×0.67 за цикл, геометрическое среднее двух первых шагов, отсюда 0.46 · 0.67² и пик H5 на 0.21 dex. На нуле — да, и затухание идёт вдвое за цикл: 0.06 · 0.50, пик H5 на 0.03 dex, а дальше пики почти исчезают — к 2033 году насыщение отнимает у цикла ещё восемь девятых.<br><br>Левый край — половина, а не повторение самого обрыва. Продолжить ×0.13 можно, но незачем: пик H5 встал бы на 1.5% над трендом вместо 6%, разница меньше 0.02 dex — в пятнадцать раз меньше месячного разброса, и различить эти две настройки нечем. Обе означают одно: эйфорической фазы больше не бывает.<br><br>У ползунка есть второе, менее очевидное чтение. Он же задаёт, какая доля цикла держится без запаса хода над трендом: колебания между уже владеющими такого запаса не требуют. На нуле цикл 2030-х гаснет вместе с запасом, на единице переживает его исчерпание целиком. Диагностика под ползунком потолка показывает получившуюся пропорцию.<br><br>Куда ставить и на чём это держится — <a href="#dials">в разделе о ползунках</a>.</span></span></span><b><span id="dev">0.15</span></b></label>
+        <input type="range" id="de" min="0" max="1" step="0.01" value="0.15">
+        <div class="hint"><span>навсегда</span><span>пик H5 <span id="a5v">0.05</span> dex</span><span>временно</span></div>
+      </div>
+      <div class="ctl">
+        <label for="dp"><span class="lb">Затухание паники<span class="info" tabindex="0" role="button" aria-label="Пояснение"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>Насколько глубоко дно цикла проваливается под тренд.</b> За четыре цикла эта глубина не менялась: <b>−0.28, −0.24, −0.38, −0.37 dex</b> — все четыре дна уместились в коридор шириной 0.14 dex.<br><br><b>Ползунок задаёт, пойдёт ли низ вслед за верхом.</b> На нуле не пойдёт: дно H5 встаёт на −0.32 dex. На единице пойдёт вровень с эйфорией: дно H5 на −0.16 dex.<br><br>Оба числа мельче соответствующих исторических, потому что к 2029 году насыщение уже отнимает у цикла около 13% амплитуды — множитель ζ. При базовом потолке; сдвиньте потолок, и они поедут.<br><br><b>Ползунок говорит только о собственном затухании паники.</b> Дно мельчает и без него — вместе со всем циклом, через множитель ζ. При базовых настройках и ползунке в нуле оно идёт −0.32 · −0.12 · −0.06 по эпохам H5–H7. Ноль означает, что паника не гаснет сама по себе, а не что дно остаётся прежним: обвал без предшествующего пика сентимент-фазовым механизмом не производится.<br><br><b>Наблюдений под этим ползунком нет ни одного.</b> Первое придёт в сентябре 2030 года, когда сформируется дно H5.</span></span></span><b><span id="dpv">0.50</span></b></label>
+        <input type="range" id="dp" min="0" max="1" step="0.01" value="0.5">
+        <div class="hint"><span>не гаснет сама</span><span>дно H5 −<span id="b5v">0.24</span> dex</span><span>гаснет как эйфория</span></div>
+      </div>
+
+      <div class="grp">Сеть · насыщение</div>
+      <div class="ctl">
+        <label for="k"><span class="lb">Потолок владельцев<span class="info" tabindex="0" role="button" aria-label="Пояснение"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>Предельное число людей, владеющих биткоином, к которому сходится принятие.</b> Задаёт уровень плато через средний размер терминального держания, и делает это линейно: ошибитесь в потолке вдвое — плато уедет вдвое.<br><br><b>На ближайший цикл влияет умеренно, 2030-ми распоряжается единолично.</b> В правдоподобном коридоре 1300–1900 млн пик октября 2029 года гуляет от $373k до $404k, тогда как плато уходит с $530k на $775k. <br><br>Голубая полоса прогоняет потолок ±40% целиком — и уровень плато, и амплитуду цикла через ζ; она строится как огибающая по всему диапазону, потому что на дне цикла эти два эффекта тянут в разные стороны. В ближайшие годы она узкая, но заметно раскрывается уже к 2029-му, и вниз сильнее, чем вверх: насыщение умеет только тормозить, выше чистого степенного закона потолок цену не поднимает.<br><br>Потолку в 1610 млн отвечает $8 447 терминального держания на владельца — это и есть число, с которым имеет смысл спорить, если плато кажется завышенным или заниженным. Адреса в расчёте не участвуют вовсе.</span></span></span><b><span id="kv">1610</span> млн</b></label>
+        <input type="range" id="k" min="700" max="3200" step="10" value="1610">
+        <div class="hint"><span>700</span><span>плато $<span id="plat">657</span>k</span><span>3200</span></div>
+      </div>
+
+      <div class="grp">Цикл · опора</div>
+      <div class="fuel" id="fuel">
+        <div class="k">Доля амплитуды по эпохам<span class="info" tabindex="0" role="button" aria-label="Что показывает эта диагностика"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>Эйфорический пик — это перелёт над трендом, и на него нужен запас хода:</b> у тренда, подошедшего к потолку, места над собой почти нет. Колебания между уже владеющими такого запаса не требуют — у зрелых активов просадки бывают и у самого потолка. Поэтому у амплитуды два источника.<br><br><b>φ — доля хода тренда, которую пропускает потолок:</b> φ = g(с насыщением) / g(чистый степенной закон). Величина безразмерная и не зависит от привязки уровня. На истории φ = 1.00 на всех четырёх эпохах, калибровка не тронута.<br><br><b>ζ = d<sub>э</sub> + (1 − d<sub>э</sub>)·φ</b> — доля цикла, которая остаётся. Сколько цикла переживает исчерпание запаса хода, задаёт ползунок эйфории. Наложение умножается на ζ целиком, верх и низ вместе, поэтому пропорция между ними сохраняется.<br><br>В заголовке — ζ по трём расчётным эпохам: какая доля полной амплитуды остаётся к пику каждой из них. Сто процентов значит, что потолок насыщения не влияет на цикл вовсе.<br><br>Диагностика показывает, <b>на чём держится цикл 2030-х</b> — на запасе хода до потолка или на допущении о сохранившейся спекулятивности. Доля второго и красит блок: цвет идёт от синего к оранжевому непрерывно, той же величиной, что стоит в проверке «опора цикла» у индикатора над графиком. Она ничего не советует: согласованная настройка не значит обоснованная.</span></span></div>
+        <span class="v" id="fu-v">—</span>
+        <div class="n" id="fu-n">—</div>
+      </div>
+
+      <div class="grp">Калибровка</div>
+      <div class="ctl" id="ctl-mb">
+        <label for="mb"><span class="lb">Показатель Меткалфа β<span class="info" tabindex="0" role="button" aria-label="Пояснение"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">Показатель Меткалфа: насколько быстро ценность сети растёт с числом участников. Лежит между n log n и n². В источнике измерено 1.838, здесь стоит <b>1.897 = 5.69 / 3</b>: модель берёт показатель адресов ровно тройкой и подбирает второй множитель так, чтобы произведение дало наклон, снятый прямо с цены.<br><br>Входит в расчёт один раз, в показатель роста 3β. Уровень плато от него не зависит: плато задаётся деньгами, поэтому ползунок поворачивает наклон и не трогает потолок. Цикл он всё же трогает — через ζ: более крутой наклон подходит к потолку раньше, запаса хода остаётся меньше, и дно H5 мельчает с −0.27 до −0.18 dex на всём ходу ползунка.<br><br>Поворот идёт вокруг опорного дня, февраля 2017 года. Поэтому при движении вправо узлы модели левее этой даты опускаются, а правее — поднимаются, и дна ранних эпох ездят навстречу поздним.<br><br>Ползунок стоит тут для проверки. Подвиньте его и посмотрите на счётчик промахов прямо под ним.</span></span></span><b><span id="mbv">1.897</span></b></label>
+        <input type="range" id="mb" min="1.60" max="2.05" step="0.001" value="1.897">
+        <div class="hint"><span>1.60 · n log n</span><span class="mark" id="mbmark">опорное значение</span><span>2.05 · n²</span></div>
+      </div>
+      <div class="fit" id="fit">
+        <div class="k">Промахи от тренда на истории<span class="info" tabindex="0" role="button" aria-label="Что такое промахи от тренда"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip">Сколько наблюдаемых месяцев лежат дальше <b>±0.5 dex</b> от тренда — то есть отклоняются от него больше чем втрое. При измеренном β таких 14 из 194, и почти все приходятся на пики 2011 и 2013/14 годов, где ненормально вела себя сама цена.<br><br>Цвет счётчика меняется непрерывно вместе с числом промахов, без ступенек. Счётчик реагирует только на ползунок β над ним. Сдвиг на одну десятую вниз доводит промахи до 17, на две десятых — до 26, причём больше половины новых приходится на 2010–2012 годы. Держится подгонка в очень узком коридоре — в этом и смысл проверки.</span></span></div>
+        <span class="v" id="g-fit">—</span>
+      </div>
+
+      <!-- Новые ползунки вставлять блоками .ctl выше этой строки;
+           при необходимости заводить новый заголовок .grp. -->
+
+    </div>
+
+    <figure class="chartbox">
+      <div class="legend">
+        <span><i class="sw" style="border-top-color:var(--obs)"></i>Наблюдаемая цена, закрытие месяца</span>
+        <span><i class="sw" style="border-top-color:var(--mdl)"></i>Модель, средняя траектория</span>
+        <span><i class="sw" style="border-top-color:var(--ink-3);border-top-style:dashed"></i>Тренд без циклов</span>
+      <span><i class="sw b"></i>Потолок владельцев ±40%</span>
+        <span><i class="sw" style="border-top-color:var(--ink-2);border-top-style:dotted"></i>Граница факта и прогноза</span>
+      </div>
+      <div class="main-h"><canvas id="main"></canvas></div>
+      <div class="res-h"><canvas id="res"></canvas></div>
+    </figure>
+  </div>
+
+  <div class="flowbox">
+    <div class="fh">
+      <span class="k">Чего это требует от денег</span>
+      <span class="info" tabindex="0" role="button" aria-label="Как считается блок потока"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="7.15" y="6.9" width="1.7" height="4.9" rx=".85" fill="currentColor"/><circle cx="8" cy="4.5" r="1.05" fill="currentColor"/></svg><span class="tip"><b>Та же траектория, пересчитанная в капитализацию.</b> Цена умножается на число монет в обращении по графику эмиссии; новых параметров здесь нет, только цена модели и протокол.<br><br>Смысл блока — поставить рядом с ценой её денежный масштаб. Плато $657k звучит скромно, пока не переведено в $13.6 трлн, которые должны откуда-то прийти.<br><br><b>Прирост не равномерен.</b> Средняя цифра сглаживает то, что в годы дна капитализация падает на триллионы, а в годы разгона растёт быстрее среднего. Столбец «ближайшие 12 месяцев» показывает текущую фазу, столбец «в среднем» — весь путь.<br><br><b>Но прирост капитализации — это не приток денег.</b> Перевод одного в другое требует множителя капитализации, которого модель не знает; разбор — в разделе <a href="#dials">о потолке владельцев</a>.</span></span>
+    </div>
+    <div class="fg">
+      <div class="fc"><div class="k" id="f-nowk">Капитализация</div><div class="v" id="f-now">—</div><div class="n" id="f-nown">—</div></div>
+      <div class="fc"><div class="k">Капитализация на плато</div><div class="v" id="f-pl">—</div><div class="n" id="f-pln">—</div></div>
+      <div class="fc"><div class="k">Прирост · 12 месяцев</div><div class="v" id="f-d12">—</div><div class="n" id="f-d12n">—</div></div>
+      <div class="fc"><div class="k">Прирост · в среднем</div><div class="v" id="f-avg">—</div><div class="n" id="f-avgn">—</div></div>
+      <div class="fc mute"><div class="k">Давление эмиссии</div><div class="v" id="f-iss">—</div><div class="n" id="f-issn">—</div></div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Цена</div><div class="v" id="s-spot">—</div><div class="n" id="s-spot-n">—</div></div>
+    <div class="stat"><div class="k" id="s-tr-k">Тренд</div><div class="v" id="s-tr">—</div><div class="n">степенной закон</div></div>
+    <div class="stat"><div class="k">Отклонение</div><div class="v" id="s-dev">—</div><div class="n" id="s-dev-n">dex от тренда</div></div>
+    <div class="stat"><div class="k">Просадка H4</div><div class="v" id="s-dd">—</div><div class="n">порог опровержения 70%</div></div>
+    <div class="stat"><div class="k">Пик H5</div><div class="v" id="s-p5">—</div><div class="n" id="s-p5n">—</div></div>
+    <div class="stat"><div class="k">Дно H5</div><div class="v" id="s-t5">—</div><div class="n" id="s-t5n">—</div></div>
+    <div class="stat"><div class="k">Плато</div><div class="v" id="s-pl">—</div><div class="n">асимптота</div></div>
+  </div>
+</div>
+
+
+<figure>
+  <p class="fcap">От пика H4 до халвинга H6 — детализация</p>
+  <div class="near-h"><canvas id="near"></canvas></div>
+  <p class="axis-note">Те же данные, что на верхней панели, но линейной шкалой и на одном цикле целиком: от пика октября 2025 года через дно, халвинг апреля 2028-го, пик и дно H5 — до халвинга H6. Подписаны узлы модели: граница факта, халвинг, пик, дно и конец окна. Левее границы оранжевая линия — факт, правее только расчёт при текущем положении ползунков. Голубая полоса прогоняет потолок владельцев ±40% и к концу окна заметно раскрывается.</p>
+</figure>
+
+<h2 id="read">Как читать график, кратко</h2>
+<p>Три линии. Серая пунктирная ведёт тренд: степенной закон с насыщением, циклы сняты. Пунктир работает как хребет, к которому актив возвращается, и сам по себе ничего не предсказывает. Синяя умножает этот хребет на цикловое наложение. Оранжевая показывает, что произошло.</p>
+<p>Верхняя панель идёт логарифмической шкалой. Нижняя несёт остаток, измеренный в <b>dex</b>. Dex выражает «во сколько раз» в логарифмической форме: +1 dex ставит цену в десять раз выше тренда, −0.3 dex примерно её вдвое опускает, ноль попадает ровно на хребет.</p>
+<p>Остальное на обеих панелях — разметка. Серые полосы — халвинг-эпохи H0–H8. Пунктирная вертикаль отделяет факт от расчёта: левее наблюдения, правее только модель при текущем положении ползунков. Тонкие линии на ±0.5 dex внизу — полоса режима из критерия опровержения 5.</p>
+<p>На август 2026 остаток держится около <b>−0.36 dex</b>, то есть цена чуть ниже половины тренда. Выглядит это хуже, чем ведёт себя: каждое дно после халвинга парковалось между −0.24 и −0.38 dex. Дну положено выглядеть так. Тревожным сигналом был бы остаток, который уходит за полосу ±0.5 dex и там остаётся: это критерий опровержения 5, ни разу не срабатывавший дольше пяти месяцев.</p>
+
+<h2 id="cycles">Циклы</h2>
+<table id="cyc">
+  <thead><tr><th>Эпоха</th><th>Халвинг</th><th>Пик</th><th>Дно</th><th>a — пик, dex над трендом</th><th>b — дно, dex под трендом</th><th>Просадка</th></tr></thead>
+  <tbody></tbody>
+</table>
+<p style="font-size:13px"><b>Амплитуды расчётных эпох показаны эффективные, то есть уже умноженные на ζ.</b> Эйфорический пик требует запаса хода над трендом, а колебания между уже владеющими его не требуют, поэтому у амплитуды два источника: <code>ζ = d_э + (1 − d_э)·φ</code>, где φ — доля хода тренда, которую пропускает потолок. Множитель постоянен внутри эпохи и берётся на её пике. Эпохи H0–H4 не трогаются вовсе: там φ = 1.00 с точностью до полупроцента, а измеренное переписывать нечем.</p>
+<p style="font-size:13px">Эпохи H0–H4 откалиброваны по наблюдённым данным; нижний узел H4 откалиброван по минимуму конца июня 2026 года, $57 950, поэтому совпадение модели с ним ничего не проверяет. Амплитуды в dex зафиксированы при β = 1.897; сдвиньте ползунок β, и долларовые узлы уедут вместе с трендом, перестав совпадать с наблюдёнными экстремумами — это видимая часть той же проверки. H5 и далее рассчитываются от двух ползунков независимо, после чего обе амплитуды умножаются на ζ: <b>a</b> проецируется затуханием эйфории, <b>b</b> — затуханием паники. Просадка следует из их комбинации, а не из общего свинга.</p>
+<p style="font-size:13px">Пик и дно в таблице — узлы модели, то есть тренд соответствующего месяца, умноженный на калиброванную амплитуду. Просадка следует прямо из них, как 1 − дно / пик, и остаётся меньше свинга: за время от пика до дна успевает подрасти сам тренд. Ряд наблюдений в графике идёт по закрытиям месяцев, узлы — по внутримесячным экстремумам, что даёт небольшие расхождения между таблицей и оранжевой линией.</p>
+
+<h2 id="layers">Из чего собрана модель</h2>
+<p>Три слоя, перемножаемых друг на друга. Первые два независимы, третий связан со вторым множителем ζ: амплитуде цикла нужен запас хода над трендом, а насыщение — это ровно то, что этот запас съедает.</p>
+
+<h3>Слой 1. Степенной закон — почему цена вообще растёт</h3>
+<p>Поначалу интуиция про биткоин часто говорила «экспоненциальный рост», но это было бы сильным упрощением. Экспонента удваивается за одинаковые промежутки: год, ещё год, ещё год. Степенному закону для того же множителя каждый раз нужен всё более длинный отрезок.</p>
+<p>Формула <code>P ∝ t<sup>3β</sup></code> читается так: цена растёт как возраст сети в степени 3β, возраст считается в днях от генезис-блока 3 января 2009 года. Показатель 5.69 измерен прямо по цене, и у него есть отдельно измеренное разложение на две величины, у каждой из которых своё физическое чтение:</p>
+<table class="expl">
+ <tr><td class="n"><b>3.046</b></td><td>Число ненулевых адресов росло примерно как куб возраста сети, R² = 0.977 на всей истории. Оценка держится на ранних годах: на данных последнего десятилетия рост заметно медленнее — <a href="#objections">разбор в возражениях</a>.</td></tr>
+ <tr><td class="n"><b>1.838</b></td><td>Ценность сети растёт быстрее числа участников — закон Меткалфа в обобщённом виде. Каждый новый участник добавляет не только себя, но и связи со всеми остальными. Измеренное значение лежит между учебниковым Меткалфом (n²) и Одлыжко (n log n).</td></tr>
+ <tr><td class="n"><b>5.60</b></td><td>Произведение двух измеренных величин: 3.046 × 1.838. От наклона, снятого прямо с цены, оно отличается на 1.6% — и это расхождение стоит держать в голове.</td></tr>
+ <tr><td class="n"><b>5.69</b></td><td>Наклон, измеренный по цене напрямую, R² = 0.961. Модель считает по нему, а не по произведению; ползунок β показывает 5.69 / 3 = 1.897, то есть тот показатель Меткалфа, при котором произведение сошлось бы точно.</td></tr>
+</table>
+<p>Отсюда логарифмическая шкала на графике, где каждое деление означает множитель десять. Степенной закон на такой шкале выпрямляется, и отклонения от него становятся видны глазом. Пропорции тоже сохраняются: падение с $100 до $50 выглядит как падение с $100 000 до $50 000, потому что для владельца оба означают половину.</p>
+<div class="aside">
+  <div class="t">Два свободных параметра и способ их проверить</div>
+  <p>Слой 1 несёт два подобранных числа: показатель степени и множитель. Этим двум приходится воспроизвести 194 помесячных наблюдения, охватывающих шесть порядков по цене, и остаток выходит за ±0.5 dex только в 14 из них — почти исключительно на блоу-оффах 2011 и 2013/14 годов, где сама цена вела себя ненормально.</p>
+  <p>Ровно эти 14 из 194 и показывает счётчик промахов под ползунком β, поэтому утверждение «β измерен, а не выбран» не принимается на слово. Сдвиньте ползунок β к 1.70 — промахов станет 26, причём больше половины новых придётся на 2010–2012 годы: ранняя история отваливается первой, потому что именно она задаёт наклон. Рост почти вдвое от сдвига на две десятых и есть содержание слов «узкий коридор».</p>
+  <p>При смене β кривая перекалибровывается через опорную точку на логарифмическом центре наблюдений — 2971-й день от генезиса, февраль 2017 года. Поворот происходит вокруг центра масс данных, а не вокруг случайного конца, иначе ползунок ломал бы подгонку по причине, не имеющей отношения к самому показателю.</p>
+  <p>Считать ли всё это свидетельством или подгонкой кривой — разбирается ниже, в <a href="#objections">возражениях</a>, поскольку всплывает первым делом каждый раз.</p>
+</div>
+
+<h3>Слой 2. Насыщение — почему это не может продолжаться вечно</h3>
+<p>Кубический рост упирается в очевидное: и людей на планете, и денег у них конечное количество. Любая сеть — телефонная, интернет, платёжная — проходит одинаковый путь: сначала разгон, потом замедление, потом выход на плато. S-образная кривая.</p>
+<p>В модели это устроено мягким торможением: <code>P = P<sub>тренд</sub> · L / (P<sub>тренд</sub>³ + L³)<sup>⅓</sup></code>, где <code>L</code> — уровень плато. Механика простая: далеко под плато торможение почти незаметно, ближе к плато оно затягивается. Кубическая степень управляет тем, насколько мягко ощущается переход, растягивая его на годы вместо ступеньки.</p>
+<div class="aside">
+  <div class="t">Как потолок попадает в плато</div>
+  <p>Уровень плато — денежное ограничение. Терминальная капитализация складывается из числа владельцев и того, сколько в среднем на владельца приходится, а цена получается делением на запас монет: <code>плато = W · A / S</code>, где <code>A</code> = $8 447 терминального держания на человека, <code>S</code> ≈ 20.7 млн монет в обращении к середине 2030-х. Потолок входит линейно: ошибка вдвое двигает плато вдвое.</p>
+  <p>Само $8 447 получено делением, а не измерением. Из трёх величин — потолок, средний размер держания, уровень плато — независимы только две, третья считается из них. Закреплены крайние. Потолок базы — 1610 млн владельцев: середина правдоподобного коридора 1300–1900 и примерно 27% взрослых. Плато базы — $657k, то есть терминальная капитализация $13.6 трлн, чуть меньше половины стоимости всего добытого золота. Отсюда <code>A</code> = $13.6 трлн / 1610 млн = $8 447 на владельца. Дальше <code>A</code> закреплено, и ползунок двигает только <code>W</code>: капитализация и плато едут за ним линейно, средний размер держания остаётся прежним.</p>
+  <p>Отдельно <code>A</code> не измерено. Это база калибровки, выраженная на человека, и спорить с уровнем плато осмысленно именно через неё: $8 447 на владельца — величина того же порядка, что средний розничный брокерский счёт, и она либо кажется правдоподобной, либо нет.</p>
+  <p>Показателя Меткалфа здесь нет, и это осознанно. Соблазн провести плато через ту же β велик, но арифметика его не выдерживает: при 106 млн владельцев на середину 2026-го и тренде $144k рост сети до 1610 млн дал бы множитель 15.19<sup>β</sup> ≈ 174, то есть плато порядка $25 млн. Степенной закон описывает разгон, а не место, где разгон кончается; упирается он в размер мирового богатства. Поэтому β живёт только в наклоне первого слоя, а второй слой считает деньги.</p>
+</div>
+<p>Чувствительность ко всему этому и вскрывает ползунок «потолок владельцев». Подвигайте его: вся правая часть графика поедет вверх и вниз — и не одним уровнем. Потолок входит в цикл вторым ходом, через множитель ζ, поэтому вместе с плато едет и амплитуда: на базовых затуханиях просадка H5 идёт от 23% при потолке 700 млн до 40% при 3200, и на нижнем краю донышки почти выпрямляются. Нетронутыми остаются две вещи: историческая часть графика, где φ = 1.00 и насыщение ещё не включилось, и первый слой целиком — наклон степенного закона потолок не поворачивает. Ход ползунка измеряет, какая доля 2030-х держится на величине, которую пока никто не сосчитал.</p>
+<div class="aside">
+  <div class="t">Почему потолок не считается в адресах</div>
+  <p>Сегодня (август 2026-го) примерно 106 млн владельцев отображаются на 57 млн ненулевых адресов, и отношение падает: кастодиальные сервисы и биржевые фонды набирают держателей, которые никогда не касаются адреса в блокчейне. Мерить размер сети адресами с каждым годом всё менее осмысленно.</p>
+  <p>Пока затухание читается как умеренное, противоречие терпимо. Если же затухание необратимо, противоречие становится прямым: нельзя одновременно утверждать, что эйфория умерла из-за смены состава держателей, и считать потолок так, будто отношение адресов к владельцам осталось историческим. Поэтому плато считается от числа владельцев. Число адресов в расчёт не входит вовсе.</p>
+</div>
+
+<h3>Слой 3. Циклы — почему дорога не прямая</h3>
+<p>За каждым халвингом исторически следовала одна и та же последовательность: разгон, эйфорический пик примерно через полтора года, обвал, долгое дно.</p>
+<p>Объяснение через сокращение эмиссии, впрочем, сходится плохо: рынок знает дату халвинга за годы, а полностью предвиденное изменение эмиссии должно закладываться в цену непрерывно, без отложенного импульса на восемнадцатом месяце. Модель здесь опирается на <strong>сентимент-фазовое</strong> объяснение:</p>
+<blockquote>Следующий устойчивый рост начинается тогда, когда большинство новых участников окончательно перестают верить в рост. Следующее устойчивое падение начинается тогда, когда большинство усваивают убеждение, что рост бесконечен.</blockquote>
+<p>Логика в том, что на дне убеждения участников максимально разнородны: у каждого свои причины для скептицизма, единого нарратива нет. Такое состояние неустойчиво и склонно к пересборке вокруг новой идеи. На пике всё наоборот: все верят в одно и то же, и ровно поэтому у всех совпадают пороги выхода, так что один толчок запускает одновременную продажу. Единомыслие выглядит прочностью и работает как хрупкость.</p>
+<p>Технически цикл задаётся тремя узлами: пик через 18 месяцев после халвинга, дно через 26–30, возврат к тренду к следующему халвингу. Между узлами идёт плавная косинусная интерполяция.</p>
+<p>Тайминг узлов взят из истории. Пики приходили на 13, 17, 18 и 18 месяц после четырёх халвингов, то есть лаг удлинялся и затем устоялся, и вперёд переносится 18. Максимальные падения приходились на 26, 29, 30 и 26 месяцы. Тайминг оказался куда устойчивее амплитуды, и амплитуда выглядит схлопывающейся.</p>
+
+<h3>Как размах распределён между верхом и низом</h3>
+<p>Пропорция между верхом и низом переворачивалась на протяжении тех же четырёх циклов. В ранних почти весь размах уходил вверх: у H1 пик поднимался над трендом на 1.03 dex, а дно опускалось лишь на 0.28 — четыре пятых размаха приходились на эйфорию. Дальше доля верха падала монотонно: 77% в H2, 55% в H3 и всего 14% в H4, где пик едва оторвался от тренда, а дно ушло на привычные −0.37.</p>
+<p>Здесь проступает второй индикатор созревания, независимый от общего сжатия амплитуды: <b>рынок теряет способность к эйфории заметно быстрее, чем способность к панике.</b></p>
+<p>Из этого следует, что верх и низ — две разные последовательности, а не одна с фиксированной пропорцией. Пики: 1.03, 0.81, 0.46, 0.06, монотонное падение. Дна: −0.28, −0.24, −0.38, −0.37, никакого тренда. Модель поэтому проецирует их двумя ползунками, и ни один не задаёт другого. Общий множитель ζ они всё же делят: он говорит, сколько хода у цикла осталось вообще, и потому масштабирует верх и низ вместе, оставляя пропорцию между ними нетронутой. Практически это значит, что ползунок эйфории двигает и дно H5 — от −0.24 до −0.28 dex на всём своём ходу, — но не меняет того, что о дне утверждает нижний ползунок.</p>
+<div class="aside">
+  <div class="t">Согласованность затуханий</div>
+  <p><b>Асимметричное затухание</b> — верх гаснет сильно быстрее низа — это подпись институционализации: сменился состав держателей, эйфорические покупатели заместились фондами и кастодианами, паника осталась при тех, кто ещё держит напрямую.</p>
+  <p><b>Симметричное затухание</b> — гаснут обе фазы — это явный признак смены источника суждений. Глубокое дно набирается из множества людей, продающих каждый по своей причине: один поверил в запрет, другой в конкурента, третий просто устал ждать. Сентимент-фазовый механизм требует именно такой разноголосицы — из неё дно и складывается. Если участники сверяются с одним и тем же надёжным источником (скажем, с сильным общедоступным ИИ), отдельных причин у них не остаётся, и набрать такое состояние нечем. Это единственный известный процесс, который обязан гасить панику вместе с эйфорией.</p>
+  <p>Наблюдается пока только асимметричность. Симметрия же проверяется лишь в сентябре 2030 года.</p>
+</div>
+
+<h3>Что показывает панель остатка</h3>
+<p>Нижняя панель убирает сам рост и оставляет только отклонение от тренда. Горбы последовательно сжимаются: 1.03 → 0.81 → 0.46 → 0.06 dex.</p>
+<p>Пик декабря 2013 года стоял в десять раз выше тренда. Пик декабря 2017-го — в шесть. Пик ноября 2021-го — втрое. Пик октября 2025 года перекрыл тренд на 15% — это первый цикл в истории актива, где явной эйфорической фазы фактически не случилось.</p>
+<p>Отсюда развилка, вокруг которой построена эта часть модели. Либо <b>затухание необратимо</b> — тогда биткоин уходит из спекулятивной категории и оседает в обычный зрелый сетевой актив с умеренными колебаниями. Либо <b>провал был временным</b> — тогда высота пиков в некоторой степени вернётся, как только сменится обстановка вокруг рынка.</p>
+<p>Но вернётся не в прошлых размерах, т.к. есть и третье затухание, о котором ни одна из двух гипотез не говорит: <b>кончается запас хода</b>. Эйфорический пик — это перелёт над трендом, а тренд, подошедший к денежному потолку, места над собой не оставляет. Смена обстановки вокруг рынка потолок не поднимает. Это множитель ζ.</p>
+<p>Верхний ползунок поэтому делает две работы разом. Он переключает гипотезы: ноль — эйфория ушла «навсегда», единица — «временно». И он же решает, насколько цикл вообще зависит от запаса хода: у нуля цикл держался на нём целиком и вместе с ним гаснет, у единицы он к потолку не привязан и переживает подход к нему без потерь. База стоит вблизи нуля, но не в нём, и почему именно так — в разделе о ползунках. Низ живёт по своим правилам (хотя множитель ζ он делит с верхом), и для него отведён второй ползунок.</p>
+
+<h2 id="dials">Куда ставить ползунки</h2>
+<p>Всего четыре ползунка, и они не равноправны. Два затухания, в большей степени, правят ближайшие пять лет. Потолок на высоту пика H5 влияет умеренно — правдоподобный диапазон двигает его от $373k до $404k, — зато 2030-ми распоряжается единолично и решает, <em>сколько хода у цикла вообще остаётся</em> к следующим эпохам. β не предназначен для настройки вовсе: он стоит здесь как проверка.</p>
+<p>Ползунки при этом <b>не независимы друг от друга</b>. Связки между ними описаны на этой странице прозой, а проверяются индикатором когерентности над графиком, потому что нарушить связку можно одним движением, а по числам результат выглядит совершенно нормально.</p>
+<p>Проверок четыре. <b>Верх и низ</b> — причина, погасившая эйфорию, обязана достать и панику. <b>Затухание и потолок</b> — институциональное хранение убивает эйфорию и убирает барьер входа одновременно, поэтому низкое затухание при низком потолке разводит одно следствие с другим. <b>Опора цикла</b> — держится ли цикл 2030-х на запасе хода или на допущении о сохранившейся спекулятивности. <b>Масштаб и режим</b> — не выводит ли потолок капитализацию на уровень, требующий смены денежного режима, которой в модели нет. Сработавшие проверки перечислены под состоянием, разбор каждой — в тултипе рядом.</p>
+<p>Читать индикатор надо аккуратно. Он проверяет <b>наличие механизма, а не обоснованность настройки</b>. Самая жёсткая из комбинаций — эйфория гаснет необратимо, паника не гаснет сама. Индикатор помечает её красным не потому, что наблюдение неверно, а потому, что для него нет объяснения: причина, убившая верх, обязана рано или поздно достать и низ. Цвет при этом меняется непрерывно: у каждой проверки есть напряжение от нуля до единицы, и ползунок двигает его плавно, а не переключает. Ступенек нет ни у одной из четырёх — настройка не бывает согласованной ровно до какого-то значения и несогласованной после него.</p>
+<p>Обратное тоже верно. Совместимая настройка не значит хорошо обоснованная. «Цикл не ломался» проходит проверку почти без замечаний, но требует считать H4 стечением обстоятельств, а независимого свидетельства этому (пока) нет. Поэтому индикатор нейтрального цвета, а не зелёного: он ловит несостыковку, а не оценивает.</p>
+
+<h3>Потолок владельцев: 1300–1900 млн</h3>
+<p>Шкала и есть капитализация: плато — это терминальная капитализация, делённая на запас монет, а золото стоит рядом как отдалённо похожий нецифровой аналог. К середине 2030-х в обращении будет около 20.7 млн монет, а всё добытое золото на 2026 год стоит примерно $31 трлн. При 6 млрд взрослых линейка выглядит так:</p>
+<table class="expl">
+ <tr><td class="n"><b>1000</b></td><td>плато $408k · капитализация $8.4 трлн · <b>27% золота</b> · 17% взрослых — принятие продолжается, биткоин остаётся нишевым активом</td></tr>
+ <tr><td class="n"><b>1300</b></td><td>плато $530k · $11.0 трлн · <b>35% золота</b> · 22% взрослых — нижний край правдоподобного</td></tr>
+ <tr><td class="n"><b>1610</b></td><td>плато $657k · $13.6 трлн · <b>44% золота</b> · 27% взрослых — <b>база</b>, ≡ $8 447 держания на владельца</td></tr>
+ <tr><td class="n"><b>1800</b></td><td>плато $735k · $15.2 трлн · <b>49% золота</b> · 30% взрослых — верхний край правдоподобного</td></tr>
+ <tr><td class="n"><b>2600</b></td><td>плато $1.06M · $22.0 трлн · <b>71% золота</b> · 43% взрослых — требует смены денежного режима, которой в модели нет</td></tr>
+</table>
+<p>Привычная опора — доля взрослых, владеющих акциями, 15–25%. Но эта доля низка по двум причинам: у большинства нет инвестируемого излишка и есть барьер входа — брокер, грамотность, доверие к процедуре. Вторая причина за десятилетие снимается доступным каждому советником (ИИ), первая расширяется самим ростом. Верхняя граница в 25% при снятом трении выглядит скорее нижней, отсюда 22–32% и диапазон 1300–1900 млн владельцев.</p>
+<p>Потолок при этом управляет не только уровнем плато. Через множитель ζ он задаёт, какая доля цикла доживает до 2030-х: чем ниже потолок, тем раньше насыщение съедает запас хода, а вместе с ним и амплитуду. Пропорция для эпох H5–H7 показана в блоке «Цикл · опора» прямо под ползунком.</p>
+<p>Эти цифры пересчитываются живьём под графиком, в блоке <b>«Чего это требует от денег»</b>. Там та же капитализация показана не только на плато, но и по дороге к нему: сколько должно прибавляться в среднем за год и сколько — за ближайшие двенадцать месяцев. Заодно видно, что <b>эмиссия составляет меньше процента требуемого прироста и дальше падает</b>: халвинг как механизм предложения к 2028 году перестаёт значить что-либо количественно, и цикл целиком остаётся за спросом.</p>
+<p><b>Прирост капитализации — это не приток денег.</b> Чтобы получить второе, первое нужно поделить на множитель капитализации: сколько долларов рыночной стоимости добавляет доллар чистой покупки. Эмпирические оценки расходятся от 2 до 25, поэтому число нигде не выводится — модель этого множителя не знает и не использует. Для масштаба: всё добытое золото — $31 трлн, мировой рынок акций — порядка $130 трлн. Эмиссия считается по протоколу: 210 000 блоков на эпоху, запас на халвинге известен точно, между халвингами линейно.</p>
+
+<h3>Затухание эйфории: 0.15</h3>
+<p>Три опорных положения:</p>
+<table class="expl">
+ <tr><td class="n"><b>0.00</b></td><td>затухание идёт вдвое за цикл: пик H5 поднимается над трендом на 0.03 dex, дальше пики гаснут почти полностью вместе с запасом хода</td></tr>
+ <tr><td class="n"><b>0.50</b></td><td>затухание замедлилось: пик H5 около 0.11 dex, вдвое выше H4</td></tr>
+ <tr><td class="n"><b>1.00</b></td><td>H4 был аномалией, лог-линейный тренд H1–H3 хочет вернуться: пик H5 = 0.21 dex</td></tr>
+</table>
+<p>Четыре цикла свидетельств. Сам факт снижения опирается на все четыре наблюдения сразу и держится крепко. Резкость последнего шага опирается на одно наблюдение — на H4, и больше о ней ничего не известно.</p>
+<p>Отсюда и положение ползунка 0.15. Левее идти можно, но незачем: продолжение обрыва подняло бы пик H5 на 1.5% над трендом вместо 6%, и эта разница в пятнадцать раз меньше месячного разброса. Ни одно наблюдение её не различит, а утверждают обе настройки почти одно и то же. Правее уйти можно, но за это придётся заплатить допущением — <b>H4 нужно объявить частично случайным</b>. Свидетельства этому (пока) нет: из самой цены такое не выводится, нужен внешний источник. Дальше на странице это допущение называется <b>оговоркой H4</b>.</p>
+<p>У ползунка, однако, есть <b>второе чтение</b>, через множитель ζ: он задаёт, какая доля цикла живёт после того, как запас хода до потолка исчерпан. И вот тут положение на ноль — слишком сильное утверждение: периодического не остаётся вообще никогда. Такого не бывает даже у зрелых активов, у которых число держателей не растёт. Наблюдений под этим чтением нет: φ = 1.00 на всех четырёх исторических эпохах, насыщение ни разу не включалось.</p>
+<p>База поэтому стоит на <b>0.15</b> — минимальном осмысленном отходе от крайности. Верхняя граница у этого отхода не вкусовая: при <b>d<sub>э</sub> ≈ 0.22</b> эффективная амплитуда пика H5 догоняет наблюдённую амплитуду H4 (0.061 против 0.060), и модель начинает утверждать не замедление спада пиков, а его разворот.</p>
+
+<div class="aside">
+  <div class="t">Возможная проверка объяснения</div>
+  <p>Необратимость затухания опирается на конкретный механизм: <b>институционализацию</b>. Эйфорические покупатели заместились фондами и кастодианами, и способность рынка к перегреву исчезла вместе с ними.</p>
+  <p>У этого механизма есть собственный наблюдаемый след, никак с ценой не связанный, — <b>отношение числа ненулевых адресов к числу владельцев</b>. Держатель через фонд адреса не касается, поэтому чем дальше зашло замещение, тем ниже отношение. Оно падало годами и к середине 2026-го составляет около 0.54: примерно 57 млн адресов на 106 млн владельцев.</p>
+  <p>Отсюда проверка, которую можно вести помесячно и без всякой модели. Если отношение <b>перестанет падать, а пики останутся мёртвыми</b>, институционализация перестанет объяснять затухание — и под нулевым положением ползунка вообще не останется механизма, только четыре наблюдения тренда. Продолжающееся падение работает в обратную сторону: это довод в пользу необратимости бОльшего затухания, взятый из данных, к цене отношения не имеющих.</p>
+  <p>Отношение здесь — след <em>этого</em> механизма: рынок мог созреть по другим причинам — более глубокие деривативы, меньше плечи, — и тогда отношение вправе стоять на месте, а затухание сохранится. Плоское отношение опровергает объяснение, а не сам ползунок.</p>
+</div>
+
+<h3>Затухание паники: данных нет</h3>
+<p>Свидетельств здесь нет ни одного. Четыре дна за пятнадцать лет стоят примерно на одной глубине, движения в них не видно, и прямое чтение говорит поставить ноль: низ не гас раньше, не станет гаснуть сам и дальше.</p>
+<p>Против ноля может сработать, например, логика механизма. Верхний околонулевой ползунок утверждает, что эйфория исчезла по причине, а не случайно. И причина может быть разной — сменился состав держателей, хранение ушло к институциям, участникам стал доступен общий достоверный источник информации, — но любая из них по механизму обязана рано или поздно достать и низ.</p>
+<p>Отставание при этом объяснимо. Верх цикла делают приходящие участники, низ — остающиеся, а состав вторых меняется гораздо медленнее. Поэтому затухание паники должно идти позади затухания эйфории, но идти всё-таки должно.</p>
+<p>Из-за этого комбинация «ноль сверху, ноль снизу» оказывается внутренне противоречивой. Она означает, что причина, убившая эйфорию, действует ровно на половину цикла и собственного механизма низа не касается, а объяснить такую избирательность сейчас нечем.</p>
+<table class="expl">
+ <tr><td class="n"><b>0.00</b></td><td>дно H5 на −0.32 dex. Посылка «низ не менялся и не изменится», минус доля, которую отнимает насыщение</td></tr>
+ <tr><td class="n"><b>0.50</b></td><td>дно H5 на −0.24 dex, у самого мелкого края коридора H1–H4, −0.24…−0.38</td></tr>
+ <tr><td class="n"><b>1.00</b></td><td>дно H5 на −0.16 dex, мельче всего наблюдавшегося. Низ гаснет вровень с верхом</td></tr>
+ <tr><td class="n"><b>ζ</b></td><td>все три числа даны при базовых потолке и затухании эйфории. Через общий множитель ζ они слегка ездят и от них: при d<sub>э</sub> = 0 дно на 0.50 уходит на −0.23, при d<sub>э</sub> = 1 — на −0.28</td></tr>
+</table>
+<div class="aside">
+  <div class="t">Наблюдаемый маркер, сентябрь 2030</div>
+  <p>Дно H5 прогнозируется на сентябрь 2030 года. Четыре предыдущих дна стояли в коридоре −0.24…−0.38, но сравнивать наблюдение прямо с этим коридором больше нельзя: к 2029 году насыщение само по себе поднимает дно, и при непогасшей панике модель ждёт −0.32 dex. Свидетельством затухания паники будет дно <b>мельче −0.16 dex</b> — это то, что даёт правый край ползунка при базовых потолке и затухании эйфории. Промежуток между −0.32 и −0.16 читается как частичное затухание и разбирается ползунком.</p>
+  <p>Дно в привычном коридоре означает обратное: гасла только эйфория, механизм цикла остался человеческим, ползунок паники надо ставить в ноль и мириться с красным индикатором как с зафиксированной аномалией.</p>
+</div>
+
+<h3>β: не для настройки</h3>
+<p>Единственное содержательное возражение к значению 1.897 — что институциональное хранение разреживает граф связей между участниками и должно смещать масштабирование в сторону n log n. Возражение верное по механизму и опровергаемое данными: подвиньте ползунок и посмотрите на счётчик промахов. Диапазон, в котором подгонка держится, очень узкий, и это ответ.</p>
+
+<h3>Четыре готовых сценария</h3>
+<p>Кнопки над графиком ставят все ползунки сразу. Значения посчитаны при β = 1.897.</p>
+<table>
+ <thead><tr><th>Сценарий</th><th>Потолок владельцев</th><th>Затухание эйфории</th><th>Затухание паники</th><th>Плато</th><th>Пик H5, окт 2029</th><th>Дно H5, сен 2030</th><th>Просадка H5</th></tr></thead>
+ <tbody>
+  <tr><td>Цикл угас</td><td class="num">1800</td><td class="num">0.00</td><td class="num">1.00</td><td class="num">$735k</td><td class="num">$379k</td><td class="num">$301k</td><td class="num">21%</td></tr>
+  <tr><td>Тихий цикл <span class="pill ok">базовый</span></td><td class="num">1610</td><td class="num">0.15</td><td class="num">0.50</td><td class="num">$657k</td><td class="num">$394k</td><td class="num">$245k</td><td class="num">38%</td></tr>
+  <tr><td>Цикл возвращается</td><td class="num">1350</td><td class="num">0.50</td><td class="num">0.25</td><td class="num">$551k</td><td class="num">$432k</td><td class="num">$209k</td><td class="num">52%</td></tr>
+  <tr><td>Цикл не ломался</td><td class="num">1300</td><td class="num">1.00</td><td class="num">0.00</td><td class="num">$530k</td><td class="num">$542k</td><td class="num">$169k</td><td class="num">69%</td></tr>
+ </tbody>
+</table>
+
+<h3>Что описывает каждый</h3>
+<p>Названия отвечают на один вопрос: <em>как выглядит четырёхлетний цикл к 2030 году</em>. Цена здесь следует из ответа, а не задаёт его.</p>
+<table class="expl">
+ <tr><td class="n"><b>Цикл<br>угас</b></td><td>Обе фазы почти исчезли. Затухание эйфории в нуле утверждает не только, что обрыв H4 был настоящим, но и второе, более сильное: после того как запас хода до потолка исчерпается, периодического не остаётся вовсе. Просадка H5 21% — как у крупной технологической акции, а не как у криптовалюты. Владельцев больше всего, треть взрослых, в основном через фонды и кастодианов, плато $735k. Требует общего достоверного источника информации у участников — например, общедоступного ИИ: разнородность убеждений, из которой собирается дно, перестаёт складываться.</td></tr>
+ <tr><td class="n"><b>Тихий<br>цикл</b></td><td>Эйфория ушла почти необратимо: затухание стоит на 0.15, и ноль означал бы полное исчезновение цикла вслед за запасом хода. Паника гаснет с отставанием, по требованию связности: причина, убившая верх, обязана рано или поздно дойти и до низа. Дно H5 на −0.24 dex, у самого мелкого края коридора H1–H4, просадка 38% — плохой год на фондовом рынке, а не крипто-обвал. Верхняя настройка выведена из данных и отодвинута от нуля, нижняя стоит на рассуждении.</td></tr>
+ <tr><td class="n"><b>Цикл отчасти <br>возвращается</b></td><td>H4 был отчасти стечением обстоятельств. Эйфория стремится вернуться наполовину, паника почти не тронута. Пик выше, чем в «тихом цикле» — $432k, — но и просадка 52%. Потолок 1350, ниже базового: если затухание обратимо, значит институционализация зашла не так далеко и барьер входа частично остался. Позиция для тех, кто не ставит ни на необратимость затухания, ни на полный возврат амплитуды; индикатор согласованности отвечает на неё двумя оговорками.</td></tr>
+ <tr><td class="n"><b>Цикл не<br>ломался</b></td><td>В самом рынке не изменилось ничего, кроме насыщения, обрыв H4 был рябью. Затухание всё это время шло ровным шагом ×0.67 за цикл, и высота пиков возвращается на линию H1–H3 — не к прежним значениям, а к прежнему темпу спада. Самый высокий пик из четырёх и самое низкое дно, просадка под 69% — сопоставимо с 78% у H3. Потолок стоит на нижнем крае правдоподобного коридора, 1300. Биткоин ещё на какое-то время остаётся в стадии цикличного спекулятивного актива, и это единственный сценарий, где цикл не слабеет сам по себе и в 2030-х: при возврате эйфории он почти не зависит от запаса хода до потолка.</td></tr>
+</table>
+
+<h3>Почему базовый — «Тихий цикл»</h3>
+<p>Из четырёх сценариев базовым выбрана вторая кнопка слева, и страница по умолчанию открывается на ней. Ниже — сам выбор и его цена; обоснования разобраны выше, каждое в своём разделе.</p>
+<p><b>Эйфория — 0.15.</b> У ползунка два чтения. По первому — был ли обрыв H4 настоящим — данные говорят что да, левее двигаться незачем, правее только с оговоркой H4. По второму чтению — сколько цикла живёт после того, как запас хода исчерпан — данных нет вовсе, а ноль означал бы, что не остаётся и периодического, вообще и никогда. Ни у одного зрелого актива так не бывает. 0.15 — минимальный отход от этой крайности, и он остаётся далеко от границы 0.22, за которой модель начинает утверждать разворот спада пиков.</p>
+<p><b>Паника — половина.</b> Такая настройка стоит на требовании связности: причина, погасившая верх, обязана со временем достать и низ. Половина означает, что процесс признан идущим, а вопрос о том, как далеко он зашёл, оставлен открытым.</p>
+<p><b>Потолок — 1610 млн.</b> Следует из той же посылки, что и две предыдущие настройки: если причина - например, институционализация, - зашла достаточно далеко, чтобы убить эйфорию, она же убрала барьер входа и увела заметную часть держания к кастодианам.</p>
+<p><b>Цена выбора.</b> На рассуждении стоят два ползунка из трёх. Паника — целиком: свидетельств нет ни одного, первое придёт в сентябре 2030 года. Эйфория — наполовину: её положение выведено из данных по первому чтению и выбрано по второму, где данных нет и взяться им неоткуда, пока насыщение не начнёт кусаться. Это накопление, и оно стоит того, чтобы держать его в уме при чтении любого числа за 2030 годом.</p>
+
+<h3>Почему сценарии стоят в таком порядке</h3>
+<p>Четыре сценария — это четыре точки на <b>одной оси</b>. Ось отвечает на единственный вопрос: <em>насколько необратимо биткоин перестал быть спекулятивным активом</em>. Слева зрелость, справа спекуляция.</p>
+<p>Три ползунка движутся по этой оси согласованно, и под каждым сцеплением стоит один и тот же механизм. Институциональное хранение гасит эйфорию, потому что меняет состав покупателей. Оно же поднимает потолок владельцев, потому что убирает барьер входа: львиная доля людей не владеет активом такого класса из-за брокера, грамотности и доверия к процедуре, а не из-за отсутствия интереса. Один процесс — оба следствия. β остаётся на измеренном значении во всех четырёх сценариях.</p>
+<p><b>Потолок владельцев работает на этой оси как запас хода.</b> Он считает, сколько дороги до плато ещё осталось, и на левом краю её больше всего. Гасит цикл верхний ползунок: он задаёт, какая доля этого запаса превращается в эйфорию. Слева хода много, и он почти не превращается. Справа хода меньше, но расходуется он целиком. Из-за этого на левом краю оси у цикла остаётся вдвое с небольшим больше хода, чем на правом. Мёртв он там по другой причине: запас хода перестал превращаться в эйфорию.</p>
+<p>Отсюда монотонность по обеим колонкам сразу:</p>
+<table class="expl">
+ <tr><td class="n"><b>Плато</b></td><td>$735k → $657k → $551k → $530k. Чем зрелее актив, тем шире терминальное владение и тем выше уровень насыщения. Справа шаг мельчает: колонка упирается в нижний край правдоподобного коридора 1300–1900 млн.</td></tr>
+ <tr><td class="n"><b>Просадка</b></td><td>21% → 38% → 52% → 69%. Очевидный рост спекулятивности.</td></tr>
+</table>
+<p>Колонка пиков растёт вправо вместе с просадкой: $379k → $394k → $432k → $542k. Пик здесь — произведение двух множителей, движущихся навстречу: остаток хода падает влево, доля превращающегося в эйфорию растёт вправо, и на горизонте 2029 года вторая величина перевешивает, потому что насыщение к этому сроку почти не включилось. Отсюда неудобное для чтения свойство: <b>выше пик 2029 года в тех сценариях, которые оптимистичнее по механизму и пессимистичнее по существу</b>. Читать это надо так: <em>высокий пик 2029 года указывает на живой цикл, за которым последует привычный обвал</em>. В сценарии «Цикл не ломался» пик выше на 38%, а дно ниже в полтора раза.</p>
+<p>Вправо по оси меняется не только высота цикла, но и то, на чём он держится. Слева цикл 2030-х идёт следом за запасом хода: кончается ход — гаснет цикл, и это видно прямо в цене. Справа к 2033 году от запаса остаётся восьмая часть, а цикл сохраняет всю амплитуду, и разницу несёт ползунок эйфории — то есть посылка, что спекулятивность актива уцелела сама по себе. Диагностика под ползунком потолка показывает эту пропорцию для эпохи H6.</p>
+<p>И отсюда же способ пользоваться кнопками. Они не «оптимистичный — базовый — пессимистичный»: по цене на 2035 год оптимистичен левый край, по цене на октябрь 2029 — правый. Выбор между ними — это выбор гипотезы о том, что произошло с рынком, а не выбор желаемого числа.</p>
+
+<h2 id="objections">Возражения, которых я жду, и что признаю</h2>
+<div class="obj">
+<p class="objkey">Цвет подписи — насколько возражение принято: <i>серый — отвечено</i> · <i class="p">оранжевый — частично</i> · <i class="c">красный — целиком</i>.</p>
+
+<h3>Степенной закон на лог-логарифмических осях ложится на что угодно.</h3>
+<p class="verdict part">Отвечено частично</p>
+<p>Показатель степени снят с цены напрямую, но у него есть независимое разложение: число адресов против времени (3.046) и ценность против числа адресов (1.838), произведение 5.60 против измеренных 5.69. Разложение подтверждает порядок величины и не заменяет подгонку — <a href="#objections">оговорка ниже</a>. Слой 1 несёт в сумме два свободных числа, поставленных против 194 помесячных точек в шести порядках. Полезная проверка смотрит на структуру остатка, качество подгонки тут решает мало. У остатка структура есть: привязанные к халвингам горбы, монотонно уменьшающиеся. Артефакты подгонки таких не дают.</p>
+<p>Вопрос закрыл бы критерий опровержения 5: остаток уходит за ±0.5 dex и не возвращается два года. Критерий поставлен ради употребления — при его срабатывании модель выбрасывается, а перекалибровка была бы жульничеством.</p>
+
+<h3>Вы моделируете единственный актив, которому случилось выжить.</h3>
+<p class="verdict cede">Признаю, ответа внутри модели нет</p>
+<p>Сильнейшее возражение из списка, и мне на него нечего противопоставить. У каждой погибшей сети тоже была ранняя фаза роста, похожая на степенной закон, а кривые подгоняются только к выжившему. Модель по построению <em>условна</em>: она описывает биткоин при сохранении текущего режима и не приписывает никакой вероятности его окончанию. Прочитанная как безусловное ожидание, она вводит в заблуждение. Прочитанная как «если механизм принятия держится, форма выглядит так», она работает, с вероятностью посылки, подставляемой извне.</p>
+
+<h3>Четырёхлетний цикл мёртв, это уже все знают.</h3>
+<p class="verdict part">Наполовину согласен</p>
+<p>Модель здесь соглашается больше, чем спорит, и подкладывает под согласие число: H4 поднялся над трендом на 0.06 dex против 1.03 у H1. Эйфорический верх умер. Две другие части цикла его пережили. Тайминг устоял — 18 месяцев до пика, столько же, сколько у H3. И низ не затухал вовсе: донышки четырёх циклов стоят на −0.28, −0.24, −0.38, −0.37 dex, без всякого тренда. Формула «цикл мёртв» сваливает три разные вещи в одну. Одна из них ушла, две другие остались.</p>
+
+<h3>Вы откалибровали дно H4 по июню 2026-го и после этого объявили, что модель сходится.</h3>
+<p class="verdict cede">Признаю</p>
+<p>Да. Нижний узел H4 взят из наблюдённого минимума $57 950, поэтому совпадение там тавтологично и ничего не проверяет. Таблица циклов сообщает об этом прямо на месте, без закапывания в примечания. Критерий опровержения 1 существует по той же причине: если цена устойчиво уйдёт ниже $58 000, узел не был дном, и калибровка амплитуды, от которой зависит всё дальнейшее, рассыплется. Если сформулировать прямо: амплитуда H4 — это измерение, а всё предсказательное содержание модели начинается с H5.</p>
+
+<h3>Адреса — это не пользователи. Ваш потолок меряет не то.</h3>
+<p class="verdict cede">Признаю — слабое звено</p>
+<p>Возражение было верным в первой версии модели (о ней ниже), и оно приняло форму переделки. Плато больше не считается в адресах: оно берётся от числа владельцев через средний размер терминального держания, <code>W · $8 447 / 20.7 млн</code>, а число адресов из расчёта убрано совсем.</p>
+<p>Неудобная часть переделку пережила: <em>та же институционализация, которой объясняется затухание циклов, одновременно ломает измерительный прибор</em>. Один процесс даёт оба эффекта. Разница в том, что модель больше не опирается на сжимающийся прибор: затухание циклов и уровень плато перестали зависеть от одной и той же ломающейся величины.</p>
+<p class="verdict open">Остаётся открытым: ни число владельцев, ни средний размер держания отдельно не измерены. 106 млн — сводка отраслевых оценок, а не перепись; $8 447 на владельца — база калибровки, выраженная на человека.</p>
+
+<h3>Откуда 1.897 у Меткалфа? Выглядит подогнанным задним числом.</h3>
+<p class="verdict part">Признаю частично — оно и есть производное</p>
+<p>Santostasi &amp; Perrenod (2026) измеряют две величины по отдельности: показатель роста адресов 3.046 ± 0.012 и показатель Меткалфа 1.838. Их произведение даёт 5.60, а наклон, снятый прямо с цены, равен 5.69 — расхождение 1.6%, которое авторы относят на разброс в оценке компонент. Модель на этой странице считает по 5.69 и раскладывает его на ровную тройку и 1.897 = 5.69 / 3. То есть 1.897 — не третье независимое измерение, а остаток от деления, и подпись под ползунком говорит «опорное значение», а не «измеренное».<br><br>Что от возражения остаётся в силе: ни 1.838, ни 1.897 не выбирались под красоту графика, и оба лежат между учебниковым n² Меткалфа и n log n Одлыжко. Что не остаётся: утверждение, будто наклон получен перемножением и не подгонялся под цену. Подгонялся, и это видно по тому же счётчику промахов.</p>
+<p>β входит в расчёт один раз, в наклон степенного закона, и в первой версии модели его чувствительность нигде не показывалась. Теперь показывается: β выведен в ползунок, а счётчик промахов под ним считает месяцы вне полосы ±0.5 dex. Проверка работает в обе стороны. Она подтверждает, что 1.897 посчитан логично, и она же показывает, насколько узок допустимый коридор.</p>
+
+<h3>Показатель 3 — это про адреса, а адреса давно не растут как куб.</h3>
+<p class="verdict cede">Признаю — разложение не держится</p>
+<p>Показатель 3.046 у Santostasi &amp; Perrenod измерен на всей истории и держится на ранних годах, где сеть росла с нуля. На свежих данных он не воспроизводится. Число ненулевых адресов по публичным сводкам: около 18 млн в августе 2017 года, 28 млн в январе 2020-го, 40 млн в феврале 2022-го, порядка 57 млн к середине 2026-го. За девять лет рост втрое с небольшим, тогда как куб возраста сети требовал бы роста в восемь с половиной раз. Подразумеваемый этим окном показатель — около 1.6, а по последним четырём годам и вовсе 1.2.</p>
+<p>Отсюда следует неприятное: <em>разложение 5.69 = 3 × 1.897 работает больше как справка о происхождении числа, а не как действующая проверка</em>. Сам степенной закон по цене держится — 14 промахов из 194 за пятнадцать лет, — но держится он как регулярность в цене, а не как произведение двух измеримых сегодня величин. Прибор сломался с той же стороны, с какой он ломался под потолком: кастодиальные сервисы и биржевые фонды набирают держателей, которые адресов не создают.</p>
+
+<h3>Здесь нет доверительных интервалов. Это линия, а не прогноз.</h3>
+<p class="verdict part">Признаю частично</p>
+<p>Голубая полоса прогоняет потолок ±40%, статистического содержания не несёт, и страница подписывает её именно так. Исторический помесячный разброс вокруг средней траектории составляет около 0.32 dex (1σ), так что честная 1σ-огибающая на любой отдельный месяц растянулась бы примерно вчетверо и до 2030-х полностью поглотила бы полосу потолка. Показать разброс от параметра, а не от дисперсии, было осознанным выбором: с оценкой потолка читатель может спорить, а с дисперсией сделать почти ничего не может.</p>
+
+<h3>$380k в 2029-м — абсурдно мало / абсурдно много.</h3>
+<p class="verdict">Зависит от того, какую половину оспаривать</p>
+<p>Эти две претензии стоит разделить, потому что модель отвечает на них по-разному. Пик 2029 года приходится на уверенную половину: от $379k до $542k во всех четырёх сценариях, разброс в 1.4 раза, поскольку насыщение на таком сроке ещё почти не включилось. Основную часть этого разброса даёт ползунок эйфории; потолок владельцев двигает пик H5 умеренно, от $373k до $404k, а решает он другое — сколько от цикла остаётся к следующим эпохам. Оспорить цифру означает оспорить сам степенной закон. 2030-е составляют хрупкую половину: те же четыре сценария дают плато от $530k до $735k, разброс шире, и потолок разумно оспаривается за пределы этого диапазона в любую сторону. Несогласие про 2035 год стоит дёшево и ожидаемо. Несогласие про 2029-й требует довода про показатель степени.</p>
+
+<h3>Сентимент-фазовая история — недоказуемое размахивание руками.</h3>
+<p class="verdict part">Признаю частично</p>
+<p>Механизм обосновывает форму цикла, но сама форма откалибрована по наблюдённым таймингам и амплитудам и выглядела бы точно так же, будь исходное объяснение чисто механическим. Нарративный слой тем самым выполняет истолковательную работу; выньте его, и модель посчитает ровно те же числа. Что история покупает — так это основание вообще ожидать затухания: по мере того как разнородность убеждений на дне снижается вместе с ростом институционального участия, пересборка вокруг единого нарратива слабеет. Это направленное предсказание именно про эйфорию, а эйфория и схлопнулась. Не более чем наводящее соображение, вынесенное ниже в ограничения.</p>
+
+</div>
+
+<h2 id="falsify">Чем это можно опровергнуть</h2>
+<p>Пять условий, от ближайшего к самому дальнему:</p>
+<table class="expl">
+ <tr><td class="n"><b>1</b></td><td>Цена закрепляется ниже $58 000. Тогда конец июня 2026 года не был дном цикла, и вместе с ним рассыпается нижний узел H4 — тот самый, по которому выставлена амплитуда затухания. Проверяется в ближайшие месяцы. <span class="pill ok">на авг 2026 — $64k</span></td></tr>
+ <tr><td class="n"><b>2</b></td><td>Просадка текущего цикла глубже 70% от пика октября 2025 года, то есть уход ниже ≈$37 900. Самый мелкий провал предыдущих циклов — 78% в H3, так что на 70% H4 перестаёт качественно от них отличаться и вся экстраполяция затухания теряет опору: её держит по существу одно наблюдение. <span class="pill ok">на авг 2026 — 54%</span></td></tr>
+ <tr><td class="n"><b>3</b></td><td>Дно H5 останавливается мельче −0.16 dex. Единственный пункт списка, срабатывание которого модель переживает: паника затухла вслед за эйфорией, ползунок паники идёт вправо, механизм цикла перестал быть чисто человеческим. Порог сдвинут с −0.24: часть обмеления дна теперь объясняется насыщением через множитель ζ, и −0.16 dex — это то, что даёт правый край ползунка паники при базовом потолке. Сентябрь 2030 года.</td></tr>
+ <tr><td class="n"><b>4</b></td><td>Просадка цикла H5 глубже 60% при нулевом затухании эйфории. Отвергает необратимое затухание в пользу временного провала. При базовом потолке, нулевом затухании эйфории и затухании паники 1 модель даёт 20%; при обратной расстановке — 68%.</td></tr>
+ <tr><td class="n"><b>5</b></td><td>Остаток log₁₀(факт / тренд) уходит за ±0.5 dex и не возвращается дольше двух лет подряд. Означает, что режим степенного закона нарушен и модель применять нельзя вовсе. За всю историю самый долгий выход за эту полосу длился пять месяцев — зима 2013/14. <span class="pill ok">не срабатывал</span></td></tr>
+</table>
+<div class="aside">
+  <div class="t">Откуда взялся порог во втором условии</div>
+  <p>Порог задан историей просадок, без всякой любви к круглым числам. H1, H2 и H3 просели на 85, 84 и 78 процентов; H4 на август 2026 года стоит на 54. От самого мелкого из прежних циклов его отделяют двадцать четыре пункта, и ровно этот запас наполняет содержанием утверждение «H4 устроен иначе». Порог в 70% оставляет небольшой зазор: ниже него формальная разница ещё сохраняется, а объяснять её уже нечем.</p>
+</div>
+
+<h2 id="limits">Чего модель не делает</h2>
+<p>Не предсказывает цену конкретного месяца. Разброс вокруг центральной линии внутри года сопоставим с самой линией, и попытка читать её как «в марте будет столько-то» — злоупотребление.</p>
+<p>Не учитывает разрывы: регуляторные запреты в крупных юрисдикциях, криптографические угрозы, макрошоки. Все три слоя описывают поведение системы, остающейся в текущем режиме.</p>
+<p>Не различает причину и следствие в сентимент-фазовом механизме. Наблюдаемая связь между разнородностью убеждений и разворотами реальна, но остаётся эмпирической закономерностью без доказанного механизма под ней.</p>
+<p>Не моделирует сторону предложения вовсе — потерянные монеты, поведение долгосрочных держателей, балансы бирж, экономику майнинга. Всё, что связано с предложением, неявно свёрнуто в две подобранные константы первого слоя.</p>
+<div class="aside">
+  <div class="t">И главное, чего она не делает</div>
+  <p>Плато привязано к структуре мирового богатства, узнаваемо похожей на сегодняшнюю: шкала потолка читается через долю от стоимости всего добытого золота. Циклы предполагают рынок человеческих участников с разнородными убеждениями, работающий до 2040 года. Обе посылки — это ставка на то, что <b>трансформирующих технологических разрывов в горизонте модели не случится</b>.</p>
+  <p>Посылка нигде не задаётся как параметр, но она сильнее показателя β и сильнее оценки потолка: ошибка в них двигает числа, а ошибка в ней отменяет саму применимость. Ползунок затухания паники — это место на этой странице, где она становится наблюдаемой, потому что общий достоверный источник информации у всех участников сразу — например, сильный общедоступный ИИ, — это ровно тот разрыв, который выдал бы себя затуханием низа.</p>
+</div>
+
+<h2 id="diff">Что изменилось относительно первой версии</h2>
+<p><a href="https://vrooms.to/btc_old.html">Исходная модель</a> опубликована в апреле 2026 года и давала одно число: плато около $565 000 к середине 2030-х. Её калибровка отталкивалась от спота $74 500, к августу уже устаревшего. Здесь модель пересобрана в трёх местах.</p>
+<table class="cmp">
+ <thead><tr><th>Что</th><th>Было</th><th>Стало</th></tr></thead>
+ <tbody>
+  <tr><td>Плато</td><td>Одно число, $565k</td><td>Диапазон: потолок аудитории × средний размер держания</td></tr>
+  <tr><td>Потолок</td><td>Фиксированные 800 млн адресов</td><td>Число владельцев, 700–3200 млн</td></tr>
+  <tr><td>Адреса</td><td>Основа расчёта плато</td><td>Из расчёта убраны</td></tr>
+  <tr><td>Циклы H5–H8</td><td>Единственная траектория затухания</td><td>Два независимых затухания плюс множитель ζ, связывающий цикл с запасом хода до потолка</td></tr>
+  <tr><td>β Меткалфа</td><td>Скрытая константа</td><td>Ползунок с живым счётчиком промахов</td></tr>
+  <tr><td>Разрешение</td><td>Фазы по несколько месяцев</td><td>Помесячно, 372 точки</td></tr>
+  <tr><td>Диагностика</td><td>Нет</td><td>Три индикатора, проверяющих настройки читателя</td></tr>
+  <tr><td>Критериев опровержения</td><td>Нет</td><td>Пять, включая маркер затухания паники</td></tr>
+  <tr><td>Проверяемость</td><td>Прогноз до 2035</td><td>Явная граница факта и прогноза, наложение истории с 2010</td></tr>
+ </tbody>
+</table>
+<p>Переделка целилась в <strong>форму результата</strong>. Центральная траектория почти не сдвинулась: середина правдоподобного коридора потолка даёт плато $653k против исходных $565k, разница в 16%. На месте точечного прогноза оказалось утверждение с обозначенной неопределённостью и с указанием, какое именно измерение эту неопределённость сузит.</p>
+<p>Заодно поправлены две концептуальные проблемы. Первая: адреса служили мерой размера сети, тогда как связь между адресами и живыми людьми разрушается — на 106 млн владельцев приходится около 57 млн ненулевых адресов, и соотношение падает по мере роста кастодиальных сервисов и биржевых фондов. Теперь плато считается от владельцев, а адреса из расчёта убраны.</p>
+<p>Вторая: цикл описывался одним числом с фиксированным распределением между верхом и низом. В данных это две разные последовательности — пики падают монотонно в отличие от дон, — и сведение их к одному параметру стирало единственный содержательный сигнал. Теперь они разведены на два ползунка, а совместимость их настроек проверяет отдельный индикатор.</p>
+
+<h2 id="repro">Как это воспроизвести</h2>
+<p>Модель занимает около полусотни строк JavaScript в исходнике страницы. Единственная зависимость — Chart.js для отрисовки, и она лежит рядом со страницей, а не подгружается со стороннего сервера. Страница полностью статична: всё считается в браузере, наружу не уходит ни одного запроса, работает и без интернета. Чтобы проверить или расширить:</p>
+<ul class="tight">
+  <li><code>pure(t, β)</code> — степенной закон с перекалибровкой через опорную точку на 2971-м дне от генезиса</li>
+  <li><code>sat(p, L)</code> — огибающая насыщения, <code>p·L / (p³ + L³)^⅓</code></li>
+  <li><code>plateau(W)</code> — <code>W · A / S</code>, уровень плато от числа владельцев через средний размер держания; β сюда не входит</li>
+  <li><code>amps(dэ, dп, W, β)</code> — раздельная проекция амплитуд пиков и дон на H5–H8, считается трижды: для средней траектории и для обеих границ полосы потолка; эйфория интерполируется между 0.030 = 0.06 · 0.50 и 0.207 = 0.46 · 0.67² dex, паника делится на <code>1 − 0.5·dп</code> каждый цикл, после чего обе умножаются на ζ соответствующей эпохи</li>
+  <li><code>coherence(dэ, dп, W, β)</code> — четыре проверки согласованности; каждая возвращает непрерывное напряжение от 0 до 1, они объединяются как независимые, и результат красит индикатор без порогов</li>
+  <li><code>phiAt(t, W, β)</code> — доля хода тренда, которую пропускает потолок; <code>zetaAt</code> — доля цикла, которая остаётся: <code>d_э + (1 − d_э)·φ</code></li>
+  <li><code>fuelState(W, dэ, β)</code> — на чём держится цикл 2030-х: проверка запаса хода против амплитуды на H5–H7</li>
+  <li><code>EPOCHS</code> — таблица халвингов с поэпохными амплитудами <code>a</code> (пик, dex над трендом) и <code>b</code> (дно, dex под трендом)</li>
+  <li><code>modAt(i, A)</code> — цикловое наложение, косинусная интерполяция между халвингом, пиком, дном и следующим халвингом</li>
+  <li><code>OBS</code> — наблюдаемый помесячный ряд с июля 2010 года</li>
+</ul>
+<p>Массив <code>OBS</code> содержит приблизительные закрытия месяцев, сведённые из публичных источников. Для формы остатка этого достаточно, для чего-либо требующего точности — нет; перед серьёзным использованием замените его выверенным рядом из одного согласованного источника.</p>
+
+<footer>
+  <p><strong>Данные.</strong> Наблюдаемые значения — приблизительные закрытия месяца, сведённые из публичных источников; последнее значение ряда — начало августа 2026 года. Страница статична: расчёт идёт целиком в браузере, внешних запросов нет. Единственные зависимости — Chart.js 4.4.1 (MIT) для отрисовки и шрифты IBM Plex (SIL OFL 1.1); обе включены в комплект локально.</p>
+  <p><strong>Источники.</strong></p>
+  <ul class="srcs">
+    <li>Santostasi, G. &amp; Perrenod, S. (2026). <em>A Mechanistic Derivation of the Bitcoin Price Power Law: Network Adoption Dynamics and Generalised Metcalfe Scaling.</em> Препринт Zenodo, DOI: <a href="https://doi.org/10.5281/zenodo.19387099">10.5281/zenodo.19387099</a>; в 2026 году прошёл рецензирование и вышел в журнале. Отсюда наклон 5.69 ± 0.05 при R² = 0.961, разложение 3.046 × 1.838, разброс остатка 0.302 dex и тесты масштабной инвариантности.</li>
+    <li>Brause, D. (2026). <em>The Information Coherence Hypothesis: A Unified Informational Framework for Reality, Consciousness, and Meaning.</em> Zenodo. DOI: <a href="https://doi.org/10.5281/zenodo.18812955">10.5281/zenodo.18812955</a> — рамка, в которой истолковывается сентимент-фазовый механизм: дно как максимум дифференциации убеждений, пик как хрупкая псевдоинтеграция.</li>
+    <li>Первая версия модели, апрель 2026: <a href="https://vrooms.to/btc_old.html">vrooms.to/btc_old.html</a>.</li>
+  </ul>
+  <p style="margin-top:14px"><strong>Дисклеймер.</strong> Аналитическая модель, не инвестиционная рекомендация. Прогноз предполагает сохранение режима степенного закона и отсутствие структурных разрывов в механизме принятия.</p>
+</footer>
+
+</div>
+
+<script src="chart.umd.js"></script>
+<script>
+const OBS_START=[2010,7];
+const OBS=[0.06,0.06,0.06,0.20,0.28,0.30,
+0.30,0.95,0.79,3.30,8.60,16.90,13.30,8.20,5.10,3.20,3.00,4.70,
+5.60,4.90,4.90,5.10,5.20,6.70,9.50,10.30,12.40,11.20,12.40,13.50,
+20.40,33.50,93.00,139.00,128.00,97.50,106.00,129.00,137.00,205.00,1120.00,754.00,
+830,555,465,456,622,641,587,505,386,338,378,320,
+217,254,244,236,230,263,285,230,236,314,377,430,
+369,437,416,448,531,673,625,575,609,700,745,963,
+970,1190,1080,1350,2300,2480,2875,4735,4340,6470,9950,14156,
+10240,10400,6930,9240,7490,6400,7730,7040,6620,6350,4020,3742,
+3450,3820,4100,5320,8560,10800,10080,9600,8290,9200,7550,7193,
+9380,8560,6440,8630,9460,9140,11330,11650,10780,13800,19700,28990,
+33100,45200,58800,57800,37300,35000,41500,47100,43800,61300,57000,46300,
+38500,43200,45500,37700,31800,19900,23300,20050,19400,20500,17150,16540,
+23100,23150,28450,29250,27200,30480,29230,25930,26970,34670,37720,42280,
+42580,61150,71330,60640,67500,62680,64620,58970,63330,70200,96450,93430,
+102400,84400,82500,94200,104600,107200,115800,108500,114000,110500,91000,88000,
+82000,76500,79000,74500,75000,60000,63600,63500];
+
+const GEN=Date.UTC(2009,0,3), DAY=864e5;
+const EPOCHS=[
+ {n:'H0',h:[2009,1],pk:[2011,6],tr:[2011,11],a:0.96,b:-0.19,obs:1},
+ {n:'H1',h:[2012,11],pk:[2013,12],tr:[2015,1],a:1.03,b:-0.28,obs:1},
+ {n:'H2',h:[2016,7],pk:[2017,12],tr:[2018,12],a:0.81,b:-0.24,obs:1},
+ {n:'H3',h:[2020,5],pk:[2021,11],tr:[2022,11],a:0.46,b:-0.38,obs:1},
+ {n:'H4',h:[2024,4],pk:[2025,10],tr:[2026,6],a:0.06,b:-0.37,obs:1},
+ {n:'H5',h:[2028,4],pk:[2029,10],tr:[2030,9],obs:0,i:0},
+ {n:'H6',h:[2032,4],pk:[2033,10],tr:[2034,9],obs:0,i:1},
+ {n:'H7',h:[2036,4],pk:[2037,10],tr:[2038,9],obs:0,i:2},
+ {n:'H8',h:[2040,4],pk:[2041,10],tr:[2042,9],obs:0,i:3}];
+const ATH=126198, H4LOW=57950, DD_LIMIT=70, RES_BAND=0.5;
+/* ниже этого напряжения замечание не показывается: цвет уже почти синий */
+const NOTE_MIN=0.06;
+
+const months=[];
+for(let y=2010;y<=2040;y++)for(let m=1;m<=12;m++)months.push([y,m]);
+const labels=months.map(([y,m])=>y+'-'+String(m).padStart(2,'0'));
+const ms=months.map(([y,m])=>Date.UTC(y,m-1,15));
+const idx=(a)=>months.findIndex(([y,m])=>y===a[0]&&m===a[1]);
+const mnum=(a)=>a[0]*12+a[1];
+
+/* Опорная точка калибровки: логарифмический центр наблюдений, день 2971.
+   Пара (уровень, наклон) — это одна подогнанная кривая, поэтому 5.69 здесь
+   входит в привязку уровня, а наклон дальше берётся из ползунка как 3β.
+   Ставить сюда 3·1.897 нельзя: уровень сдвинется на 0.8%, и амплитуды H0–H4,
+   измеренные по внутримесячным экстремумам, перестанут их воспроизводить. */
+const T_PIV=2971, LOGP_PIV=-16.509+5.69*Math.log10(T_PIV);
+function pure(t,b){const q=3*b,A=LOGP_PIV-q*Math.log10(T_PIV);return Math.pow(10,A+q*Math.log10((t-GEN)/DAY));}
+function sat(p,L){return p*L/Math.cbrt(p*p*p+L*L*L);}
+/* Плато — денежное ограничение, а не следствие Меткалфа. Терминальная
+   капитализация = число владельцев × средний размер держания; цена — она же,
+   делённая на запас монет. Вход линейный, β здесь не участвует вовсе: проведённое
+   через Меткалфа плато при 1610 млн владельцев вышло бы на порядок выше — степенной
+   закон описывает разгон, а останавливает его размер мирового богатства. */
+const S_TERM=20.7e6, W_REF=1610e6, L_REF=657000, HOLD=L_REF*S_TERM/W_REF;
+function plateau(W){return W*1e6*HOLD/S_TERM;}
+function ss(x){return .5-.5*Math.cos(Math.PI*Math.min(Math.max(x,0),1));}
+
+/* Эмиссия. Узлы — халвинги: на каждом запас известен точно, 210 000 блоков на эпоху.
+   Между узлами линейно по времени. Даты после 2024 — оценочные, ±2 месяца погоды не делают. */
+const YR=365.25*864e5, GOLD=31e12;
+const HALV=[[Date.UTC(2012,10,28),10500000],[Date.UTC(2016,6,9),15750000],
+            [Date.UTC(2020,4,11),18375000],[Date.UTC(2024,3,20),19687500],
+            [Date.UTC(2028,3,15),20343750],[Date.UTC(2032,3,15),20671875],
+            [Date.UTC(2036,3,15),20835937.5],[Date.UTC(2040,3,15),20917968.75],
+            [Date.UTC(2044,3,15),20958984.375]];
+function supplyAt(t){
+  if(t<=HALV[0][0])return HALV[0][1]*Math.max(t-GEN,0)/(HALV[0][0]-GEN);
+  for(let i=0;i<HALV.length-1;i++)if(t<=HALV[i+1][0])
+    return HALV[i][1]+(HALV[i+1][1]-HALV[i][1])*(t-HALV[i][0])/(HALV[i+1][0]-HALV[i][0]);
+  return HALV[HALV.length-1][1];
+}
+function issueRate(t){            /* BTC в год */
+  for(let i=0;i<HALV.length-1;i++)if(t<=HALV[i+1][0])
+    return (HALV[i+1][1]-HALV[i][1])/(HALV[i+1][0]-HALV[i][0])*YR;
+  return 0;
+}
+const fmtBig=v=>{
+  const a=Math.abs(v),s=v<0?'\u2212':'';
+  if(a>=1e12)return s+'$'+(a/1e12).toFixed(a>=1e13?1:2)+' \u0442\u0440\u043b\u043d';
+  if(a>=1e9)return s+'$'+(a/1e9).toFixed(a>=1e11?0:a>=1e10?0:1)+' \u043c\u043b\u0440\u0434';
+  return s+'$'+Math.round(a/1e6)+' \u043c\u043b\u043d';
+};
+
+const A_STR=0.030, A_MAC=0.207, B4=0.37;
+function amps(de,dp,W,B){
+  const rA=0.50+0.17*de, rB=1-0.5*dp;
+  const f=[];
+  for(let i=0;i<4;i++)f.push(i? {a:f[i-1].a*rA, b:f[i-1].b*rB}
+                             : {a:A_STR+de*(A_MAC-A_STR), b:B4*rB});
+  /* ζ постоянна внутри эпохи и берётся на её пике: иначе дно гасилось бы сильнее
+     верха просто потому, что случается на год позже. Откалиброванные эпохи
+     H0–H4 не трогаются вовсе — там ζ была бы 1.00 с точностью до полупроцента,
+     а измерение переписывать нечем. */
+  return EPOCHS.map(e=>{
+    if(e.obs)return{a:e.a,b:e.b};
+    const z=zetaAt(Date.UTC(e.pk[0],e.pk[1]-1,15),W,de,B);
+    return{a:f[e.i].a*z, b:-f[e.i].b*z};
+  });
+}
+function modAt(mi,A){
+  const cur=mnum(months[mi]);
+  let k=-1;
+  for(let i=0;i<EPOCHS.length;i++)if(cur>=mnum(EPOCHS[i].h))k=i;
+  if(k<0)return 0;
+  const e=EPOCHS[k],{a,b}=A[k];
+  const h=mnum(e.h),p=mnum(e.pk),t=mnum(e.tr);
+  const nx=k+1<EPOCHS.length?mnum(EPOCHS[k+1].h):h+48;
+  if(cur<=p)return a*ss((cur-h)/(p-h));
+  if(cur<=t)return a+(b-a)*ss((cur-p)/(t-p));
+  return b+(0-b)*ss((cur-t)/Math.max(nx-t,1));
+}
+
+const el=id=>document.getElementById(id);
+const fmt=v=>v>=1000?'$'+Math.round(v/1000).toLocaleString('ru-RU')+'k':'$'+(v>=1?v.toFixed(0):v.toFixed(2));
+const sig=(v,n)=>{const e=Math.pow(10,Math.floor(Math.log10(Math.abs(v)))-n+1);return Math.round(v/e)*e;};
+const fmtP=v=>v==null?'—':(v<100?'$'+v.toFixed(2):'$'+sig(v,3).toLocaleString('ru-RU'));
+const MON=['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
+const mlab=a=>MON[a[1]-1]+' '+a[0];
+
+const epochPlugin={id:'ep',beforeDatasetsDraw(c){
+  const{ctx,chartArea:ca,scales:{x}}=c;if(!ca)return;ctx.save();
+  const st=getComputedStyle(document.documentElement);
+  ctx.fillStyle=st.getPropertyValue('--epoch');
+  EPOCHS.forEach((e,i)=>{
+    if(i%2)return;
+    const s=idx(e.h),n=i+1<EPOCHS.length?idx(EPOCHS[i+1].h):months.length-1;
+    if(s<0)return;const x0=x.getPixelForValue(s),x1=x.getPixelForValue(n<0?months.length-1:n);
+    ctx.fillRect(x0,ca.top,x1-x0,ca.bottom-ca.top);
+  });
+  if(c.canvas.id==='main'){
+    ctx.fillStyle=st.getPropertyValue('--ink-3');ctx.font='500 10px IBM Plex Mono, monospace';ctx.textAlign='center';
+    EPOCHS.forEach((e,i)=>{const s=idx(e.h),n=i+1<EPOCHS.length?idx(EPOCHS[i+1].h):months.length-1;
+      if(s<0)return;const x0=x.getPixelForValue(s),x1=x.getPixelForValue(n<0?months.length-1:n);
+      if(x1-x0>26)ctx.fillText(e.n,(x0+x1)/2,ca.top+12);});
+  }
+  ctx.restore();
+}};
+
+let FC=0;
+const forecastPlugin={id:'fc',afterDatasetsDraw(c){
+  const{ctx,chartArea:ca,scales:{x}}=c;if(!ca)return;ctx.save();
+  const st=getComputedStyle(document.documentElement);
+  const px=x.getPixelForValue(FC);
+  ctx.strokeStyle=st.getPropertyValue('--ink-2');ctx.lineWidth=1;ctx.setLineDash([2,3]);
+  ctx.beginPath();ctx.moveTo(px,ca.top);ctx.lineTo(px,ca.bottom);ctx.stroke();ctx.setLineDash([]);
+  if(c.canvas.id==='main'){
+    ctx.font='500 10px IBM Plex Mono, monospace';
+    ctx.fillStyle=st.getPropertyValue('--ink-2');ctx.textAlign='left';
+    ctx.fillText('прогноз →',px+6,ca.bottom-8);
+    ctx.textAlign='right';ctx.fillText('факт ←',px-6,ca.bottom-8);
+  }
+  ctx.restore();
+}};
+
+const bandPlugin={id:'bd',beforeDatasetsDraw(c){
+  const{ctx,chartArea:ca,scales:{y}}=c;if(!ca)return;ctx.save();
+  const st=getComputedStyle(document.documentElement);
+  ctx.strokeStyle=st.getPropertyValue('--ink-3');ctx.lineWidth=1;ctx.globalAlpha=.55;ctx.setLineDash([1,4]);
+  [RES_BAND,-RES_BAND].forEach(v=>{const py=y.getPixelForValue(v);
+    ctx.beginPath();ctx.moveTo(ca.left,py);ctx.lineTo(ca.right,py);ctx.stroke();});
+  ctx.setLineDash([]);ctx.globalAlpha=1;
+  ctx.strokeStyle=st.getPropertyValue('--rule');
+  const p0=y.getPixelForValue(0);
+  ctx.beginPath();ctx.moveTo(ca.left,p0);ctx.lineTo(ca.right,p0);ctx.stroke();
+  ctx.restore();
+}};
+
+const cs=()=>{const s=getComputedStyle(document.documentElement);return{
+ rule:s.getPropertyValue('--rule-soft').trim(),ax:s.getPropertyValue('--rule').trim(),
+ m3:s.getPropertyValue('--ink-3').trim(),obs:s.getPropertyValue('--obs').trim(),
+ mdl:s.getPropertyValue('--mdl').trim(),band:s.getPropertyValue('--band').trim(),
+ pos:s.getPropertyValue('--pos').trim(),neg:s.getPropertyValue('--neg').trim()};};
+const C=cs();
+
+const obsSeries=months.map((mm,i)=>{
+  const j=(mm[0]*12+mm[1])-(OBS_START[0]*12+OBS_START[1]);
+  return j>=0&&j<OBS.length?OBS[j]:null;});
+
+let NFC=0,NLAB=[],NA=0,NFCLAB='';
+/* Халвинг-эпохи на панели детализации. Тот же приём, что на верхней,
+   но индексы сдвинуты: панель рисует срез months, начиная с NA. */
+const nearEpochPlugin={id:'nep',beforeDatasetsDraw(c){
+  const{ctx,chartArea:ca,scales:{x}}=c;if(!ca)return;ctx.save();
+  const st=getComputedStyle(document.documentElement);
+  const last=c.data.labels.length-1, cl=v=>Math.max(0,Math.min(last,v));
+  EPOCHS.forEach((e,i)=>{
+    const s0=idx(e.h)-NA, s1=i+1<EPOCHS.length?idx(EPOCHS[i+1].h)-NA:last;
+    if(s1<0||s0>last)return;
+    const x0=x.getPixelForValue(cl(s0)),x1=x.getPixelForValue(cl(s1));
+    if(x1-x0<1)return;
+    if(i%2===0){ctx.fillStyle=st.getPropertyValue('--epoch');
+      ctx.fillRect(x0,ca.top,x1-x0,ca.bottom-ca.top);}
+    if(x1-x0>26){ctx.fillStyle=st.getPropertyValue('--ink-3');
+      ctx.font='500 10px IBM Plex Mono, monospace';ctx.textAlign='center';
+      ctx.fillText(e.n,(x0+x1)/2,ca.top+12);}
+  });
+  ctx.restore();
+}};
+
+const nearPlugin={id:'nr',afterDatasetsDraw(c){
+  const{ctx,chartArea:ca,scales:{x,y}}=c;if(!ca)return;
+  const st=getComputedStyle(document.documentElement);ctx.save();
+  const px=x.getPixelForValue(NFC);
+  ctx.strokeStyle=st.getPropertyValue('--ink-2');ctx.lineWidth=1;ctx.setLineDash([2,3]);
+  ctx.beginPath();ctx.moveTo(px,ca.top);ctx.lineTo(px,ca.bottom);ctx.stroke();ctx.setLineDash([]);
+  ctx.font="500 10px 'IBM Plex Mono',monospace";ctx.fillStyle=st.getPropertyValue('--ink-2');
+  /* подпись границы — месяц последнего факта, а не «сейчас»: страница статична
+     и читается спустя месяцы после сборки */
+  const bl='факт по '+NFCLAB, sh=NFCLAB;
+  const t1=ctx.measureText(bl).width<=px-6-ca.left?bl:(ctx.measureText(sh).width<=px-6-ca.left?sh:'');
+  if(t1){ctx.textAlign='right';ctx.fillText(t1,px-6,ca.bottom-8);}
+  else{ctx.textAlign='left';ctx.fillText(sh,px+5,ca.bottom-8);}
+  const ds=c.data.datasets[2].data;
+  ctx.font="500 11.5px 'IBM Plex Mono',monospace";ctx.textAlign='center';
+  NLAB.forEach(i=>{
+    const v=ds[i];if(v==null)return;
+    const gx=x.getPixelForValue(i),gy=y.getPixelForValue(v);
+    const t=fmt(v),w=ctx.measureText(t).width+13;
+    const bx=Math.max(ca.left+1,Math.min(gx-w/2,ca.right-w-1));
+    const by=Math.max(ca.top+1,gy-28);
+    ctx.fillStyle=st.getPropertyValue('--panel');ctx.strokeStyle=st.getPropertyValue('--rule');
+    ctx.lineWidth=1;ctx.beginPath();ctx.rect(bx,by,w,19);ctx.fill();ctx.stroke();
+    ctx.fillStyle=st.getPropertyValue('--ink');ctx.fillText(t,bx+w/2,by+13.5);
+    ctx.fillStyle=st.getPropertyValue('--mdl');
+    ctx.beginPath();ctx.arc(gx,gy,3.2,0,Math.PI*2);ctx.fill();
+  });
+  ctx.restore();
+}};
+
+/* Когерентность настройки. Четыре независимые проверки: у каждой пары ползунков
+   спрашивается не «хорошее ли это число», а «есть ли под этой парой один механизм».
+   Проверка ловит несостыковку и ничего не советует: согласованная настройка не
+   значит обоснованная, и наоборот — честно зафиксированная аномалия допустима. */
+const cl01=v=>v<0?0:v>1?1:v;
+/* Вес мягких проверок. Две из четырёх — прямое противоречие и могут довести
+   индикатор до красного; остальные три остаются оговорками при любом положении
+   ползунков, поэтому их объединённый вклад упирается в SOFT. */
+const SOFT=0.42, SEV_RED=0.55;
+function coherence(de,dp,W,B){
+  const N=[],ALL=[];
+  /* Каждая проверка возвращает не «да/нет», а напряжение от 0 до 1: 0 — под
+     парой настроек лежит один механизм, 1 — не лежит ничего. В цвет идут все
+     четыре, включая нулевые: порога, на котором проверка «включается», нет.
+     NOTE_MIN отсекает только текст замечания — писать про напряжение в сотые
+     доли незачем, а цвет там и так неотличим от синего. */
+  const add=(k,sh,sv,hard,t)=>{const e=hard?sv:SOFT*sv;
+    ALL.push({s:sv,hard:hard});
+    if(e>NOTE_MIN)N.push({k:k,sh:sh,s:sv,e:e,hard:hard,t:t});};
+
+  /* 1. Верх и низ: причина, убившая эйфорию, обязана дойти и до паники.
+     Отставание низа допустимо — примерно до половины хода верха; напряжение
+     меряет, насколько паника не дотягивает до этого требования. */
+  add('Верх и низ','верх/низ',cl01((0.6*(1-de)-dp)/0.6),1,
+    'Низ отстаёт от верха сильнее, чем оставляет запас на лаг. Необратимое исчезновение эйфории требует объяснения, а любое объяснение — смена состава держателей, институциональное хранение — обязано рано или поздно затронуть и панику. Чем дальше затухание паники от затухания эйфории, тем меньше под парой одного механизма. Допустимо как зафиксированная аномалия, но собственной истории под этим нет.');
+
+  /* 2. Затухание и потолок: институционализация делает две вещи разом */
+  add('Затухание и потолок','затухание/потолок',
+    Math.min(cl01((0.35-de)/0.35),cl01((1300-W)/600)),1,
+    'Эйфория гаснет почти необратимо, а потолок владельцев остаётся низким, '+W+' млн — ниже правдоподобного коридора. Механизм, которым объясняется первое, — институциональное хранение — обязан дать и второе: он убирает барьер входа. Под этой парой одной причины нет.');
+  add('Затухание и потолок','затухание/потолок',
+    Math.min(cl01((de-0.6)/0.4),cl01((W-1900)/900)),0,
+    'Цикл почти не тронут, но в актив приходит '+Math.round(W/60)+'% взрослых. Массовое принятие через фонды и кастодианов обычно эйфорию и гасит; здесь оно её не гасит, и это требует отдельного объяснения.');
+
+  /* 3. Опора цикла: на запасе хода или на допущении о спекулятивности */
+  add('Опора цикла','опора цикла',fuelTension(W,de,B),0,
+    'К пику H6 цикл держится всё меньше на запасе хода до потолка и всё больше на посылке, что спекулятивность актива уцелела сама по себе. Наблюдений под ней нет ни одного. Доли по эпохам — в блоке «Цикл · опора».');
+
+  /* 4. Масштаб и режим: модель не содержит смены денежного режима */
+  add('Масштаб и режим','масштаб',cl01((W-2100)/1000),0,
+    'Капитализация на плато выходит на '+Math.round(plateau(W)*S_TERM/GOLD*100)+'% стоимости всего добытого золота. Смены денежного режима в модели нет, а такой уровень её потребует — страница предупреждает об этом в разделе ограничений.');
+
+  N.sort((x,y)=>y.e-x.e);                          /* самое напряжённое — первым */
+  /* Замечания складываются как независимые: две мелкие несостыковки хуже одной,
+     но ни одна не отменяет другую. Мягкие сначала объединяются между собой и
+     только потом входят в общий счёт — с потолком SOFT. */
+  const un=a=>1-a.reduce((q,v)=>q*(1-v),1);
+  const hard=un(ALL.filter(x=>x.hard).map(x=>x.s));
+  const soft=SOFT*un(ALL.filter(x=>!x.hard).map(x=>x.s));
+  const sev=1-(1-hard)*(1-soft);
+  const st=sev>=SEV_RED?'Некогерентно':(sev>NOTE_MIN?'Когерентно с оговорками':'Когерентно');
+  /* Видимая строка отвечает на один вопрос: что эта настройка утверждает о рынке.
+     Числа с ползунков она не пересказывает — они стоят подписями под самими ползунками. */
+  let n;
+  if(de<0.25&&dp<0.25) n='Рынок повзрослел ровно наполовину: эйфории больше нет, паника цела.';
+  else if(de<0.35&&dp<0.75) n='Рынок взрослеет, низ идёт за верхом с лагом: состав остающихся меняется медленнее состава приходящих.';
+  else if(de<0.35) n='Рынок взрослый, обе фазы гаснут вровень. Институционализации здесь мало, нужен общий источник суждений.';
+  else if(de>0.85&&dp<0.3) n='Рынок не изменился: H4 был стечением обстоятельств, пики спадают прежним темпом, паника цела.';
+  else n='Своеобразная настройка: верх и низ гаснут с разной скоростью, и историю под это придётся собрать самому.';
+  if(!N.length) n+=' Все четыре проверки чисты.';
+  return{sev:sev, s:st, n:n, notes:N};
+}
+
+/* Опора цикла. Эйфорический пик — это перелёт над трендом, и на него нужен
+   запас хода: у тренда, подошедшего к потолку, места над собой почти нет.
+   Колебания между уже владеющими такого запаса не требуют — у зрелых активов
+   просадки бывают и у самого потолка. Значит у амплитуды два источника.
+
+   Доля хода тренда, которую пропускает потолок:
+       φ(t) = g(с насыщением) / g(чистый степенной закон)
+   Величина безразмерная и не зависит от привязки уровня. На истории φ = 1.00
+   на всех четырёх эпохах — насыщение до 2026 года не включилось, калибровка
+   не тронута.
+
+   Доля цикла, которая держится без запаса хода, — это ровно то, о чём
+   спрашивает ползунок эйфории. Новых констант здесь нет:
+       ζ(t) = d_э + (1 − d_э) · φ(t)
+   Наложение умножается на ζ целиком, верх и низ вместе: ζ отвечает за то,
+   есть ли цикл вообще, два ползунка — за его форму, и их пропорция сохраняется. */
+function phiAt(t,W,B){
+  const h=30*DAY,L=plateau(W);
+  return (Math.log(sat(pure(t+h,B),L))-Math.log(sat(pure(t-h,B),L)))
+        /(Math.log(pure(t+h,B))-Math.log(pure(t-h,B)));
+}
+function zetaAt(t,W,de,B){const p=phiAt(t,W,B);return de+(1-de)*p;}
+const pkMs=e=>Date.UTC(e.pk[0],e.pk[1]-1,15);
+/* Доля амплитуды H6, которую держит не запас хода, а допущение о сохранившейся
+   спекулятивности. Одна величина на два места: проверка «опора цикла» в
+   индикаторе и цвет блока «Цикл · опора» под ползунком потолка. */
+function fuelTension(W,de,B){
+  const z6=zetaAt(pkMs(EPOCHS[6]),W,de,B), r6=z6>0?de/z6:0;
+  return cl01((r6-0.5)/0.45)*cl01((z6-0.15)/0.15);
+}
+function fuelState(W,de,B){
+  const z=[5,6,7].map(i=>{const p=phiAt(pkMs(EPOCHS[i]),W,B);return de+(1-de)*p;});
+  const p6=phiAt(pkMs(EPOCHS[6]),W,B);
+  const pc=v=>Math.round(100*v)+'%';
+  const s=EPOCHS.slice(5,8).map((e,i)=>e.n+' '+pc(z[i])).join(' · ');
+  const head='Доля полной амплитуды, которая остаётся. ';
+  const own=Math.round(100*de), inf=Math.round(100*(1-de)*p6);
+  const r6=z[1]>0?de/z[1]:0, sev=SOFT*fuelTension(W,de,B);
+  if(r6>0.5&&z[1]>0.25)return{sev:sev,s:s,
+    n:head+'Из '+pc(z[1])+' на пике H6 уцелевший запас хода даёт '+inf+' пунктов, остальные '+own+' держит затухание эйфории — посылка, что спекулятивность уцелела сама по себе.'};
+  if(z[1]<=0.25)return{sev:sev,s:s,
+    n:head+'Цикл идёт следом за запасом хода: к пику H6 от него остаётся '+pc(p6)+', а собственной опоры у цикла нет — затухание эйфории стоит близко к нулю.'};
+  return{sev:sev,s:s,
+    n:head+'К пику H6 от запаса хода остаётся '+pc(p6)+', и цикл идёт за ним. Отдельного допущения о спекулятивности не требуется.'};
+}
+
+/* Единственная точка, где напряжение превращается в цвет. Чистый оранжевый
+   ставится на потолок мягких проверок: дальше него уводят только две жёсткие,
+   поэтому красное всегда означает именно их. Классы mid/bad — запасной вариант
+   для браузеров без color-mix, всё остальное делает --sev. */
+function setSev(e,base,sv,mid){
+  const v=cl01(sv), m=mid||SOFT;
+  e.className=base+' sev'+(v>=SEV_RED?' bad':v>NOTE_MIN?' mid':'');
+  e.style.setProperty('--sev',(v<=m?0.5*v/m:0.5+0.5*(v-m)/(1-m)).toFixed(3));
+}
+
+let main,res,near;
+function build(){
+  const W=+el('k').value,de=+el('de').value,dp=+el('dp').value,B=+el('mb').value;
+  const L=plateau(W),A=amps(de,dp,W,B);
+  /* Полоса гоняет потолок ±40% целиком: и уровень плато, и амплитуду цикла
+     через ζ. Отображение немонотонно — на дне цикла низкий потолок опускает
+     уровень, но одновременно поднимает дно, гася амплитуду, — поэтому полоса
+     строится как огибающая по всему диапазону, а не по двум его краям.
+     Шаг 1.00 входит в набор, значит средняя траектория всегда внутри. */
+  const BK=[0.60,0.70,0.80,0.90,1.00,1.10,1.20,1.30,1.40]
+    .map(k=>({L:plateau(W*k),A:amps(de,dp,W*k,B)}));
+  const trend=[],mid=[],lo=[],hi=[],resid=[],residM=[];
+  for(let i=0;i<months.length;i++){
+    const p=pure(ms[i],B),tr=sat(p,L),f=Math.pow(10,modAt(i,A));
+    trend.push(tr);mid.push(tr*f);
+    let mn=Infinity,mx=-Infinity;
+    for(const bk of BK){const v=sat(p,bk.L)*Math.pow(10,modAt(i,bk.A));
+      if(v<mn)mn=v; if(v>mx)mx=v;}
+    lo.push(mn);hi.push(mx);
+    residM.push(Math.log10(f));
+    resid.push(obsSeries[i]!=null?Math.log10(obsSeries[i]/tr):null);
+  }
+  el('kv').textContent=W;el('dev').textContent=de.toFixed(2);el('dpv').textContent=dp.toFixed(2);
+  el('mbv').textContent=B.toFixed(3);
+  const offB=Math.abs(B-1.897)>5e-4;
+  el('ctl-mb').className='ctl'+(offB?' off':'');
+  el('mbmark').textContent=offB
+    ?'\u0441\u0434\u0432\u0438\u043d\u0443\u0442 \u043d\u0430 '+(B>1.897?'+':'\u2212')+Math.abs(B-1.897).toFixed(3)
+    :'\u043e\u043f\u043e\u0440\u043d\u043e\u0435 \u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0435';
+  el('a5v').textContent=A[5].a.toFixed(2);el('b5v').textContent=Math.abs(A[5].b).toFixed(2);
+  el('plat').textContent=Math.round(L/1000).toLocaleString('ru-RU');
+  el('s-pl').textContent=fmt(L);
+
+  /* разброс считается вокруг средней траектории: отклонение от тренда
+     содержит цикл, который модель предсказывает, и сюрпризом не является */
+  const dev=[];for(let i=0;i<months.length;i++)if(resid[i]!=null)dev.push(resid[i]-residM[i]);
+  const SG=Math.sqrt(dev.reduce((s,v)=>s+v*v,0)/dev.length);
+
+  const bad=resid.filter(v=>v!=null&&Math.abs(v)>RES_BAND).length;
+  const nobsv=resid.filter(v=>v!=null).length;
+  el('g-fit').textContent=bad+' из '+nobsv+' вне \u00b10.5 dex';
+  setSev(el('g-fit'),'v sev',cl01((bad-14)/12),0.5);
+
+
+  const CO=coherence(de,dp,W,B);
+  setSev(el('tie'),'tie',CO.sev);
+  el('ties').textContent=CO.s;el('tien').textContent=CO.n;
+  const tw=el('tiew');
+  if(CO.notes.length){
+    tw.hidden=false;
+    el('tiew-k').textContent=CO.sev>=SEV_RED?'Не сходится':'Оговорки';
+    el('tiew-v').textContent=CO.notes.map(x=>x.sh).join(' · ');
+    el('tiew-t').innerHTML=CO.notes.map(x=>'<b>'+x.k+'.</b> '+x.t).join('<br><br>');
+  } else tw.hidden=true;
+
+  const F=fuelState(W,de,B);
+  setSev(el('fuel'),'fuel',F.sev);
+  el('fu-v').textContent=F.s;el('fu-n').textContent=F.n;
+
+  const now=obsSeries.map((v,i)=>v!=null?i:-1).filter(i=>i>=0).pop();
+  FC=now;
+  el('s-spot').textContent=fmt(OBS[OBS.length-1]);
+  el('s-tr').textContent=fmt(sat(pure(ms[now],B),L));
+  el('s-dev').textContent=(resid[now]>=0?'+':'')+resid[now].toFixed(2);
+  el('s-dev').style.color=resid[now]>=0?C.pos:C.neg;
+  const zm=(resid[now]-residM[now])/SG;
+  el('s-dev-n').textContent='dex от тренда · '+(zm>=0?'+':'−')+Math.abs(zm).toFixed(1)+'σ от модели';
+
+  const dd=(1-H4LOW/ATH)*100;
+  el('s-dd').textContent=dd.toFixed(0)+'%';
+  el('s-dd').style.color=dd>=DD_LIMIT?C.neg:C.obs;
+
+  const i5p=idx(EPOCHS[5].pk),i5t=idx(EPOCHS[5].tr);
+  el('s-p5').textContent=mid[i5p]?fmt(mid[i5p]):'—';el('s-p5n').textContent=mlab(EPOCHS[5].pk);
+  el('s-t5').textContent=mid[i5t]?fmt(mid[i5t]):'—';el('s-t5n').textContent=mlab(EPOCHS[5].tr);
+
+  /* ---- поток капитала: та же траектория в деньгах ---- */
+  const spot=OBS[OBS.length-1];
+  const capAt=i=>mid[i]*supplyAt(ms[i]);
+  const capNow=spot*supplyAt(ms[now]);
+  let hz=trend.findIndex((v,i)=>i>now&&v>=0.9*L);
+  const reached=hz>=0; if(!reached)hz=months.length-1;
+  /* горизонт короче трёх лет превращает средний прирост в шум одного месяца */
+  hz=Math.max(hz,Math.min(now+36,months.length-1));
+  const yrs=(ms[hz]-ms[now])/YR;
+  /* тот же запас монет, по которому считается само плато */
+  const capPl=L*S_TERM;
+  const i12=Math.min(now+12,months.length-1);
+  const d12=capAt(i12)-capNow;
+  /* конец берётся по тренду, а не по средней траектории: иначе горизонт,
+     попавший на дно цикла, занижает требуемый прирост вдвое */
+  const avg=(trend[hz]*supplyAt(ms[hz])-capNow)/yrs;
+  let peak=0,prevC=capNow;
+  for(let j=now+12;j<months.length;j+=12){const c=capAt(j);if(c-prevC>peak)peak=c-prevC;prevC=c;}
+  const issBtc=issueRate(ms[now]), issUsd=issBtc*spot;
+
+  const NOWLAB=mlab(months[now]);
+  el('f-nowk').textContent='Капитализация · '+NOWLAB;
+  el('s-tr-k').textContent='Тренд · '+NOWLAB;
+  el('s-spot-n').textContent='последний факт · '+NOWLAB;
+  el('f-now').textContent=fmtBig(capNow);
+  el('f-nown').textContent=(supplyAt(ms[now])/1e6).toFixed(2)+' млн монет · '
+    +(capNow/GOLD*100).toFixed(0)+'% золота';
+  el('f-pl').textContent=fmtBig(capPl);
+  el('f-pln').textContent='×'+(capPl/capNow).toFixed(1)+' от уровня '+NOWLAB+' · '
+    +(capPl/GOLD*100).toFixed(0)+'% золота';
+  el('f-d12').textContent=(d12>=0?'+':'')+fmtBig(d12);
+  el('f-d12').style.color=d12>=0?C.obs:C.neg;
+  el('f-d12n').textContent='на '+mlab(months[i12])+' · ×'+(capAt(i12)/capNow).toFixed(1)
+    +' от уровня '+NOWLAB;
+  el('f-avg').textContent=fmtBig(avg)+'/год';
+  el('f-avgn').textContent=(reached
+      ? 'по тренду до 90% плато, '+mlab(months[hz])+' · '+yrs.toFixed(1)+' года'
+      : 'по тренду до конца горизонта · плато к 2040 не достигается')
+    +' · пиковые 12 мес +'+fmtBig(peak);
+  el('f-iss').textContent=fmtBig(issUsd)+'/год';
+  el('f-issn').textContent=Math.round(issBtc/1000)+' тыс BTC в год · '
+    +(avg>0?(issUsd/avg*100).toFixed(1)+'% требуемого прироста':'—');
+
+  const tb=el('cyc').querySelector('tbody');tb.innerHTML='';
+  EPOCHS.slice(0,8).forEach((e,i)=>{
+    const{a,b}=A[i];              /* в A[] уже учтена ζ для расчётных эпох */
+    const pi=idx(e.pk),ti=idx(e.tr);
+    const pv=pi>=0?mid[pi]:null,tv=ti>=0?mid[ti]:null;
+    const dd=(pv&&tv)?(1-tv/pv)*100:null;
+    tb.insertAdjacentHTML('beforeend',`<tr class="${e.obs?'':'fut'}"><td>${e.n}</td>
+      <td class="num">${e.h[0]}-${String(e.h[1]).padStart(2,'0')}</td>
+      <td class="num">${fmtP(pv)}</td><td class="num">${fmtP(tv)}</td>
+      <td class="num">${a.toFixed(2)}</td><td class="num">${b.toFixed(2)}</td>
+      <td class="num">${dd!=null&&dd>0.5?dd.toFixed(0)+'%':'—'}</td></tr>`);
+  });
+
+
+  const xopt={grid:{display:false},border:{color:C.ax},
+    ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxRotation:0,autoSkip:false,
+      callback:function(v){const s=this.getLabelForValue(v);return s.endsWith('-01')&&+s.slice(0,4)%5===0?s.slice(0,4):''}}};
+
+  if(main){main.destroy();res.destroy();near.destroy();}
+  main=new Chart(el('main'),{type:'line',plugins:[epochPlugin,forecastPlugin],
+    data:{labels,datasets:[
+      {data:hi,borderColor:'transparent',pointRadius:0,fill:'+1',backgroundColor:C.band},
+      {data:lo,borderColor:'transparent',pointRadius:0,fill:false},
+      {label:'Тренд',data:trend,borderColor:C.m3,borderWidth:1.4,borderDash:[6,4],pointRadius:0,fill:false,tension:.2},
+      {label:'Модель',data:mid,borderColor:C.mdl,borderWidth:2.2,pointRadius:0,fill:false,tension:.2},
+      {label:'Факт',data:obsSeries,borderColor:C.obs,borderWidth:1.8,pointRadius:0,fill:false,tension:.1}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{filter:c=>c.dataset.label&&c.parsed.y!=null,
+        callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}}},
+      scales:{y:{type:'logarithmic',min:.04,max:4e6,grid:{color:C.rule},border:{color:C.ax},
+        ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},
+          callback:v=>[.1,1,10,100,1e3,1e4,1e5,1e6].includes(v)?fmt(v):''}},x:xopt}}});
+
+  res=new Chart(el('res'),{type:'line',plugins:[epochPlugin,bandPlugin,forecastPlugin],
+    data:{labels,datasets:[
+      {label:'Модель',data:residM,borderColor:C.mdl,borderWidth:1.6,pointRadius:0,fill:false,tension:.2},
+      {label:'Факт',data:resid,borderColor:C.obs,borderWidth:1.6,pointRadius:0,fill:false,tension:.1}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{filter:c=>c.parsed.y!=null,
+        callbacks:{label:c=>c.dataset.label+': '+(c.parsed.y>=0?'+':'')+c.parsed.y.toFixed(2)+' dex'}}},
+      scales:{y:{min:-.75,max:1.35,grid:{color:C.rule},border:{color:C.ax},
+        ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},stepSize:.5,
+          callback:v=>(v>0?'+':'')+v.toFixed(1)}},x:xopt}}});
+
+  /* окно детализации: год назад — весь цикл H5 — халвинг H6 */
+  const na=Math.max(0,now-12),nb=Math.min(months.length-1,idx(EPOCHS[6].h));
+  NFC=now-na;NA=na;NFCLAB=mlab(months[now]);
+  const nlab=months.slice(na,nb+1).map(m=>MON[m[1]-1]+' '+String(m[0]).slice(2));
+  const cut=a=>a.slice(na,nb+1);
+  const nmid=cut(mid),nlo=cut(lo),nhi=cut(hi),nobs=cut(obsSeries);
+  /* подписи стоят на узлах модели, а не по регулярной сетке: граница факта, халвинг H5,
+     пик, дно и конец окна — ровно те точки, о которых модель что-то утверждает */
+  NLAB=[NFC,idx(EPOCHS[5].h)-na,idx(EPOCHS[5].pk)-na,idx(EPOCHS[5].tr)-na,nb-na]
+       .filter(i=>i>=0&&i<nmid.length).sort((x,y)=>x-y)
+       .filter((v,i,a)=>i===0||v-a[i-1]>2);
+  const NTICK=nmid.map((_,i)=>i).filter(i=>(i-NFC)%6===0);
+  const nvals=[].concat(nmid,nlo,nhi,nobs).filter(v=>v!=null);
+  const nmx=Math.max.apply(null,nvals),nmn=Math.min.apply(null,nvals);
+  const npad=(nmx-nmn)*.09;
+  near=new Chart(el('near'),{type:'line',plugins:[nearEpochPlugin,nearPlugin],
+    data:{labels:nlab,datasets:[
+      {data:nhi,borderColor:'transparent',pointRadius:0,fill:'+1',backgroundColor:C.band},
+      {data:nlo,borderColor:'transparent',pointRadius:0,fill:false},
+      {label:'Модель',data:nmid,borderColor:C.mdl,borderWidth:2.4,pointRadius:0,fill:false,tension:.25,
+        segment:{borderDash:x=>x.p1DataIndex<=NFC?[5,4]:undefined}},
+      {label:'Факт',data:nobs,borderColor:C.obs,borderWidth:2.2,pointRadius:0,fill:false,tension:.15}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,
+      layout:{padding:{top:16}},
+      interaction:{mode:'index',intersect:false},
+      plugins:{legend:{display:false},tooltip:{filter:c=>c.dataset.label&&c.parsed.y!=null,
+        callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}}},
+      scales:{
+        y:{min:Math.max(0,nmn-npad),max:nmx+npad*1.4,
+          grid:{color:C.rule},border:{color:C.ax},
+          ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxTicksLimit:8,callback:v=>fmt(v)}},
+        x:{grid:{display:false},border:{color:C.ax},
+          ticks:{color:C.m3,font:{family:'IBM Plex Mono',size:10},maxRotation:0,autoSkip:false,
+            callback:(v,i)=>NTICK.indexOf(i)>=0?nlab[i]:''}}}}});
+
+  let act=null;
+  PB.forEach(btn=>{
+    const eq=(a,b,tol)=>Math.abs(a-b)<tol;
+    const on=eq(+btn.dataset.k,W,0.5)&&eq(+btn.dataset.de,de,5e-3)&&eq(+btn.dataset.dp,dp,5e-3)
+      &&eq(+btn.dataset.b,B,5e-4);
+    btn.setAttribute('aria-pressed',on?'true':'false'); if(on)act=btn;});
+  el('pdesc').textContent=act?act.dataset.desc
+    :'Свои настройки — ни один из готовых сценариев не совпадает. Кнопки сверху ставят все ползунки сразу и образуют одну ось: от цикла, угасшего необратимо, до цикла, который стремится вернуться в прежнем виде. Базовый расчёт модели — «Тихий цикл».';
+}
+const PB=[].slice.call(document.querySelectorAll('.presets button'));
+PB.forEach(btn=>btn.addEventListener('click',()=>{
+  el('k').value=btn.dataset.k;el('de').value=btn.dataset.de;el('dp').value=btn.dataset.dp;
+  el('mb').value=btn.dataset.b;build();}));
+['k','de','dp','mb'].forEach(i=>el(i).addEventListener('input',build));
+build();
+
+</script>
+</body>
+</html>

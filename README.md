@@ -1,92 +1,128 @@
-# Сквозная модель цены биткоина
+# An end-to-end model of the bitcoin price: power law × saturation ceiling × halving cycles
 
-Интерактивная страница: три слоя, четыре ползунка, три диагностики, пять критериев опровержения.
+An interactive page: three layers, four sliders, three diagnostics, five falsification criteria, monthly resolution from July 2010 to April 2040.
 
-**Открыть модель →** https://neokrasav4ik.github.io/btc-model/
+**Open the model →** https://neokrasav4ik.github.io/btc-model/
 
-**English version →** https://neokrasav4ik.github.io/btc-model/en.html · [README in English](README.en.md)
+**Русская версия →** https://neokrasav4ik.github.io/btc-model/ru.html · [README на русском](README.ru.md)
 
-## Что это
+[![The model, upper panel and controls](screen.en.png)](https://neokrasav4ik.github.io/btc-model/)
 
-Цена раскладывается на три слоя, перемножаемых друг на друга.
+## What this is
 
-**1. Степенной закон** от возраста сети, `P ∝ t^3β`. Управляет десятилетиями. Показатель 5.69 не подгонялся под график: он собран из двух измеренных по отдельности величин — числа адресов против времени (куб) и ценности против числа адресов (β = 1.897).
+Three layers multiplied by one another. Each owns its own time scale, and they are stitched together rather than stacked: the third depends on the second.
 
-**2. Насыщение** по предельному числу владельцев. Определяет, чем всё закончится. Уровень плато следует из потолка аудитории через `плато = 657 000 · (W/1610)^β`; при базовом потолке 1610 млн владельцев это $657k.
+**1. A power law** in the age of the network, `P ∝ t^3β`, with age counted in days from the genesis block. This layer runs the decades. The exponent 5.69 is measured directly from the price and has a separately measured decomposition: address count against time (3.046) and value against address count (β = 1.838). Their product is 5.60, a 1.6% discrepancy from the fitted slope. The model computes with 5.69 and splits it into a flat three and β = 1.897 = 5.69 / 3.
 
-**3. Халвинг-циклы** с раздельным затуханием верха и низа. Четырёхлетние волны внутри. Пик через 18 месяцев после халвинга, дно через 26–30, возврат к тренду к следующему халвингу.
-
-Третий слой связан со вторым множителем ζ:
+**2. Saturation** against a limiting number of owners. This layer decides how everything ends. Soft braking, `P = P_trend · L / (P_trend³ + L³)^⅓`, where the plateau `L` is a monetary constraint rather than a consequence of Metcalfe:
 
 ```
-ζ = d_э + (1 − d_э)·φ        φ = g(с насыщением) / g(чистый степенной закон)
+L = W · A / S        A = $8,447 terminal holding per owner
+                     S ≈ 20.7M coins in circulation by the mid-2030s
 ```
 
-φ — доля притока новых участников, уцелевшая после насыщения. Пик цикла делают приходящие, поэтому по мере исчерпания аудитории эйфория гаснет. Колебания между уже владеющими притока не требуют, и ту их долю, которая переживает исчерпание, задаёт ползунок затухания эйфории. Новых констант в связке нет. На всех четырёх исторических эпохах φ = 1.00 — насыщение до 2026 года не включалось, и калибровка слоёв 1–2 остаётся нетронутой.
+The ceiling enters linearly: be wrong by a factor of two and the plateau moves by a factor of two. `A` is not measured separately — it is the calibration base expressed per person. The outer two quantities are pinned: the base ceiling of 1610M owners (the middle of the plausible corridor, ~27% of adults) and a terminal capitalisation of $13.6T, a little under half the value of all the gold ever mined. `A` follows from dividing one by the other.
 
-## Ползунки и сценарии
+**3. Halving cycles** with the top and the bottom decaying separately. These are the four-year waves inside. Peak 18 months after the halving, trough at 26–30, return to trend by the next halving, cosine interpolation between the nodes.
 
-Ползунки не подбирают желаемое число. Они переключают гипотезу о том, что произошло с рынком в последнем цикле: было ли исчезновение эйфории необратимой переменой или стечением обстоятельств.
+The third layer is tied to the second by a multiplier ζ:
 
-Четыре готовых сценария стоят на одной оси — слева зрелость, справа спекуляция:
+```
+ζ = d_e + (1 − d_e)·φ        φ = g(with saturation) / g(pure power law)
+```
 
-| Сценарий | Потолок | Затух. эйфории | Затух. паники | Плато | Пик H5 | Дно H5 | Просадка |
+φ is the share of the trend's travel that the ceiling lets through — the headroom. A euphoric peak is an overshoot above the trend, and a trend that has come up against the ceiling has almost no room above it. Swings among those who already own require no such headroom, and the share of the cycle that survives the exhaustion of headroom is set by the euphoria decay slider. The link introduces no new constants. At all four historical epochs φ = 1.00 to within half a percent — saturation had not switched on before 2026, and the calibration of layers 1–2 is untouched.
+
+## Sliders and scenarios
+
+The sliders do not pick a desired number. They switch between hypotheses about what happened to the market in the last cycle: was the disappearance of euphoria an irreversible change or a fluke. The four presets sit on a single axis — maturity on the left, speculation on the right:
+
+| Scenario | Ceiling | Euphoria decay | Panic decay | Plateau | H5 peak | H5 trough | Drawdown |
 |---|---|---|---|---|---|---|---|
-| Цикл угас | 1800 | 0.00 | 1.00 | $812k | $384k | $303k | 21% |
-| **Тихий цикл** (базовый) | 1610 | 0.15 | 0.50 | $657k | $394k | $245k | 38% |
-| Цикл возвращается | 1350 | 0.50 | 0.25 | $470k | $408k | $201k | 51% |
-| Цикл не ломался | 1300 | 1.00 | 0.00 | $438k | $510k | $154k | 70% |
+| Cycle faded | 1800 | 0.00 | 1.00 | $735k | $379k | $301k | 21% |
+| **Quiet cycle** (base) | 1610 | 0.15 | 0.50 | $657k | $394k | $245k | 38% |
+| Cycle returns | 1350 | 0.50 | 0.25 | $551k | $432k | $209k | 52% |
+| Cycle never broke | 1300 | 1.00 | 0.00 | $530k | $542k | $169k | 69% |
 
-Колонка пиков растёт вправо вместе с просадкой: высокий пик 2029 года указывает на живой цикл, за которым последует привычный обвал.
+The column of peaks rises to the right along with the drawdown, which is awkward to read and worth stating plainly: **a high peak in 2029 points to a live cycle, which will be followed by the customary crash.** The scenarios are not «optimistic — base — pessimistic». By the 2035 price the left edge is optimistic; by the October 2029 price the right edge is.
 
-## Диагностики
+The ceiling does two things at once, which is easy to miss. It sets the plateau level, and through ζ it sets how much of the cycle survives into the 2030s. At the base decays the H5 drawdown runs from 23% at a ceiling of 700M to 40% at 3200 — the troughs almost flatten out at the lower edge.
 
-Три индикатора проверяют настройки читателя, ничего не советуя.
+β is not meant for tuning. It sits on the panel as a check, with a live miss counter under it.
 
-**Согласование затуханий.** Ловит одну конкретную несостыковку: эйфория гаснет необратимо, паника не гаснет вовсе. Причина, убившая верх, обязана рано или поздно достать и низ, и под такой парой механизма нет.
+## Diagnostics
 
-**Доля амплитуды по эпохам.** Показывает ζ для H5–H7: на чём держится цикл 2030-х — на уцелевшем притоке или на посылке, что спекулятивность актива уцелела сама по себе.
+Three indicators check the reader's settings while advising nothing. Their colour runs from blue through orange to red continuously, without thresholds: each check returns a tension between zero and one, and they combine as independent.
 
-**Промахи от тренда.** Сколько месяцев лежат дальше ±0.5 dex от тренда. При измеренном β таких 14 из 194; сдвиг β на одну десятую доводит их до 26. Проверка, что «β измерен, а не выбран», не принимается на слово.
+**Coherence indicator.** Four checks, each asking not «is this a good number» but whether one mechanism sits under a pair of settings. *Top and bottom* — the cause that killed euphoria is obliged sooner or later to reach panic. *Decay and ceiling* — institutional custody kills euphoria and removes the barrier to entry at the same time. *Cycle support* — whether the cycle of the 2030s rests on headroom or on an assumption. *Scale and regime* — whether the ceiling takes capitalisation to a level requiring a change of monetary regime, which the model does not contain. Two of the four are a direct contradiction and can reach red; the other three stay caveats at any slider position.
 
-## Данные
+**Share of amplitude by epoch.** Shows ζ for H5–H7: what the 2030s cycle rests on — the surviving headroom, or the premise that the speculative character of the asset survived on its own. At the base setting it reads H5 87% · H6 33% · H7 17%.
 
-194 помесячных наблюдения с июля 2010 по начало августа 2026 года — приблизительные закрытия месяца из публичных источников. Ряд лежит в исходнике страницы открытым текстом, массив `OBS`. Для формы остатка этого достаточно, для чего-либо требующего точности — нет.
+**Misses from the trend.** How many observed months lie further than ±0.5 dex from the trend. At the measured β there are 14 of 194, almost all on the blow-offs of 2011 and 2013/14; shifting β down by two tenths brings that to 26, more than half of the new ones from 2010–2012. The claim that β was measured rather than chosen is not taken on trust.
 
-Показатель Меткалфа β = 1.897 взят из внешней работы, а не подогнан.
+Below the chart a fourth block, **what this requires of money**, converts the same trajectory into capitalisation: $1.27T today against $13.6T at the plateau, an average of $1.63T a year along the way, against which issuance amounts to 0.6% and keeps falling. The halving as a supply mechanism stops meaning anything quantitatively by 2028.
 
-Оценка числа владельцев (106 млн на август 2026) — сводка отраслевых оценок, а не перепись, и это самое слабое место модели. Разные методики дают от 106 млн (он-чейн и биржевые аккаунты) до 450 млн (опросы, включающие косвенное владение через фонды). Множитель ζ от этой оценки не зависит: φ — отношение двух темпов роста, и привязка уровня в него не входит.
+## Data
 
-## Чем это можно опровергнуть
+194 monthly observations from July 2010 to early August 2026 — approximate month closes compiled from public sources. The series sits in the page source in plain text, the array `OBS`. That is enough for the shape of the residual and not enough for anything requiring precision.
 
-Шесть условий, от ближайшего к самому дальнему. Два стоит назвать здесь.
+The Metcalfe exponent β = 1.897 is derived from external work rather than fitted to the chart, though the slope it decomposes was read off the price. The page says so in the objections and does not pretend otherwise.
 
-**Цена закрепляется ниже $58 000.** Тогда конец июня 2026 года не был дном цикла, вместе с ним рассыпается нижний узел H4 — тот, по которому выставлена амплитуда затухания.
+The estimate of the number of owners (106M as of mid-2026) is a digest of industry estimates rather than a census, and together with `A` it is the weakest point of the model. Neither the number of owners nor the average holding size is measured separately. The multiplier ζ does not depend on the level anchoring: φ is a ratio of two growth rates.
 
-**Число ненулевых адресов растёт медленнее `3/t` дольше двух лет.** Показатель 5.69 = 3 × 1.897 держится на кубическом росте сети, поэтому это проверка наклона, а не амплитуды цикла. При возрасте сети 17.6 года модель требует 17.0% в год: от сегодняшних 57 млн к 68 млн через год и 80 млн через два. Единственный критерий, который проверяется помесячно, бесплатно и в блокчейне, без спора о том, кого считать владельцем.
+Addresses are deliberately absent from the plateau calculation. Roughly 106M owners map onto about 57M non-zero addresses and the ratio keeps falling, because custodial services and exchange-traded funds recruit holders who never touch an address on the chain. The same process that explains the decay of the cycles breaks the instrument that would measure it.
 
-Остальные четыре — на странице, в разделе «Опровержение».
+## What could falsify this
 
-## Как запустить
+Five conditions, from the nearest to the most distant. Two are worth naming here.
 
-Страница полностью статична и работает без интернета. Достаточно открыть `index.html` (или `en.html`) в браузере — сборки, сервера и установки зависимостей не требуется. Весь расчёт идёт в браузере, наружу не уходит ни одного запроса.
+**Price settles below $58,000.** Then late June 2026 was not the trough of the cycle, and with it collapses the lower node of H4 — the node the decay amplitude is set by. Everything downstream depends on that calibration, so the criterion is the nearest of the five.
 
-Модель занимает около полусотни строк JavaScript в исходнике. Ключевые функции: `pure` (степенной закон), `sat` (огибающая насыщения), `plateau` (уровень плато от числа владельцев), `phiAt` и `zetaAt` (связка цикла с притоком), `amps` (проекция амплитуд на H5–H8), `modAt` (цикловое наложение).
+**The H5 trough stops shallower than −0.16 dex** in September 2030. The only item on the list the model survives rather than dies from: it would mean panic faded following euphoria and the mechanism of the cycle has stopped being purely human. There is currently not a single observation under the panic slider, and this is where the first one arrives.
 
-## Зависимости
+The other three are on the page, in the "Falsification" section.
 
-- [Chart.js](https://www.chartjs.org) 4.4.1 (MIT) — отрисовка, файл `chart.umd.js`
-- [IBM Plex](https://github.com/IBM/plex) (SIL OFL 1.1) — шрифты, папка `fonts/`
+## How to run
 
-Обе включены локально. Внешних запросов страница не делает.
+The page is fully static and works offline. Open `index.html` (English) or `ru.html` (Russian) in a browser — no build, no server, no dependency installation. All computation happens in the browser and no request leaves the page.
 
-## Источники
+The model takes about fifty lines of JavaScript in the source:
 
-- Santostasi, G. & Perrenod, S. (2026). *A Mechanistic Derivation of the Bitcoin Price Power Law.* Zenodo. [10.5281/zenodo.19387099](https://doi.org/10.5281/zenodo.19387099)
-- Brause, D. (2026). *The Information Coherence Hypothesis.* Zenodo. [10.5281/zenodo.18812955](https://doi.org/10.5281/zenodo.18812955)
+| Function | What it does |
+|---|---|
+| `pure(t, β)` | the power law, recalibrated through a reference point at day 2971 from genesis |
+| `sat(p, L)` | the saturation envelope, `p·L / (p³ + L³)^⅓` |
+| `plateau(W)` | the plateau level from the number of owners through the average holding size |
+| `phiAt` / `zetaAt` | headroom left by the ceiling, and the share of the cycle that remains |
+| `amps(d_e, d_p, W, β)` | projection of peak and trough amplitudes onto H5–H8 |
+| `coherence(d_e, d_p, W, β)` | four coherence checks, each returning a continuous tension from 0 to 1 |
+| `fuelState(W, d_e, β)` | what the cycle of the 2030s rests on |
+| `modAt(i, A)` | the cycle overlay, cosine interpolation between the nodes |
+| `EPOCHS` / `OBS` | the halving table with per-epoch amplitudes, and the observed series |
 
-## Лицензия
+## Files
 
-Текст и модель — [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Библиотеки сохраняют свои лицензии.
+```
+index.html      the model, English
+ru.html         the model, Russian
+chart.umd.js    Chart.js, vendored
+fonts/          IBM Plex, vendored
+```
 
-**Дисклеймер.** Аналитическая модель, не инвестиционная рекомендация. Прогноз предполагает сохранение режима степенного закона и отсутствие структурных разрывов в механизме принятия.
+## Dependencies
+
+- [Chart.js](https://www.chartjs.org) 4.4.1 (MIT) — rendering, file `chart.umd.js`
+- [IBM Plex](https://github.com/IBM/plex) (SIL OFL 1.1) — fonts, folder `fonts/`
+
+Both are bundled locally. The page makes no external requests.
+
+## Sources
+
+- Santostasi, G. & Perrenod, S. (2026). *A Mechanistic Derivation of the Bitcoin Price Power Law: Network Adoption Dynamics and Generalised Metcalfe Scaling.* Zenodo. [10.5281/zenodo.19387099](https://doi.org/10.5281/zenodo.19387099)
+- Brause, D. (2026). *The Information Coherence Hypothesis: A Unified Informational Framework for Reality, Consciousness, and Meaning.* Zenodo. [10.5281/zenodo.18812955](https://doi.org/10.5281/zenodo.18812955)
+
+## Licence
+
+Text and model — [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The libraries keep their own licences.
+
+**Disclaimer.** An analytical model, not investment advice. The projection assumes the power-law regime holds and that no structural discontinuities occur in the adoption mechanism.
