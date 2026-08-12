@@ -126,3 +126,11 @@ Both are bundled locally. The page makes no external requests.
 Text and model — [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The libraries keep their own licences.
 
 **Disclaimer.** An analytical model, not investment advice. The projection assumes the power-law regime holds and that no structural discontinuities occur in the adoption mechanism.
+
+## Support
+
+If the page was useful, a few satoshi go here:
+
+```
+bc1qppqdavfnkffmdrsq9nypsa2w57jmmeeurv7xew
+```
