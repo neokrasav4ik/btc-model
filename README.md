@@ -48,13 +48,13 @@ The column of peaks rises to the right along with the drawdown, which is awkward
 
 The ceiling does two things at once, which is easy to miss. It sets the plateau level, and through ζ it sets how much of the cycle survives into the 2030s. At the base decays the H5 drawdown runs from 23% at a ceiling of 700M to 40% at 3200 — the troughs almost flatten out at the lower edge.
 
-β is not meant for tuning. It sits on the panel as a check, with a live miss counter under it.
+β is not meant for tuning. It sits on the panel as a check, with a live miss counter under it, and it takes part in the coherence indicator: the thinning of the graph of links comes from custodial holding, which is also what explains the death of euphoria and the removal of the barrier to entry.
 
 ## Diagnostics
 
 Three indicators check the reader's settings while advising nothing. Their colour runs from blue through orange to red continuously, without thresholds: each check returns a tension between zero and one, and they combine as independent.
 
-**Coherence indicator.** Four checks, each asking not «is this a good number» but whether one mechanism sits under a pair of settings. *Top and bottom* — the cause that killed euphoria is obliged sooner or later to reach panic. *Decay and ceiling* — institutional custody kills euphoria and removes the barrier to entry at the same time. *Cycle support* — whether the cycle of the 2030s rests on headroom or on an assumption. *Scale and regime* — whether the ceiling takes capitalisation to a level requiring a change of monetary regime, which the model does not contain. Two of the four are a direct contradiction and can reach red; the other three stay caveats at any slider position.
+**Coherence indicator.** Five checks, each asking not «is this a good number» but whether one mechanism sits under a pair of settings. *Top and bottom* — the cause that killed euphoria is obliged sooner or later to reach panic. *Decay and ceiling* — institutional custody kills euphoria and removes the barrier to entry at the same time. *Cycle support* — whether the cycle of the 2030s rests on headroom or on an assumption. *Scale and regime* — whether the ceiling takes capitalisation to a level requiring a change of monetary regime, which the model does not contain. *β and institutionalisation* — custodial holding thins the graph of links and pulls the Metcalfe exponent toward n log n by the same process that puts out euphoria and lifts the ceiling, so a shift of β to the left with a live cycle and a shift to the right with a high ceiling both pull cause away from consequence. Three of the five are a direct contradiction and can reach red; the others stay caveats at any slider position.
 
 **Share of amplitude by epoch.** Shows ζ for H5–H7: what the 2030s cycle rests on — the surviving headroom, or the premise that the speculative character of the asset survived on its own. At the base setting it reads H5 87% · H6 33% · H7 17%.
 
@@ -95,7 +95,7 @@ The model takes about fifty lines of JavaScript in the source:
 | `plateau(W)` | the plateau level from the number of owners through the average holding size |
 | `phiAt` / `zetaAt` | headroom left by the ceiling, and the share of the cycle that remains |
 | `amps(d_e, d_p, W, β)` | projection of peak and trough amplitudes onto H5–H8 |
-| `coherence(d_e, d_p, W, β)` | four coherence checks, each returning a continuous tension from 0 to 1 |
+| `coherence(d_e, d_p, W, β)` | five coherence checks, each returning a continuous tension from 0 to 1 |
 | `fuelState(W, d_e, β)` | what the cycle of the 2030s rests on |
 | `modAt(i, A)` | the cycle overlay, cosine interpolation between the nodes |
 | `EPOCHS` / `OBS` | the halving table with per-epoch amplitudes, and the observed series |
@@ -126,11 +126,3 @@ Both are bundled locally. The page makes no external requests.
 Text and model — [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The libraries keep their own licences.
 
 **Disclaimer.** An analytical model, not investment advice. The projection assumes the power-law regime holds and that no structural discontinuities occur in the adoption mechanism.
-
-## Support
-
-If the page was useful, a few satoshi go here:
-
-```
-bc1qppqdavfnkffmdrsq9nypsa2w57jmmeeurv7xew
-```
