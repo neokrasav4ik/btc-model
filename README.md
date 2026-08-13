@@ -1,4 +1,4 @@
-# An end-to-end model of the bitcoin price: power law × saturation ceiling × halving cycles
+# Cross-scale Bitcoin price model: power law × saturation ceiling × halving cycles
 
 An interactive page: three layers, four sliders, three diagnostics, five falsification criteria, monthly resolution from July 2010 to April 2040.
 
